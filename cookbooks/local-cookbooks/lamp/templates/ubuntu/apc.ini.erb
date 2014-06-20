@@ -1,0 +1,63 @@
+[APC]
+;Setup only shows overridden defaults. Please review the documentation!
+;http://php.net/manual/en/apc.configuration.php
+extension=apc.so
+apc.enabled=<%= node['lamp']['apc']['enabled'] %>
+
+;Min memory of 64M for a very basic Drupal install.
+;Review and adjust periodically the first few days and then every few months or 
+;whenever dev changes are made.
+apc.shm_size=<%= node['lamp']['apc']['shm_size'] %>
+apc.shm_segments=<%= node['lamp']['apc']['shm_segments'] %>
+
+;On production set to 0 for the best performance so APC doesn't check the file
+;before caching it.
+;While in active dev setting to 1 may be a better choice.
+apc.stat=<%= node['lamp']['apc']['stat'] %>
+
+;Default 1 but if you want to use apc.filters set to 0.
+apc.cache_by_default=<%= node['lamp']['apc']['cache_by_default'] %>
+
+;Filter files, only used if apc.cache_by_default is disabled. Uses posix
+;expression for files to include/ignore based on + and - signs, minus is the
+;default. Uses comma separated file names and not absolute paths.
+;e.g. Cache all files in "drupal-docroot" and ignore "apc.php" files.
+;apc.filters = "+drupal-docroot,apc.php"
+
+;Number of source files to be cached, review apc.php stats to adjust over time.
+;default is 1000
+apc.num_files_hint=<%= node['lamp']['apc']['num_files_hint'] %>
+;default of 4096.
+apc.user_entries_hint=<%= node['lamp']['apc']['user_entries_hint'] %>
+
+;Idle cache entry lifetime in seconds, 7200 = 2hrs
+;Setting ttl to live to 0 means forever and an apache restart would be needed
+;after each code update to clear the caches.
+apc.ttl=<%= node['lamp']['apc']['ttl'] %>
+apc.user_ttl=<%= node['lamp']['apc']['user_ttl'] %>
+apc.gc_ttl=<%= node['lamp']['apc']['gc_ttl'] %>
+
+;Defaults to 1M, if you profile you should note any heavy files.
+apc.max_file_size=<%= node['lamp']['apc']['max_file_size'] %>
+
+;Enable upload progress, useful in Drupal.
+apc.rfc1867=<%= node['lamp']['apc']['rfc1867'] %>
+
+;Determine if your mmap'ed memory region is going to be file-backed or shared
+;memory backed. Option 1 is the default but Option 2 is the most common.
+;See http://www.php.net/manual/en/apc.configuration.php#ini.apc.mmap-file-mask
+
+; Option 1 (default if not set)
+;To mmap directly from /dev/zero, use:
+;apc.mmap_file_mask=/dev/zero
+
+; Option 2 (most common)
+;Specify the location for file-backed memory storage file.
+;apc.mmap_file_mask=/tmp/apc.XXXXXX
+
+;Option 3
+;For POSIX-compliant shared-memory-backed mmap, use:
+;apc.mmap_file_mask=/apc.shm.XXXXXX
+
+;Set from attributes.
+apc.mmap_file_mask=<%= node['lamp']['apc']['mmap_file_mask'] %>
