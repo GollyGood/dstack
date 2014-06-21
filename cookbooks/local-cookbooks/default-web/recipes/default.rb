@@ -5,9 +5,9 @@
 include_recipe "lamp"
 
 # Create virtual host and enable site.
-web_app 'foobar.vdev' do
+web_app "foobar.lamp" do
   allow_override "All"
-  docroot '/home/vagrant/docroot'
+  docroot "/home/vagrant/htdocs"
   server_aliases []
-  server_name 'foobar.vdev'
+  server_name "foobar.lamp"
 end

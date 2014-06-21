@@ -1,0 +1,5 @@
+---
+:ipaddress: 192.168.33.10
+:host: foobar
+:recipes:
+  - default-web
