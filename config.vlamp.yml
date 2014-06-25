@@ -9,7 +9,9 @@
     :guest_docroot: /home/vagrant/htdocs
     :server_name: <default>
     :aliases:
-      - default.<default>
+      - 1.<default>
+    :databases:
+      - <default>
   :site1.<default>:
     :host_docroot: ../docroot
     :guest_docroot: /home/vagrant/foobar

@@ -20,6 +20,7 @@ class VLAMPConfig
       :recipes => ['default-web'],
       :sites => {},
       :sites_count => 0,
+      :databases => {}
     }
 
     @values = load_config(@config_file)
