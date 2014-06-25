@@ -1,5 +1,17 @@
 ---
 :ipaddress: 192.168.33.10
 :host: foobar
+:sites:
+  # <default> is the combination of the server host and tld.
+  # E.x. "example.vlamp"
+  :<default>:
+    :host_docroot: ../docroot
+    :guest_docroot: /home/vagrant/htdocs
+    :server_name: <default>
+    :aliases:
+      - default.<default>
+  :site1.<default>:
+    :host_docroot: ../docroot
+    :guest_docroot: /home/vagrant/foobar
 :recipes:
   - default-web
