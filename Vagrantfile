@@ -15,11 +15,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = vlamp.config.get_value(:box)
+  config.vm.box = vlamp.config.get_value('box')
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: vlamp.config.get_value(:ipaddress)
+  config.vm.network "private_network", ip: vlamp.config.get_value('ipaddress')
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
@@ -29,8 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  vlamp.config.get_value(:synced_folders).each_pair do |host, guest|
-    config.vm.synced_folder host, guest, type: vlamp.config.get_value(:synced_folders_type)
+  vlamp.config.get_value('synced_folders').each_pair do |host, guest|
+    config.vm.synced_folder host, guest, type: vlamp.config.get_value('synced_folders_type')
   end
 
   config.vm.provider "virtualbox" do |vb|
@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.gui = false
 
     # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", vlamp.config.get_value(:memory)]
+    vb.customize ["modifyvm", :id, "--memory", vlamp.config.get_value('memory')]
   end
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
@@ -53,6 +53,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Pass along our settings to chef.
     # Note: We don't have to do chef.add_recipe() because we are adding them
     #       via the :recipes value in the config.
-    chef.json = vlamp.config.chef_get_input_config()
+    chef.json = vlamp.config.get_chef_input_config()
    end
 end
