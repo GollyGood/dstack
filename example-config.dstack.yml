@@ -1,6 +1,9 @@
----
+--- !ruby/object:DStackConfigVagrant
 ipaddress: 192.168.33.10
-host: foobar
+host: example
+foobar: foobar
+
+--- !ruby/object:DStackConfigVLAMP
 sites:
   # <default> is the combination of the server host and tld.
   # E.x. "example.vlamp"
@@ -9,11 +12,15 @@ sites:
     guest_docroot: /home/vagrant/htdocs
     server_name: <default>
     aliases:
-      - 1.<default>
+      - example.<default>
   site1.<default>:
     host_docroot: ../docroot
-    guest_docroot: /home/vagrant/foobar
+    guest_docroot: /home/vagrant/docroot
 databases:
   - <default>
+
+--- !ruby/object:DStackConfigChef
 recipes:
   - default-web
+foobar:
+  - bull honky
