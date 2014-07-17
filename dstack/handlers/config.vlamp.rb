@@ -6,7 +6,31 @@ class DStackConfigVLAMP < DStackConfig
     return 'vlamp'
   end
 
-  def validate()
+  def initialize()
+    @allow_extraneous_data = false
+    @defaults = {
+      'box' => 'hashicorp/precise64',
+      'ipaddress' => '192.168.33.10',
+      'memory' => 2048,
+      'synced_folders' => {},
+      'synced_folders_type' => 'nfs',
+      'host' => 'web',
+      'hostname' => '',
+      'tld' => 'vlamp',
+      'guest_docroot' => '/home/vagrant/docroot',
+      'recipes' => ['default-web'],
+      'sites' => {},
+      'sites_count' => 0,
+      'databases' => []
+    }
+  end
+
+  def values_alter_self()
+    set_hostname()
+  end
+
+  def set_hostname()
+    @values['hostname'] = "#{@values['host']}.#{@values['tld']}"
   end
 end
 
@@ -82,20 +106,7 @@ end
 #    return config
 #  end
 #
-#  def set_hostname(config)
-#    config['hostname'] = "#{config['host']}.#{config['tld']}"
-#    return config
-#  end
 #
-#  def set_synced_folders(config)
-#    config['sites'].each_pair do |key, value|
-#      if value.has_key?('host_docroot') and value.has_key?('guest_docroot')
-#        config['synced_folders'][value['host_docroot']] = value['guest_docroot']
-#      end
-#    end
-#
-#    return config
-#  end
 #
 #  def validate_required_settings(config)
 #    @defaults.each_pair do |key, value|
