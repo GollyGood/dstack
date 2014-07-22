@@ -1,21 +1,23 @@
 vagrant:
   ipaddress: 192.168.33.10
   host: foobar
+#  synced_folders:
+#    HOST_DIRECTORY: GUEST_DIRECTORY
 vlamp:
   sites:
     # <default> is the combination of the server host and tld.
     # E.x. "example.vlamp"
     <default>:
       host_docroot: ../docroot
-      guest_docroot: /home/vagrant/htdocs
-      server_name: <default>
+      guest_docroot: /home/vagrant/docroot
       aliases:
-        - 1.<default>
-    site1.<default>:
-      host_docroot: ../docroot
-      guest_docroot: /home/vagrant/foobar
+        - alias.<default>
   databases:
     - <default>
 chef:
   recipes:
     - default-web
+# Overriding recipe attributes.
+#  lamp:
+#    php:
+#      memory_limit: '128M'

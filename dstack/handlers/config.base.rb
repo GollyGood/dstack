@@ -1,3 +1,5 @@
+require 'json'
+
 class DStackConfig < Object
   class << self
     attr_reader :children
@@ -8,7 +10,7 @@ class DStackConfig < Object
   end
   @children = []
 
-  attr_reader :values
+  attr_accessor :values
 
   def initialize()
     @values = {}
@@ -36,7 +38,11 @@ class DStackConfig < Object
   end
 
   def [](key)
-    @values[key]
+    return @values[key]
+  end
+
+  def empty?()
+    return @values.empty?
   end
 
   def has_key?(key)
