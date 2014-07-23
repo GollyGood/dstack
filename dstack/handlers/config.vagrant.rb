@@ -24,7 +24,7 @@ class DStackConfigVagrant < DStackConfig
   end
 
   def set_hostname()
-    if @values['hostname'] == ''
+    if (@values['hostname'] == '')
       @values['hostname'] = "#{@values['host']}.#{@values['tld']}"
     end
   end

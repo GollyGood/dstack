@@ -37,6 +37,9 @@ class DStackConfig < Object
   def values_alter_all(dstack)
   end
 
+  def values_finalize_all(dstack)
+  end
+
   def [](key)
     return @values[key]
   end

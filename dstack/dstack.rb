@@ -46,6 +46,7 @@ class DStack
     end
 
     alter_all_configs()
+    finalize_all_configs()
     return @configs
   end
 
@@ -59,6 +60,12 @@ class DStack
   def alter_all_configs()
     @configs.each_value do |config|
       config.values_alter_all(self)
+    end
+  end
+
+  def finalize_all_configs()
+    @configs.each_value do |config|
+      config.values_finalize_all(self)
     end
   end
 

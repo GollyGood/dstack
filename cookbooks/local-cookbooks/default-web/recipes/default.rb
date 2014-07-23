@@ -4,20 +4,12 @@
 
 include_recipe "lamp"
 
-def token_default_replace(to_replace, vagrant)
-  if vagrant.has_key?('hostname') and vagrant['hostname'] != ''
-    to_replace = to_replace.sub '<default>', vagrant['hostname']
-  end
-
-  return to_replace
-end
-
-def get_aliases(site, vagrant)
+def get_aliases(site)
   aliases = []
 
   if site.has_key?('aliases')
     site['aliases'].each do |site_alias|
-      aliases << token_default_replace(site_alias, vagrant)
+      aliases << site_alias
     end
   end
 
@@ -28,8 +20,8 @@ vlamp = JSON.parse(node['vlamp'])
 vagrant = JSON.parse(node['vagrant'])
 
 vlamp['sites'].each_pair do |key, value|
-  server_name = token_default_replace(key.to_s, vagrant)
-  aliases = get_aliases(value, vagrant)
+  server_name = key
+  aliases = get_aliases(value)
 
   web_app server_name do
     allow_override "All"
@@ -40,7 +32,7 @@ vlamp['sites'].each_pair do |key, value|
 end
 
 vlamp['databases'].each do |database|
-  database_name = token_default_replace(database, vagrant).sub '.', '_'
+  database_name = database.sub '.', '_'
 
   # Create a mysql database for homeimprovement.
   mysql_database database_name do
