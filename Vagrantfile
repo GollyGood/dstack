@@ -45,10 +45,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
   config.vm.provision "chef_solo" do |chef|
-    chef.cookbooks_path = [
-      'cookbooks/berks-cookbooks',
-      'cookbooks/local-cookbooks',
-    ]
+    chef_config = dstack.get_config('chef')
+
+    chef.cookbooks_path = chef_config['cookbooks_path']
 
     # Pass along our settings to chef.
     # Note: We don't have to do chef.add_recipe() because we are adding them

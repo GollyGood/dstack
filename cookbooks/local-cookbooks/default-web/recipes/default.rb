@@ -16,8 +16,8 @@ def get_aliases(site)
   return aliases
 end
 
-vlamp = JSON.parse(node['vlamp'])
-vagrant = JSON.parse(node['vagrant'])
+vlamp = JSON.parse(node['dstack']['vlamp'])
+vagrant = JSON.parse(node['dstack']['vagrant'])
 
 vlamp['sites'].each_pair do |key, value|
   server_name = key
@@ -31,12 +31,9 @@ vlamp['sites'].each_pair do |key, value|
   end
 end
 
-vlamp['databases'].each do |database|
-  database_name = database.sub '.', '_'
-
-  # Create a mysql database for homeimprovement.
+vlamp['databases'].each do |database_name|
   mysql_database database_name do
-    connection ({
+    connection({
       :host => 'localhost',
       :username => 'root',
       :password => node['mysql']['server_root_password'],

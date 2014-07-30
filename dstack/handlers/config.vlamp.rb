@@ -20,6 +20,7 @@ class DStackConfigVLAMP < DStackConfig
   def values_alter_all(dstack)
     values_alter_vagrant_config(dstack)
     values_alter_process_tokens(dstack)
+    values_alter_process_databases(dstack)
   end
 
   def values_alter_vagrant_config(dstack)
@@ -38,5 +39,11 @@ class DStackConfigVLAMP < DStackConfig
     tmp_configs = @values.to_json
     tmp_configs = tmp_configs.gsub '<default>', vagrant['hostname']
     @values = JSON.parse(tmp_configs)
+  end
+
+  def values_alter_process_databases(dstack)
+    @values['databases'].map! do |database|
+      database.sub '.', '_'
+    end
   end
 end

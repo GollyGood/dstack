@@ -14,9 +14,16 @@ vlamp:
         - alias.<default>
   databases:
     - <default>
+utils:
+  scripts:
+    post-install:
+      - docroot/scripts/install.sh
+    post-up:
+      - docroot/scripts/up.sh
 chef:
   recipes:
     - default-web
+    - utils::scripts
 # Overriding recipe attributes.
 #  lamp:
 #    php:
