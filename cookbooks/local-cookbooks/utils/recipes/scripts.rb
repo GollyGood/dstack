@@ -13,7 +13,6 @@ config_file = node['utils']['scripts']['config_file']
 config = node.to_hash
 
 def run_script(path, config_file)
-  puts path
   execute path do
     command "#{path} #{config_file}"
     action :run

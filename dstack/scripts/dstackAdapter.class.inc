@@ -1,7 +1,6 @@
 <?php
 
 function get_dstack_adapter($config_file) {
-  file_put_contents('/tmp/hmm', $config_file);
   try {
     return new dstackAdapter($config_file);
   }

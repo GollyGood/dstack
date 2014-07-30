@@ -1,19 +1,20 @@
 vagrant:
   ipaddress: 192.168.33.10
-  host: foobar
+  host: example
 #  synced_folders:
 #    HOST_DIRECTORY: GUEST_DIRECTORY
 vlamp:
   sites:
-    # <default> is the combination of the server host and tld.
-    # E.x. "example.vlamp"
-    <default>:
+    # <hostaname> is the combination of the server host and tld.
+    # E.x. "example.dstack"
+    <hostname>:
       host_docroot: ../docroot
       guest_docroot: /home/vagrant/docroot
       aliases:
-        - alias.<default>
+        - alias.<hostname>
+  # E.x. "example_dstack"
   databases:
-    - <default>
+    - <hostname>
 utils:
   scripts:
     post-install:

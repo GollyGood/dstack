@@ -8,13 +8,13 @@ class DStackConfigVagrant < DStackConfig
     @allow_extraneous_data = false
     @defaults = {
       'hostname' => '',
-      'host' => 'dstack',
+      'host' => 'default',
       'box' => 'hashicorp/precise64',
       'ipaddress' => '192.168.33.10',
       'memory' => 2048,
       'synced_folders' => {},
       'synced_folders_type' => 'nfs',
-      'tld' => 'vlamp',
+      'tld' => 'dstack',
       'forward_agent' => true
     }
   end
