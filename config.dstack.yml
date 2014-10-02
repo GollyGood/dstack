@@ -24,7 +24,9 @@ utils:
 chef:
   recipes:
     - default-web
+    - utils::dev-tools
     - utils::scripts
+    - utils::xdebug
 # Overriding recipe attributes.
 #  lamp:
 #    php:

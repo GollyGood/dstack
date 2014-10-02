@@ -19,7 +19,6 @@ include_recipe 'php::module_gd'
 include_recipe 'php::module_mysql'
 include_recipe 'php::module_curl'
 
-# Load php config.
 template "#{node['lamp']['php']['apache_conf_dir']}/php.ini" do
   source "php.ini.erb"
   owner "root"
@@ -27,12 +26,15 @@ template "#{node['lamp']['php']['apache_conf_dir']}/php.ini" do
   mode "0644"
 end
 
-# Load apc config.
 template "#{node['php']['ext_conf_dir']}/apc.ini" do
   source "apc.ini.erb"
   owner "root"
   group "root"
   mode "0644"
+end
+
+package 'php5-suhosin' do
+  action :install
 end
 
 php_pear "uploadprogress" do

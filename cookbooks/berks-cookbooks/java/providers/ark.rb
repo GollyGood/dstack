@@ -28,7 +28,7 @@ def parse_app_dir_name url
   file_name = url.split('/')[-1]
   # funky logic to parse oracle's non-standard naming convention
   # for jdk1.6
-  if file_name =~ /^(jre|jdk).*$/
+  if file_name =~ /^(jre|jdk|server-jre).*$/
     major_num = file_name.scan(/\d/)[0]
     update_token = file_name.scan(/u(\d+)/)[0]
     update_num = update_token ? update_token[0] : "0"
@@ -36,7 +36,7 @@ def parse_app_dir_name url
     if update_num.length < 2
       update_num = "0" + update_num
     end
-    package_name = file_name.scan(/[a-z]+/)[0]
+    package_name = (file_name =~ /^server-jre.*$/) ? "jdk" : file_name.scan(/[a-z]+/)[0]
     if update_num == "00"
       app_dir_name = "#{package_name}1.#{major_num}.0"
     else
@@ -78,7 +78,7 @@ def download_direct_from_oracle(tarball_name, new_resource)
     converge_by(description) do
        Chef::Log.debug "downloading oracle tarball straight from the source"
        cmd = shell_out!(
-                                  %Q[ curl --create-dirs -L --cookie "#{cookie}" #{new_resource.url} -o #{download_path} ]
+                                  %Q[ curl --create-dirs -L --retry #{new_resource.retries} --retry-delay #{new_resource.retry_delay} --cookie "#{cookie}" #{new_resource.url} -o #{download_path} ]
                                )
     end
   else
@@ -123,6 +123,8 @@ action :install do
       r = remote_file "#{Chef::Config[:file_cache_path]}/#{tarball_name}" do
         source new_resource.url
         checksum new_resource.checksum
+        retries new_resource.retries
+        retry_delay new_resource.retry_delay
         mode 0755
         action :nothing
       end
@@ -164,6 +166,9 @@ action :install do
        unless cmd.exitstatus == 0
            Chef::Application.fatal!(%Q[ Command \' mv "#{Chef::Config[:file_cache_path]}/#{app_dir_name}" "#{app_dir}" \' failed ])
          end
+
+       # change ownership of extracted files
+       FileUtils.chown_R new_resource.owner, new_resource.owner, app_root
      end
      new_resource.updated_by_last_action(true)
   end

@@ -2,18 +2,21 @@
 
 all: development
 
-development: install_gems install_chef_cookbooks
+development: install-gems
 
-install_gems:
+install-gems:
 	bundle install
 
-install_chef_cookbooks:
+install-vendor-cookbooks:
 	if [ ! -d "cookbooks/berks-cookbooks" ]; then \
-		cd cookbooks && berks vendor ;\
+		cd cookbooks && bundle exec berks vendor ;\
 	fi
 
-update_chef_cookbooks:
-	cd cookbooks && berks update
+refresh-vendor-cookbooks: delete-vendor-cookbooks
+	cd cookbooks && bundle exec berks update && bundle exec berks vendor
+
+delete-vendor-cookbooks:
+	rm -r cookbooks/berks-cookbooks
 
 test:
 	cd dstack && make
