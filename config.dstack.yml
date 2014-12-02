@@ -1,6 +1,7 @@
 vagrant:
   ipaddress: 192.168.33.10
   host: example
+  memory: 1024
 #  synced_folders:
 #    HOST_DIRECTORY: GUEST_DIRECTORY
 vlamp:
@@ -18,9 +19,9 @@ vlamp:
 utils:
   scripts:
     post-install:
-      - docroot/scripts/install.sh
+      - docroot/sites/all/dstack/install.sh
     post-up:
-      - docroot/scripts/up.sh
+      - docroot/sites/all/dstack/up.sh
 chef:
   recipes:
     - default-web
@@ -28,6 +29,6 @@ chef:
     - utils::scripts
     - utils::xdebug
 # Overriding recipe attributes.
-#  lamp:
-#    php:
-#      memory_limit: '128M'
+  lamp:
+    php:
+      memory_limit: '256M'
