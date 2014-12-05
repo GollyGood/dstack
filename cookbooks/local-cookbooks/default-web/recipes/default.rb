@@ -66,5 +66,3 @@ php_pear "drush" do
   channel dc.channel_name
   action :install
 end
-
-
