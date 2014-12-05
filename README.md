@@ -1,3 +1,6 @@
+dStack  [![Stories in Ready](https://badge.waffle.io/waffleio/waffle.io.svg)](https://waffle.io/grndlvl/dstack)
+=========
+
 dStack short for "development stack" is a Vagrant+Chef powered LAMP stack that allows setup of web nodes via a configuration YAML file. The primary target users are enterprise development teams that need similar-to-production development.
 
 What's in the stack?
