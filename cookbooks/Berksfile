@@ -1,6 +1,7 @@
 source "https://api.berkshelf.com"
 
 cookbook 'apache2', '1.10.4'
+cookbook 'avahi-daemon', '0.0.14'
 cookbook 'build-essential', '1.4.4'
 cookbook 'apt', '2.4.0'
 cookbook 'cron', '1.4.0'
@@ -8,6 +9,10 @@ cookbook 'database', '1.4.0'
 cookbook 'git', '4.0.2'
 cookbook 'hipsnip-jetty', '0.9.0'
 cookbook 'hipsnip-solr', '0.5.0'
+# May be removed once ruby on the guest is updated to 1.9.
+# Apache currently requires logrotate, however, doesn't specify a version number
+# and 1.7.0 doesn't work with ruby 1.8. [@see](https://github.com/stevendanna/logrotate/issues/60)
+cookbook 'logrotate', '1.6.0'
 cookbook 'mysql', '3.0.2'
 cookbook 'openssl', '1.0.2'
 cookbook 'php', '1.4.6'

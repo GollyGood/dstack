@@ -1,0 +1,29 @@
+{
+  "name": "avahi-daemon",
+  "description": "Installs/Configures avahi-daemon",
+  "long_description": "\n\nTravis-ci status: [![Build Status](https://secure.travis-ci.org/jackl0phty/opschef-cookbook-avahi-daemon.png?branch=master)](http://travis-ci.org/jackl0phty/opschef-cookbook-avahi-daemon) \n\nDescription\n===========\n\nInstalls/enables or Uninstalls/disables the avahi-daemon service.\n\nRequirements\n============\n\nThis cookbook currently supports the following platforms:\n\nDebian, Ubuntu\n\nAttributes\n==========\n\nSet the avahi-daemon service name.\n<pre><code>\ndefault['avahi-daemon']['service']['name'] = \"avahi-daemon\"\n</pre></code>\n\nUsage\n=====\n\nApply recipe avahi-daemon::enable to install/enable all avahi-daemon related services.\n\nRecipe avahi-daemon::default takes no action.\n\navahi-daemon::disable recipe\n============================\n\nUse a knife command to remove avahi-daemon components from your system like so\n\nknife node run_list add <node name> avahi-daemon::disable \n",
+  "maintainer": "Gerald L. Hevener Jr., M.S.",
+  "maintainer_email": "jackl0phty@gmail.com",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.0.14"
+}
