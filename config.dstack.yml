@@ -1,19 +1,18 @@
 vagrant:
-  ipaddress: 192.168.33.10
-  host: example
+  hostname: example
 #  memory: 2048
 #  synced_folders:
 #    HOST_DIRECTORY: GUEST_DIRECTORY
 vlamp:
   sites:
     # <hostaname> is the combination of the server host and tld.
-    # E.x. "example.dstack"
+    # E.x. "example.local"
     <hostname>:
       host_docroot: ../docroot
       guest_docroot: /home/vagrant/docroot
       aliases:
         - alias.<hostname>
-  # E.x. "example_dstack"
+  # E.x. "example
   databases:
     - <hostname>
 utils:
@@ -24,6 +23,7 @@ utils:
       - docroot/sites/all/dstack/up.sh
 chef:
   recipes:
+    - avahi
     - default-web
     - utils::dev-tools
     - utils::scripts

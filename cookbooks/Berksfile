@@ -1,7 +1,7 @@
 source "https://api.berkshelf.com"
 
 cookbook 'apache2', '1.10.4'
-cookbook 'avahi-daemon', '0.0.14'
+cookbook 'avahi', github: 'needle-cookbooks/chef-avahi', tag: 'v0.1.0'
 cookbook 'build-essential', '1.4.4'
 cookbook 'apt', '2.4.0'
 cookbook 'cron', '1.4.0'

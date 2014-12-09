@@ -3,13 +3,14 @@
 # Recipe:: default
 
 include_recipe "lamp"
+include_recipe "avahi"
 
-def get_aliases(site)
+def get_aliases(site, vagrant)
   aliases = []
 
   if site.has_key?('aliases')
     site['aliases'].each do |site_alias|
-      aliases << site_alias
+      aliases << site_alias + '.' + vagrant['tld']
     end
   end
 
@@ -20,8 +21,14 @@ vlamp = JSON.parse(node['dstack']['vlamp'])
 vagrant = JSON.parse(node['dstack']['vagrant'])
 
 vlamp['sites'].each_pair do |key, value|
-  server_name = key
-  aliases = get_aliases(value)
+  server_name = key + '.' + vagrant['tld']
+  aliases = get_aliases(value, vagrant)
+
+  aliases.each do |site_alias|
+    avahi_alias site_alias do
+      action :add
+    end
+  end
 
   web_app server_name do
     allow_override "All"

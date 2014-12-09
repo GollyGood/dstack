@@ -1,7 +1,10 @@
 DEPENDENCIES
   apache2 (= 1.10.4)
   apt (= 2.4.0)
-  avahi-daemon (= 0.0.14)
+  avahi
+    git: git://github.com/needle-cookbooks/chef-avahi.git
+    revision: 594c7d71ea8e7c7126de01ecf097e01a8733c6ba
+    tag: v0.1.0
   build-essential (= 1.4.4)
   cron (= 1.4.0)
   database (= 1.4.0)
@@ -21,7 +24,8 @@ GRAPH
     logrotate (>= 0.0.0)
     pacman (>= 0.0.0)
   apt (2.4.0)
-  avahi-daemon (0.0.14)
+  avahi (0.1.0)
+    git (>= 0.0.0)
   aws (2.5.0)
   build-essential (1.4.4)
   chef-sugar (2.4.1)
