@@ -1,0 +1,23 @@
+dStack
+Copyright 2014 dStack Development Team
+This product includes software developed at
+the dStack project (https://github.com/grndlvl/dstack).
+
+AUTHORS:
+- Jonathan DeLaigle <delaigle.jonathan@gmail.com>
+
+As part of the base system this product also includes code from the following
+projects which are licensed under the Apache license:
+
+- hipsnip-cookbooks/jetty
+- hipsnip-cookbooks/solr
+- opscode-cookbooks/apt
+- opscode-cookbooks/build-essential
+- opscode-cookbooks/database
+- opscode-cookbooks/git
+- opscode-cookbooks/mysql
+- opscode-cookbooks/openssl
+- opscode-cookbooks/php
+- opscode-cookbooks/rsync
+- opscode-cookbooks/vim
+- viverae-cookbooks/apache2
