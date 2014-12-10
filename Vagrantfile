@@ -17,9 +17,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = vagrant_config['box']
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network", ip: vagrant_config['ipaddress']
+  config.vm.host_name = vagrant_config['hostname']
+
+  # Create each network.
+  # default is 'private_network', type: 'dhcp'
+  vagrant_config['networks'].each_pair do |network, options|
+    config.vm.network network.to_sym, options.inject({}){|option,(k,v)| option[k.to_sym] = v; option}
+  end
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
@@ -46,7 +50,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # some recipes and/or roles.
   config.vm.provision "chef_solo" do |chef|
     chef_config = dstack.get_config('chef')
-
     chef.cookbooks_path = chef_config['cookbooks_path']
 
     # Pass along our settings to chef.

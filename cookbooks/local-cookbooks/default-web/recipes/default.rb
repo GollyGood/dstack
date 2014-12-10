@@ -3,8 +3,9 @@
 # Recipe:: default
 
 include_recipe "lamp"
+include_recipe "avahi"
 
-def get_aliases(site)
+def get_aliases(site, vagrant)
   aliases = []
 
   if site.has_key?('aliases')
@@ -21,7 +22,13 @@ vagrant = JSON.parse(node['dstack']['vagrant'])
 
 vlamp['sites'].each_pair do |key, value|
   server_name = key
-  aliases = get_aliases(value)
+  aliases = get_aliases(value, vagrant)
+
+  aliases.each do |site_alias|
+    avahi_alias site_alias do
+      action :add
+    end
+  end
 
   web_app server_name do
     allow_override "All"
@@ -41,6 +48,7 @@ vlamp['sites'].each_pair do |key, value|
 end
 
 vlamp['databases'].each do |database_name|
+  puts database_name
   mysql_database database_name do
     connection({
       :host => 'localhost',

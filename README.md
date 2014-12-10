@@ -1,3 +1,6 @@
+dStack  [![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.svg)](https://waffle.io/grndlvl/dstack)
+=========
+
 dStack short for "development stack" is a Vagrant+Chef powered LAMP stack that allows setup of web nodes via a configuration YAML file. The primary target users are enterprise development teams that need similar-to-production development.
 
 What's in the stack?
@@ -25,9 +28,16 @@ XHprof        | tbd                         | Coming soon
 Documentation
 -----------
 
+The main documentation may be found on the [wiki](https://github.com/grndlvl/dstack/wiki).
+
 Requirements
 -----------
 
 * Ruby >= 2.1.1
 * Vagrant >= 1.6.3
-* nfs ?
+* nfs
+  * Ubuntu
+    * Will need to be [installed](https://help.ubuntu.com/lts/serverguide/network-file-system.html) if using nfs.
+    * Will also need to turn of your firewall if enabled. We are current looking to see what we can do about this on this [issue](https://github.com/grndlvl/dstack/issues/10).
+    * Cannot be ran in an encrypted home directory or sharing directories in an encrypted home directory. Entire disk encryption is fine.
+  * MacOSX - Already contains a working version of nfs.

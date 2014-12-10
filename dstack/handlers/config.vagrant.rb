@@ -7,25 +7,16 @@ class DStackConfigVagrant < DStackConfig
     super
     @allow_extraneous_data = false
     @defaults = {
-      'hostname' => '',
-      'host' => 'default',
+      'hostname' => 'default',
+      'tld' => 'local',
       'box' => 'hashicorp/precise64',
-      'ipaddress' => '192.168.33.10',
+      'networks' => {'private_network' => {:type => 'dhcp'}},
+      'ipaddress' => '',
       'memory' => 2048,
       'synced_folders' => {},
       'synced_folders_type' => 'nfs',
-      'tld' => 'dstack',
+      'tld' => 'local',
       'forward_agent' => true
     }
-  end
-
-  def values_alter_self()
-    set_hostname()
-  end
-
-  def set_hostname()
-    if (@values['hostname'] == '')
-      @values['hostname'] = "#{@values['host']}.#{@values['tld']}"
-    end
   end
 end
