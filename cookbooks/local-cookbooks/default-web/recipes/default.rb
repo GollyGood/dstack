@@ -10,7 +10,7 @@ def get_aliases(site, vagrant)
 
   if site.has_key?('aliases')
     site['aliases'].each do |site_alias|
-      aliases << site_alias + '.' + vagrant['tld']
+      aliases << site_alias
     end
   end
 
@@ -21,7 +21,7 @@ vlamp = JSON.parse(node['dstack']['vlamp'])
 vagrant = JSON.parse(node['dstack']['vagrant'])
 
 vlamp['sites'].each_pair do |key, value|
-  server_name = key + '.' + vagrant['tld']
+  server_name = key
   aliases = get_aliases(value, vagrant)
 
   aliases.each do |site_alias|
@@ -48,6 +48,7 @@ vlamp['sites'].each_pair do |key, value|
 end
 
 vlamp['databases'].each do |database_name|
+  puts database_name
   mysql_database database_name do
     connection({
       :host => 'localhost',

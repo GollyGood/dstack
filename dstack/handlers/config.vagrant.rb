@@ -8,6 +8,7 @@ class DStackConfigVagrant < DStackConfig
     @allow_extraneous_data = false
     @defaults = {
       'hostname' => 'default',
+      'tld' => 'local',
       'box' => 'hashicorp/precise64',
       'networks' => {'private_network' => {:type => 'dhcp'}},
       'ipaddress' => '',

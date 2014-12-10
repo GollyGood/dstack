@@ -9,9 +9,10 @@ class DStackConfigVLAMP < DStackConfig
     @allow_extraneous_data = false
     @defaults = {
       'sites' => {
-        '<default>' => {
+        '<full-domain>' => {
           'guest_docroot' => '/var/www',
-        }
+        },
+        'full-domain' => '',
       },
       'databases' => []
     }
@@ -19,6 +20,7 @@ class DStackConfigVLAMP < DStackConfig
 
   def values_alter_all(dstack)
     values_alter_vagrant_add_synced_folders(dstack)
+    values_alter_set_full_domain(dstack)
     values_alter_process_tokens(dstack)
     values_alter_process_databases(dstack)
   end
@@ -33,11 +35,17 @@ class DStackConfigVLAMP < DStackConfig
     end
   end
 
-  def values_alter_process_tokens(dstack)
+  def values_alter_set_full_domain(dstack)
     vagrant = dstack.get_config('vagrant')
 
+    if (not vagrant['hostname'].empty? and not vagrant['tld'].empty?)
+      @values['full-domain'] = "#{vagrant['hostname']}.#{vagrant['tld']}"
+    end
+  end
+
+  def values_alter_process_tokens(dstack)
     tmp_configs = @values.to_json
-    tmp_configs = tmp_configs.gsub '<hostname>', vagrant['hostname']
+    tmp_configs = tmp_configs.gsub '<full-domain>', @values['full-domain']
     @values = JSON.parse(tmp_configs)
   end
 

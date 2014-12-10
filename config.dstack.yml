@@ -7,14 +7,14 @@ vlamp:
   sites:
     # <hostaname> is the combination of the server host and tld.
     # E.x. "example.local"
-    <hostname>:
+    <full-domain>:
       host_docroot: ../docroot
       guest_docroot: /home/vagrant/docroot
       aliases:
-        - alias.<hostname>
+        - alias.<full-domain>
   # E.x. "example
   databases:
-    - <hostname>
+    - <full-domain>
 utils:
   scripts:
     post-install:
