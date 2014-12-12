@@ -17,8 +17,7 @@
 # limitations under the License.
 #
 
-utils_config = JSON.parse(node['dstack']['utils'])
-scripts = utils_config['scripts']
+scripts = node['utils']['scripts']
 
 base_path = node['utils']['scripts']['base_path']
 install_tracker = node['utils']['scripts']['install_tracker']

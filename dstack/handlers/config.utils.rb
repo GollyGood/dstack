@@ -31,4 +31,18 @@ class DStackConfigUtils < DStackConfig
       },
     }
   end
+
+  def values_alter_all(dstack)
+    values_alter_chef_append_utils_scripts_attributes(dstack)
+  end
+
+  def values_alter_chef_append_utils_scripts_attributes(dstack)
+    chef = dstack.get_config('chef')
+
+    if (chef.values.has_key?('utils'))
+      raise "There exists overrides for utils under 'chef' in the configuration. Please add these settings under 'utils' in your configuration file."
+    else
+      chef.values['utils'] = @values
+    end
+  end
 end
