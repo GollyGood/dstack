@@ -19,4 +19,3 @@
 
 default['default-web']['sites'] = {}
 default['default-web']['databases'] = []
->>>>>>> Removing janky json parsing attributes from dstack in favor of attributes with cookbooks
