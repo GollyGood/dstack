@@ -39,6 +39,7 @@ class DStackConfigVLAMP < DStackConfig
     values_alter_set_full_domain(dstack)
     values_alter_process_tokens(dstack)
     values_alter_process_databases(dstack)
+    values_alter_chef_append_attributes(dstack)
   end
 
   def values_alter_vagrant_add_synced_folders(dstack)
@@ -70,6 +71,16 @@ class DStackConfigVLAMP < DStackConfig
       # Tokens may had placed periods in the names. Since mysql doesn't support
       # periods we should replace them with underscores.
       database.sub '.', '_'
+    end
+  end
+
+  def values_alter_chef_append_attributes(dstack)
+    chef = dstack.get_config('chef')
+
+    if (chef.values.has_key?('default-web'))
+      raise "There exists overrides for default-web under 'chef' in the configuration. Please add these settings under 'vlamp' in your configuration file."
+    else
+      chef.values['default-web'] = @values
     end
   end
 end

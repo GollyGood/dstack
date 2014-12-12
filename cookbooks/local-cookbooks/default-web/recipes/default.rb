@@ -32,14 +32,24 @@ def get_aliases(site, vagrant)
   return aliases
 end
 
-vlamp = JSON.parse(node['dstack']['vlamp'])
-vagrant = JSON.parse(node['dstack']['vagrant'])
+def append_hosts(domain)
+  # Append configured domain to /etc/hosts file.
+  ruby_block "append_hosts" do
+    block do
+      file = Chef::Util::FileEdit.new("/etc/hosts")
+      file.insert_line_if_no_match("127.0.0.1\t#{domain}", "127.0.0.1\t#{domain}")
+      file.write_file
+    end
+  end
+end
 
-vlamp['sites'].each_pair do |key, value|
+node['default-web']['sites'].each_pair do |key, value|
   server_name = key
   aliases = get_aliases(value, vagrant)
 
+  append_hosts(server_name)
   aliases.each do |site_alias|
+    append_hosts(site_alias)
     avahi_alias site_alias do
       action :add
     end
@@ -51,19 +61,9 @@ vlamp['sites'].each_pair do |key, value|
     server_aliases aliases
     server_name server_name
   end
-
-  # Append configured domain to /etc/hosts file.
-  ruby_block "append_hosts" do
-    block do
-      file = Chef::Util::FileEdit.new("/etc/hosts")
-      file.insert_line_if_no_match("127.0.0.1\t#{server_name}", "127.0.0.1\t#{server_name}")
-      file.write_file
-    end
-  end
 end
 
-vlamp['databases'].each do |database_name|
-  puts database_name
+node['default-web']['databases'].each do |database_name|
   mysql_database database_name do
     connection({
       :host => 'localhost',

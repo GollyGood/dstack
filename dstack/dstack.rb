@@ -78,15 +78,14 @@ class DStack
   end
 
   def get_chef_array()
-    json = get_config('chef').values
-    json['dstack'] = {}
+    chef_values = get_config('chef').values
+    chef_values['dstack'] = {}
 
     @configs.each_pair do |config_name, config|
       if config_name != 'chef'
-        json['dstack'][config_name] = config.to_json
+        chef_values['dstack'][config_name] = config.to_json
       end
     end
-
-    return json
+    return chef_values
   end
 end
