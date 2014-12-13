@@ -28,6 +28,7 @@ chef:
   recipes:
     - avahi
     - default-web
+    - drupal
     - utils::dev-tools
     - utils::scripts
     - utils::xdebug

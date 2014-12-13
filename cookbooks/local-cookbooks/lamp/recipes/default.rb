@@ -51,7 +51,3 @@ end
 package 'php5-suhosin' do
   action :install
 end
-
-php_pear "uploadprogress" do
-  action :install
-end
