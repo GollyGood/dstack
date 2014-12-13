@@ -73,19 +73,3 @@ node['default-web']['databases'].each do |database_name|
     action :create
   end
 end
-
-php_pear "Console_Table" do
-  action :install
-end
-
-# Initialize drush PEAR channel
-dc = php_pear_channel "pear.drush.org" do
-  action :discover
-end
-
-# Install drush
-php_pear "drush" do
-  version '6.2.0.0'
-  channel dc.channel_name
-  action :install
-end
