@@ -29,8 +29,9 @@ class DStackConfigChef < DStackConfig
         'cookbooks/local-cookbooks',
       ],
       'recipes' => [
+        'avahi',
         'default-web'
-      ]
+      ],
     }
   end
 end
