@@ -20,7 +20,7 @@
 include_recipe "lamp"
 include_recipe "avahi"
 
-def get_aliases(site, vagrant)
+def get_aliases(site)
   aliases = []
 
   if site.has_key?('aliases')
@@ -45,7 +45,7 @@ end
 
 node['default-web']['sites'].each_pair do |key, value|
   server_name = key
-  aliases = get_aliases(value, vagrant)
+  aliases = get_aliases(value)
 
   append_hosts(server_name)
   aliases.each do |site_alias|
