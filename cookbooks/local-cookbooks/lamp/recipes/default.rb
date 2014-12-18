@@ -17,10 +17,8 @@
 # limitations under the License.
 #
 
-include_recipe 'apt'
-include_recipe 'build-essential'
+include_recipe 'dstack'
 include_recipe 'apache2'
-include_recipe 'cron'
 include_recipe 'database'
 include_recipe 'openssl'
 include_recipe 'php'
