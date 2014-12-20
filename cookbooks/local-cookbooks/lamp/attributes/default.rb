@@ -16,14 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-#
+
 include_attribute "apache2"
-include_attribute "build-essential"
 include_attribute "mysql::server"
 include_attribute "php"
-
-# Make sure we install build essentials for ruby gems and PECL packages.
-override['build_essential']['compiletime'] = true
 
 # APC settings.
 default['lamp']['apc']['enabled'] = 1

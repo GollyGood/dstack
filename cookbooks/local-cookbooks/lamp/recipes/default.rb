@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe 'dstack'
 include_recipe 'apache2'
 include_recipe 'database'
 include_recipe 'openssl'
@@ -31,6 +30,7 @@ include_recipe 'php::module_apc'
 include_recipe 'php::module_gd'
 include_recipe 'php::module_mysql'
 include_recipe 'php::module_curl'
+include_recipe 'utils'
 
 template "#{node['lamp']['php']['apache_conf_dir']}/php.ini" do
   source "php.ini.erb"
