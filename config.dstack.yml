@@ -29,13 +29,9 @@ chef:
     - avahi
     - default-web
     - drupal
-    #- drupal::solr
     - utils::dev-tools
     - utils::scripts
     - utils::xdebug
-#  drupal:
-#    solr:
-#      module_path: /home/vagrant/docroot/sites/all/modules/contrib/apachesolr
 # Overriding recipe attributes.
 #  lamp:
 #    php:
