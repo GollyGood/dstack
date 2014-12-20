@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe 'utils::solr'
+include_recipe 'hipsnip-solr'
 
 module_conf_dir = node['drupal']['solr']['module_conf_dir']
 apachesolr_conf_dir = node['drupal']['solr']['apachesolr_conf_dir']

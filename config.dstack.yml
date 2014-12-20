@@ -29,7 +29,7 @@ chef:
     - avahi
     - default-web
     - drupal
-#    - drupal::solr
+    #- drupal::solr
     - utils::dev-tools
     - utils::scripts
     - utils::xdebug
