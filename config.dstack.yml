@@ -30,6 +30,7 @@ chef:
     - default-web
     - drupal
     - utils::dev-tools
+    #- utils::phpmyadmin
     - utils::scripts
     - utils::xdebug
 # Overriding recipe attributes.
