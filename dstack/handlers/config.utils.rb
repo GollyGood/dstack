@@ -30,14 +30,26 @@ class DStackConfigUtils < DStackConfig
         'post-install' => [],
         'post-up' => []
       }
+      'phpmyadmin' => {
+        'domain' => 'phpmyadmin.<full-domain>'
+      },
     }
   end
 
-  def values_alter_all(dstack)
-    values_alter_chef_append_utils_scripts_attributes(dstack)
+  def values_finalize_all(dstack)
+    values_finalize_process_tokens(dstack)
+    values_finalize_chef_append_utils_scripts_attributes(dstack)
   end
 
-  def values_alter_chef_append_utils_scripts_attributes(dstack)
+  def values_finalize_process_tokens(dstack)
+    vlamp = dstack.get_config('vlamp')
+
+    tmp_configs = @values.to_json
+    tmp_configs = tmp_configs.gsub '<full-domain>', vlamp['full-domain']
+    @values = JSON.parse(tmp_configs)
+  end
+
+  def values_finalize_chef_append_utils_scripts_attributes(dstack)
     chef = dstack.get_config('chef')
 
     if chef.values.key?('utils')

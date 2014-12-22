@@ -35,6 +35,7 @@ chef:
     - drupal
 #    - drupal::solr
     - utils::dev-tools
+    #- utils::phpmyadmin
     - utils::scripts
     - utils::xdebug
 #  drupal:
