@@ -22,3 +22,6 @@ UselessAssignment:
 
 MethodLength:
   Enabled: false
+
+FileName:
+  Enabled: false

@@ -26,12 +26,12 @@ class DStackConfigChef < DStackConfig
     super
     @defaults = {
       'cookbooks_path' => %w(
-        'cookbooks/berks-cookbooks',
-        'cookbooks/local-cookbooks'
+        cookbooks/berks-cookbooks
+        cookbooks/local-cookbooks
       ),
       'recipes' => %w(
-        'avahi',
-        'default-web'
+        avahi
+        default-web
       )
     }
   end

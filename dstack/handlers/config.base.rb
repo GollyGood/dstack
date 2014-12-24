@@ -71,11 +71,6 @@ class DStackConfig < Object
     @values.key?(key)
   end
 
-  # @todo: Remove once we have all "has_key?" removed.
-  def has_key?(key)
-    @values.key?(key)
-  end
-
   def to_json
     @values.to_json
   end

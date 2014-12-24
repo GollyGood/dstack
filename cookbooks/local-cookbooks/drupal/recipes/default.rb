@@ -19,22 +19,22 @@
 
 include_recipe 'php'
 
-php_pear "Console_Table" do
+php_pear 'Console_Table' do
   action :install
 end
 
 # Initialize drush PEAR channel
-dc = php_pear_channel "pear.drush.org" do
+dc = php_pear_channel 'pear.drush.org' do
   action :discover
 end
 
 # Install drush
-php_pear "drush" do
+php_pear 'drush' do
   version node['drupal']['drush']['version']
   channel dc.channel_name
   action :install
 end
 
-php_pear "uploadprogress" do
+php_pear 'uploadprogress' do
   action :install
 end

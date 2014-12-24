@@ -35,17 +35,17 @@ include_recipe 'php::module_mysql'
 include_recipe 'php::module_curl'
 
 template "#{node['lamp']['php']['apache_conf_dir']}/php.ini" do
-  source "php.ini.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+  source 'php.ini.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
 end
 
 template "#{node['php']['ext_conf_dir']}/apc.ini" do
-  source "apc.ini.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+  source 'apc.ini.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
 end
 
 package 'php5-suhosin' do

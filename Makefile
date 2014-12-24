@@ -26,6 +26,6 @@ delete-vendor-cookbooks:
 	rm -r cookbooks/berks-cookbooks
 
 test:
-	#bundle exec foodcritic cookbooks/local-cookbooks
-	#bundle exec rubocop
+	bundle exec foodcritic cookbooks/local-cookbooks
+	bundle exec rubocop
 	cd dstack && make

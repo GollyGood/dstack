@@ -17,26 +17,26 @@
 # limitations under the License.
 #
 
-include_recipe "lamp"
-include_recipe "avahi"
+include_recipe 'lamp'
+include_recipe 'avahi'
 
 def get_aliases(site)
   aliases = []
 
-  if site.has_key?('aliases')
+  if site.key?('aliases')
     site['aliases'].each do |site_alias|
       aliases << site_alias
     end
   end
 
-  return aliases
+  aliases
 end
 
 def append_hosts(domain)
   # Append configured domain to /etc/hosts file.
-  ruby_block "append_hosts" do
+  ruby_block 'append_hosts' do
     block do
-      file = Chef::Util::FileEdit.new("/etc/hosts")
+      file = Chef::Util::FileEdit.new('/etc/hosts')
       file.insert_line_if_no_match("127.0.0.1\t#{domain}", "127.0.0.1\t#{domain}")
       file.write_file
     end
@@ -56,7 +56,7 @@ node['default-web']['sites'].each_pair do |key, value|
   end
 
   web_app server_name do
-    allow_override "All"
+    allow_override 'All'
     docroot value['guest_docroot']
     server_aliases aliases
     server_name server_name
@@ -65,11 +65,11 @@ end
 
 node['default-web']['databases'].each do |database_name|
   mysql_database database_name do
-    connection({
+    connection(
       :host => 'localhost',
       :username => 'root',
-      :password => node['mysql']['server_root_password'],
-    })
+      :password => node['mysql']['server_root_password']
+    )
     action :create
   end
 end
