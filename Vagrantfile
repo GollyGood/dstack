@@ -55,6 +55,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Pass along our settings to chef.
     # Note: We don't have to do chef.add_recipe() because we are adding them
     #       via the :recipes value in the config.
-    chef.json = dstack.get_chef_array()
+    chef.json = dstack.chef_array()
    end
 end

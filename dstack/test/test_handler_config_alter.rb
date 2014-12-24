@@ -1,26 +1,29 @@
 require_relative 'helper_handler_config.rb'
 
+# Configuration handler testing class.
 class TestDStackHandlerConfigExplicit < HelperDStackConfig
-  def setup()
+  def setup
     super
     @config_class = DStackConfigAlterTest
     @config = @dstack.get_config('testing-alterer')
   end
 
-  def test_alterations_were_made()
-    assert @dstack.get_config('testing-alteree').has_key?('altered'), 'Configuration values should be altered'
+  def test_alterations_were_made
+    assert @dstack.get_config('testing-alteree').key?('altered'), 'Configuration values should be altered'
   end
 end
 
+# Alteree configuration handler for testing.
 class DStackConfigAlteree < DStackConfig
-  def name()
-    return 'testing-alteree'
+  def name
+    'testing-alteree'
   end
 end
 
+# Alterer configuration handler for testing.
 class DStackConfigAlterer < DStackConfig
-  def name()
-    return 'testing-alterer'
+  def name
+    'testing-alterer'
   end
 
   def values_alter_all(dstack)

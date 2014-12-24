@@ -18,6 +18,7 @@
 
 require 'json'
 
+# Base dStack configuration handler.
 class DStackConfig < Object
   class << self
     attr_reader :children
@@ -30,7 +31,7 @@ class DStackConfig < Object
 
   attr_accessor :values
 
-  def initialize()
+  def initialize
     @values = {}
     @defaults = {}
     @allow_extraneous_data = true
@@ -40,41 +41,46 @@ class DStackConfig < Object
     @values = @defaults
 
     values.each_pair do |key, value|
-      if @allow_extraneous_data or @defaults.has_key?(key)
-        @values[key] = value
-      end
+      @values[key] = value if @allow_extraneous_data || @defaults.key?(key)
     end
 
-    return @values
+    @values
   end
 
-  def values_alter_self()
-    return @values
+  # rubocop:disable TrivialAccessors
+  def values_alter_self
+    @values
+  end
+  # rubocop:enable TrivialAccessors
+
+  def values_alter_all(_dstack)
   end
 
-  def values_alter_all(dstack)
-  end
-
-  def values_finalize_all(dstack)
+  def values_finalize_all(_dstack)
   end
 
   def [](key)
-    return @values[key]
+    @values[key]
   end
 
-  def empty?()
-    return @values.empty?
+  def empty?
+    @values.empty?
   end
 
+  def key?(key)
+    @values.key?(key)
+  end
+
+  # @todo: Remove once we have all "has_key?" removed.
   def has_key?(key)
-    return @values.has_key?(key)
+    @values.key?(key)
   end
 
   def to_json
-    return @values.to_json
+    @values.to_json
   end
 
   def set_value(key, value)
-    return @values[key] = value
+    @values[key] = value
   end
 end

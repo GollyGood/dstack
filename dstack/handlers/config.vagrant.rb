@@ -16,19 +16,20 @@
 # limitations under the License.
 #
 
+# Vagrant configuration handler.
 class DStackConfigVagrant < DStackConfig
-  def name()
-    return 'vagrant'
+  def name
+    'vagrant'
   end
 
-  def initialize()
+  def initialize
     super
     @allow_extraneous_data = false
     @defaults = {
       'hostname' => 'default',
       'tld' => 'local',
       'box' => 'hashicorp/precise64',
-      'networks' => {'private_network' => {:type => 'dhcp'}},
+      'networks' => { 'private_network' => { :type => 'dhcp' } },
       'ipaddress' => '',
       'memory' => 2048,
       'synced_folders' => {},
