@@ -16,19 +16,20 @@
 # limitations under the License.
 #
 
+# Utils configuration handler.
 class DStackConfigUtils < DStackConfig
-  def name()
-    return 'utils'
+  def name
+    'utils'
   end
 
-  def initialize()
+  def initialize
     super
     @allow_extraneous_data = false
     @defaults = {
       'scripts' => {
         'post-install' => [],
-        'post-up' => [],
-      },
+        'post-up' => []
+      }
     }
   end
 
@@ -39,8 +40,8 @@ class DStackConfigUtils < DStackConfig
   def values_alter_chef_append_utils_scripts_attributes(dstack)
     chef = dstack.get_config('chef')
 
-    if (chef.values.has_key?('utils'))
-      raise "There exists overrides for utils under 'chef' in the configuration. Please add these settings under 'utils' in your configuration file."
+    if chef.values.key?('utils')
+      fail "There exists overrides for utils under 'chef' in the configuration. Please add these settings under 'utils' in your configuration file."
     else
       chef.values['utils'] = @values
     end

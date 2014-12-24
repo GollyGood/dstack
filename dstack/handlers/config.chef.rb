@@ -16,22 +16,23 @@
 # limitations under the License.
 #
 
+# Chef configuration handler.
 class DStackConfigChef < DStackConfig
-  def name()
-    return 'chef'
+  def name
+    'chef'
   end
 
-  def initialize()
+  def initialize
     super
     @defaults = {
-      'cookbooks_path' => [
-        'cookbooks/berks-cookbooks',
-        'cookbooks/local-cookbooks',
-      ],
-      'recipes' => [
-        'avahi',
-        'default-web'
-      ],
+      'cookbooks_path' => %w(
+        cookbooks/berks-cookbooks
+        cookbooks/local-cookbooks
+      ),
+      'recipes' => %w(
+        avahi
+        default-web
+      )
     }
   end
 end

@@ -16,20 +16,21 @@
 # limitations under the License.
 #
 
+# LAMP configuration handler.
 class DStackConfigVLAMP < DStackConfig
-  def name()
-    return 'vlamp'
+  def name
+    'vlamp'
   end
 
-  def initialize()
+  def initialize
     @allow_extraneous_data = false
     @defaults = {
       'sites' => {
         '<full-domain>' => {
-          'guest_docroot' => '/var/www',
-        },
-        'full-domain' => '',
+          'guest_docroot' => '/var/www'
+        }
       },
+      'full-domain' => 'example.local',
       'databases' => []
     }
   end
@@ -45,8 +46,8 @@ class DStackConfigVLAMP < DStackConfig
   def values_alter_vagrant_add_synced_folders(dstack)
     vagrant = dstack.get_config('vagrant')
 
-    @values['sites'].each_pair do |key, value|
-      if value.has_key?('host_docroot') and value.has_key?('guest_docroot')
+    @values['sites'].each_pair do |_key, value|
+      if value.key?('host_docroot') && value.key?('guest_docroot')
         vagrant.values['synced_folders'][value['host_docroot']] = value['guest_docroot']
       end
     end
@@ -55,18 +56,18 @@ class DStackConfigVLAMP < DStackConfig
   def values_alter_set_full_domain(dstack)
     vagrant = dstack.get_config('vagrant')
 
-    if (not vagrant['hostname'].empty? and not vagrant['tld'].empty?)
+    if !vagrant['hostname'].empty? && !vagrant['tld'].empty?
       @values['full-domain'] = "#{vagrant['hostname']}.#{vagrant['tld']}"
     end
   end
 
-  def values_alter_process_tokens(dstack)
+  def values_alter_process_tokens(_dstack)
     tmp_configs = @values.to_json
     tmp_configs = tmp_configs.gsub '<full-domain>', @values['full-domain']
     @values = JSON.parse(tmp_configs)
   end
 
-  def values_alter_process_databases(dstack)
+  def values_alter_process_databases(_dstack)
     @values['databases'].map! do |database|
       # Tokens may had placed periods in the names. Since mysql doesn't support
       # periods we should replace them with underscores.
@@ -77,8 +78,8 @@ class DStackConfigVLAMP < DStackConfig
   def values_alter_chef_append_attributes(dstack)
     chef = dstack.get_config('chef')
 
-    if (chef.values.has_key?('default-web'))
-      raise "There exists overrides for default-web under 'chef' in the configuration. Please add these settings under 'vlamp' in your configuration file."
+    if chef.values.key?('default-web')
+      fail "There exists overrides for default-web under 'chef' in the configuration. Please add these settings under 'vlamp' in your configuration file."
     else
       chef.values['default-web'] = @values
     end

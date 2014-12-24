@@ -21,7 +21,7 @@ scripts = node['utils']['scripts']
 
 base_path = node['utils']['scripts']['base_path']
 install_tracker = node['utils']['scripts']['install_tracker']
-is_installed = File.exists?(install_tracker)
+installed = File.exist?(install_tracker)
 
 config_file = node['utils']['scripts']['config_file']
 config = node.to_hash
@@ -35,7 +35,7 @@ def run_script(path, config_file)
 end
 
 def get_script_path(path, base_path)
-  return path.index('/') === 0 ? path : base_path + path
+  path.index('/') == 0 ? path : base_path + path
 end
 
 file config_file do
@@ -45,7 +45,7 @@ file config_file do
   group 'vagrant'
 end
 
-if not is_installed
+unless installed
   scripts['post-install'].each do |script|
     run_script(get_script_path(script, base_path), config_file)
   end

@@ -1,0 +1,601 @@
+Inspecting 30 files
+CC..CCCWCWCWCC..CCCW.CCC.CC.CC
+
+Offenses:
+
+dstack/test/test_handler_config_alter.rb:12:50: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+    assert @dstack.get_config('testing-alteree').has_key?('altered'), 'Configuration values should be altered'
+                                                 ^^^^^^^^
+dstack/test/test_handler_config_dynamic.rb:12:20: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+    assert @config.has_key?('extraneous'), 'Extraneous data should be allowed on the Dynamic class.'
+                   ^^^^^^^^
+dstack/test/test_handler_config_explicit.rb:12:20: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+    refute @config.has_key?('extraneous'), 'Extraenous data should not be allowed on the Explicit class.'
+                   ^^^^^^^^
+dstack/test/helper_handler_config.rb:13:5: C: Redundant [33mreturn[0m detected.
+    return File.dirname(__FILE__) + '/assets/testing-config.dstack.yml'
+    ^^^^^^
+dstack/test/test_dstack.rb:1:1: C: Missing top-level class documentation comment.
+class TestDStack < Minitest::Test
+^^^^^
+dstack/test/test_dstack.rb:2:12: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def setup()
+           ^
+dstack/test/test_dstack.rb:6:39: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def test_yaml_configs_load_from_yaml()
+                                      ^
+dstack/dstack.rb:4:58: C: Space between { and | missing.
+Dir[File.dirname(__FILE__) + '/handlers/*.rb'].sort.each {|file| require file }
+                                                         ^^
+dstack/dstack.rb:7:1: C: Missing top-level class documentation comment.
+class DStack
+^^^^^
+dstack/dstack.rb:14:25: C: Do not use parentheses for method calls with no arguments.
+    load_config_wrappers()
+                        ^
+dstack/dstack.rb:18:27: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def load_config_wrappers()
+                          ^
+dstack/dstack.rb:29:5: C: Redundant [33mreturn[0m detected.
+    return @configs
+    ^^^^^^
+dstack/dstack.rb:33:8: C: Don't use parentheses around the condition of an [33mif[0m.
+    if (File.exists?(config_file) and configs = YAML.load_file(config_file))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dstack/dstack.rb:33:14: W: [33mFile.exists?[0m is deprecated in favor of [33mFile.exist?[0m.
+    if (File.exists?(config_file) and configs = YAML.load_file(config_file))
+             ^^^^^^^
+dstack/dstack.rb:33:35: C: Use [33m&&[0m instead of [33mand[0m.
+    if (File.exists?(config_file) and configs = YAML.load_file(config_file))
+                                  ^^^
+dstack/dstack.rb:33:47: W: Assignment in condition - you probably meant to use [33m==[0m.
+    if (File.exists?(config_file) and configs = YAML.load_file(config_file))
+                                              ^
+dstack/dstack.rb:37:30: W: Unused block argument - [33mconfig_name[0m. If it's necessary, use [33m_[0m or [33m_config_name[0m as an argument name to indicate that it won't be used.
+      @configs.each_pair do |config_name, config|
+                             ^^^^^^^^^^^
+dstack/dstack.rb:38:26: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+        values = configs.has_key?(config.name) ? configs[config.name] : {}
+                         ^^^^^^^^
+dstack/dstack.rb:45:7: C: Use [33mfail[0m instead of [33mraise[0m to signal exceptions.
+      raise 'Unable to load the config file "%s" either because it does not exist or it is not in valid YAML format.' % [config_file]
+      ^^^^^
+dstack/dstack.rb:45:119: C: Favor [33mformat[0m over [33mString#%[0m.
+      raise 'Unable to load the config file "%s" either because it does not exist or it is not in valid YAML format.' % [config_file]
+                                                                                                                      ^
+dstack/dstack.rb:48:22: C: Do not use parentheses for method calls with no arguments.
+    alter_all_configs()
+                     ^
+dstack/dstack.rb:49:25: C: Do not use parentheses for method calls with no arguments.
+    finalize_all_configs()
+                        ^
+dstack/dstack.rb:50:5: C: Redundant [33mreturn[0m detected.
+    return @configs
+    ^^^^^^
+dstack/dstack.rb:55:29: C: Do not use parentheses for method calls with no arguments.
+    config.values_alter_self()
+                            ^
+dstack/dstack.rb:57:5: C: Redundant [33mreturn[0m detected.
+    return !config.values.empty? ? true : false
+    ^^^^^^
+dstack/dstack.rb:60:24: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def alter_all_configs()
+                       ^
+dstack/dstack.rb:66:27: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def finalize_all_configs()
+                          ^
+dstack/dstack.rb:73:5: C: Favor [33munless[0m over [33mif[0m for negative conditions.
+    if !@configs.has_key?(config_name)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dstack/dstack.rb:73:18: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+    if !@configs.has_key?(config_name)
+                 ^^^^^^^^
+dstack/dstack.rb:74:7: C: Use [33mfail[0m instead of [33mraise[0m to signal exceptions.
+      raise 'Unable to retrieve "%s" configuration from configurations.' % config_name
+      ^^^^^
+dstack/dstack.rb:74:74: C: Favor [33mformat[0m over [33mString#%[0m.
+      raise 'Unable to retrieve "%s" configuration from configurations.' % config_name
+                                                                         ^
+dstack/dstack.rb:77:5: C: Redundant [33mreturn[0m detected.
+    return @configs[config_name]
+    ^^^^^^
+dstack/dstack.rb:80:7: C: Do not prefix reader method names with [33mget_[0m.
+  def get_chef_array()
+      ^^^^^^^^^^^^^^
+dstack/dstack.rb:80:21: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def get_chef_array()
+                    ^
+dstack/dstack.rb:89:5: C: Redundant [33mreturn[0m detected.
+    return chef_values
+    ^^^^^^
+dstack/handlers/config.vagrant.rb:19:1: C: Missing top-level class documentation comment.
+class DStackConfigVagrant < DStackConfig
+^^^^^
+dstack/handlers/config.vagrant.rb:20:11: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def name()
+          ^
+dstack/handlers/config.vagrant.rb:21:5: C: Redundant [33mreturn[0m detected.
+    return 'vagrant'
+    ^^^^^^
+dstack/handlers/config.vagrant.rb:24:17: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def initialize()
+                ^
+dstack/handlers/config.vagrant.rb:31:21: C: Space inside { missing.
+      'networks' => {'private_network' => {:type => 'dhcp'}},
+                    ^
+dstack/handlers/config.vagrant.rb:31:43: C: Space inside { missing.
+      'networks' => {'private_network' => {:type => 'dhcp'}},
+                                          ^
+dstack/handlers/config.vagrant.rb:31:59: C: Space inside } missing.
+      'networks' => {'private_network' => {:type => 'dhcp'}},
+                                                          ^
+dstack/handlers/config.vagrant.rb:31:60: C: Space inside } missing.
+      'networks' => {'private_network' => {:type => 'dhcp'}},
+                                                           ^
+dstack/handlers/config.vlamp.rb:19:1: C: Missing top-level class documentation comment.
+class DStackConfigVLAMP < DStackConfig
+^^^^^
+dstack/handlers/config.vlamp.rb:20:11: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def name()
+          ^
+dstack/handlers/config.vlamp.rb:21:5: C: Redundant [33mreturn[0m detected.
+    return 'vlamp'
+    ^^^^^^
+dstack/handlers/config.vlamp.rb:24:17: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def initialize()
+                ^
+dstack/handlers/config.vlamp.rb:29:40: C: Avoid comma after the last item of a hash.
+          'guest_docroot' => '/var/www',
+                                       ^
+dstack/handlers/config.vlamp.rb:30:10: C: Avoid comma after the last item of a hash.
+        },
+         ^
+dstack/handlers/config.vlamp.rb:48:36: W: Unused block argument - [33mkey[0m. If it's necessary, use [33m_[0m or [33m_key[0m as an argument name to indicate that it won't be used.
+    @values['sites'].each_pair do |key, value|
+                                   ^^^
+dstack/handlers/config.vlamp.rb:49:16: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+      if value.has_key?('host_docroot') and value.has_key?('guest_docroot')
+               ^^^^^^^^
+dstack/handlers/config.vlamp.rb:49:41: C: Use [33m&&[0m instead of [33mand[0m.
+      if value.has_key?('host_docroot') and value.has_key?('guest_docroot')
+                                        ^^^
+dstack/handlers/config.vlamp.rb:49:51: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+      if value.has_key?('host_docroot') and value.has_key?('guest_docroot')
+                                                  ^^^^^^^^
+dstack/handlers/config.vlamp.rb:58:8: C: Don't use parentheses around the condition of an [33mif[0m.
+    if (not vagrant['hostname'].empty? and not vagrant['tld'].empty?)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dstack/handlers/config.vlamp.rb:58:9: C: Use [33m![0m instead of [33mnot[0m.
+    if (not vagrant['hostname'].empty? and not vagrant['tld'].empty?)
+        ^^^
+dstack/handlers/config.vlamp.rb:58:40: C: Use [33m&&[0m instead of [33mand[0m.
+    if (not vagrant['hostname'].empty? and not vagrant['tld'].empty?)
+                                       ^^^
+dstack/handlers/config.vlamp.rb:58:44: C: Use [33m![0m instead of [33mnot[0m.
+    if (not vagrant['hostname'].empty? and not vagrant['tld'].empty?)
+                                           ^^^
+dstack/handlers/config.vlamp.rb:63:35: W: Unused method argument - [33mdstack[0m. If it's necessary, use [33m_[0m or [33m_dstack[0m as an argument name to indicate that it won't be used. You can also write as [33mvalues_alter_process_tokens(*)[0m if you want the method to accept any arguments but don't care about them.
+  def values_alter_process_tokens(dstack)
+                                  ^^^^^^
+dstack/handlers/config.vlamp.rb:69:38: W: Unused method argument - [33mdstack[0m. If it's necessary, use [33m_[0m or [33m_dstack[0m as an argument name to indicate that it won't be used. You can also write as [33mvalues_alter_process_databases(*)[0m if you want the method to accept any arguments but don't care about them.
+  def values_alter_process_databases(dstack)
+                                     ^^^^^^
+dstack/handlers/config.vlamp.rb:80:8: C: Don't use parentheses around the condition of an [33mif[0m.
+    if (chef.values.has_key?('default-web'))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dstack/handlers/config.vlamp.rb:80:21: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+    if (chef.values.has_key?('default-web'))
+                    ^^^^^^^^
+dstack/handlers/config.vlamp.rb:81:7: C: Use [33mfail[0m instead of [33mraise[0m to signal exceptions.
+      raise "There exists overrides for default-web under 'chef' in the configuration. Please add these settings under 'vlamp' in your configuration file."
+      ^^^^^
+dstack/handlers/config.utils.rb:19:1: C: Missing top-level class documentation comment.
+class DStackConfigUtils < DStackConfig
+^^^^^
+dstack/handlers/config.utils.rb:20:11: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def name()
+          ^
+dstack/handlers/config.utils.rb:21:5: C: Redundant [33mreturn[0m detected.
+    return 'utils'
+    ^^^^^^
+dstack/handlers/config.utils.rb:24:17: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def initialize()
+                ^
+dstack/handlers/config.utils.rb:30:24: C: Avoid comma after the last item of a hash.
+        'post-up' => [],
+                       ^
+dstack/handlers/config.utils.rb:31:8: C: Avoid comma after the last item of a hash.
+      },
+       ^
+dstack/handlers/config.utils.rb:42:8: C: Don't use parentheses around the condition of an [33mif[0m.
+    if (chef.values.has_key?('utils'))
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dstack/handlers/config.utils.rb:42:21: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+    if (chef.values.has_key?('utils'))
+                    ^^^^^^^^
+dstack/handlers/config.utils.rb:43:7: C: Use [33mfail[0m instead of [33mraise[0m to signal exceptions.
+      raise "There exists overrides for utils under 'chef' in the configuration. Please add these settings under 'utils' in your configuration file."
+      ^^^^^
+dstack/handlers/config.base.rb:21:1: C: Missing top-level class documentation comment.
+class DStackConfig < Object
+^^^^^
+dstack/handlers/config.base.rb:33:17: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def initialize()
+                ^
+dstack/handlers/config.base.rb:43:7: C: Favor modifier [33mif[0m usage when having a single-line body. Another good alternative is the usage of control flow [33m&&[0m/[33m||[0m.
+      if @allow_extraneous_data or @defaults.has_key?(key)
+      ^^
+dstack/handlers/config.base.rb:43:33: C: Use [33m||[0m instead of [33mor[0m.
+      if @allow_extraneous_data or @defaults.has_key?(key)
+                                ^^
+dstack/handlers/config.base.rb:43:46: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+      if @allow_extraneous_data or @defaults.has_key?(key)
+                                             ^^^^^^^^
+dstack/handlers/config.base.rb:48:5: C: Redundant [33mreturn[0m detected.
+    return @values
+    ^^^^^^
+dstack/handlers/config.base.rb:51:24: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def values_alter_self()
+                       ^
+dstack/handlers/config.base.rb:52:5: C: Redundant [33mreturn[0m detected.
+    return @values
+    ^^^^^^
+dstack/handlers/config.base.rb:55:24: W: Unused method argument - [33mdstack[0m. If it's necessary, use [33m_[0m or [33m_dstack[0m as an argument name to indicate that it won't be used. You can also write as [33mvalues_alter_all(*)[0m if you want the method to accept any arguments but don't care about them.
+  def values_alter_all(dstack)
+                       ^^^^^^
+dstack/handlers/config.base.rb:58:27: W: Unused method argument - [33mdstack[0m. If it's necessary, use [33m_[0m or [33m_dstack[0m as an argument name to indicate that it won't be used. You can also write as [33mvalues_finalize_all(*)[0m if you want the method to accept any arguments but don't care about them.
+  def values_finalize_all(dstack)
+                          ^^^^^^
+dstack/handlers/config.base.rb:62:5: C: Redundant [33mreturn[0m detected.
+    return @values[key]
+    ^^^^^^
+dstack/handlers/config.base.rb:65:13: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def empty?()
+            ^
+dstack/handlers/config.base.rb:66:5: C: Redundant [33mreturn[0m detected.
+    return @values.empty?
+    ^^^^^^
+dstack/handlers/config.base.rb:69:7: C: Rename [33mhas_key?[0m to [33mkey?[0m.
+  def has_key?(key)
+      ^^^^^^^^
+dstack/handlers/config.base.rb:70:5: C: Redundant [33mreturn[0m detected.
+    return @values.has_key?(key)
+    ^^^^^^
+dstack/handlers/config.base.rb:70:20: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+    return @values.has_key?(key)
+                   ^^^^^^^^
+dstack/handlers/config.base.rb:74:5: C: Redundant [33mreturn[0m detected.
+    return @values.to_json
+    ^^^^^^
+dstack/handlers/config.base.rb:78:5: C: Redundant [33mreturn[0m detected.
+    return @values[key] = value
+    ^^^^^^
+dstack/handlers/config.chef.rb:19:1: C: Missing top-level class documentation comment.
+class DStackConfigChef < DStackConfig
+^^^^^
+dstack/handlers/config.chef.rb:20:11: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def name()
+          ^
+dstack/handlers/config.chef.rb:21:5: C: Redundant [33mreturn[0m detected.
+    return 'chef'
+    ^^^^^^
+dstack/handlers/config.chef.rb:24:17: C: Omit the parentheses in defs when the method doesn't accept any arguments.
+  def initialize()
+                ^
+dstack/handlers/config.chef.rb:29:36: C: Avoid comma after the last item of an array.
+        'cookbooks/local-cookbooks',
+                                   ^
+dstack/handlers/config.chef.rb:31:20: C: Use [33m%w[0m or [33m%W[0m for array of words.
+      'recipes' => [
+                   ^
+dstack/handlers/config.chef.rb:34:8: C: Avoid comma after the last item of a hash.
+      ],
+       ^
+cookbooks/local-cookbooks/utils/attributes/xdebug.rb:23:23: C: Avoid comma after the last item of a hash.
+  'remote_enable' => 1,
+                      ^
+cookbooks/local-cookbooks/utils/metadata.rb:1:6: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+name "utils"
+     ^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:2:12: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+maintainer ""
+           ^^
+cookbooks/local-cookbooks/utils/metadata.rb:3:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+maintainer_email ""
+                 ^^
+cookbooks/local-cookbooks/utils/metadata.rb:4:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+license ""
+        ^^
+cookbooks/local-cookbooks/utils/metadata.rb:5:13: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+description "Configures utilities."
+            ^^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:6:60: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+long_description IO.read(File.join(File.dirname(__FILE__), "README.md"))
+                                                           ^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:7:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+version "0.1.0"
+        ^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:8:8: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+recipe "utils::dev-tools", "Installs and configures development tools."
+       ^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:8:28: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+recipe "utils::dev-tools", "Installs and configures development tools."
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:9:8: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+recipe "utils::scripts", "Runs specified scripts at post-install and post-up."
+       ^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:9:26: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+recipe "utils::scripts", "Runs specified scripts at post-install and post-up."
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:10:8: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+recipe "utils::xdebug", "Installs and configures xdebug."
+       ^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/metadata.rb:10:25: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+recipe "utils::xdebug", "Installs and configures xdebug."
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/recipes/dev-tools.rb:2:1: C: Use snake_case for source file names.
+# Cookbook Name:: utils
+^
+cookbooks/local-cookbooks/utils/recipes/xdebug.rb:22:10: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+php_pear "xdebug" do
+         ^^^^^^^^
+cookbooks/local-cookbooks/utils/recipes/scripts.rb:24:21: W: [33mFile.exists?[0m is deprecated in favor of [33mFile.exist?[0m.
+is_installed = File.exists?(install_tracker)
+                    ^^^^^^^
+cookbooks/local-cookbooks/utils/recipes/scripts.rb:38:3: C: Redundant [33mreturn[0m detected.
+  return path.index('/') === 0 ? path : base_path + path
+  ^^^^^^
+cookbooks/local-cookbooks/utils/recipes/scripts.rb:38:26: C: Avoid the use of the case equality operator [33m===[0m.
+  return path.index('/') === 0 ? path : base_path + path
+                         ^^^
+cookbooks/local-cookbooks/utils/recipes/scripts.rb:48:1: C: Favor [33munless[0m over [33mif[0m for negative conditions.
+if not is_installed
+^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/utils/recipes/scripts.rb:48:4: C: Use [33m![0m instead of [33mnot[0m.
+if not is_installed
+   ^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:20:19: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+include_attribute "apache2"
+                  ^^^^^^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:21:19: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+include_attribute "build-essential"
+                  ^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:22:19: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+include_attribute "mysql::server"
+                  ^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:23:19: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+include_attribute "php"
+                  ^^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:30:38: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+default['lamp']['apc']['shm_size'] = "128M"
+                                     ^^^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:36:33: C: Separate every 3 digits in the integer portion of a number with underscores(_).
+default['lamp']['apc']['ttl'] = 14400
+                                ^^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:39:43: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+default['lamp']['apc']['max_file_size'] = "2M"
+                                          ^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:41:44: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+default['lamp']['apc']['mmap_file_mask'] = "/tmp/XXXXXX"
+                                           ^^^^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:52:54: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+override['mysql']['tunable']['max_allowed_packet'] = "64M"
+                                                     ^^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:53:51: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+override['mysql']['tunable']['max_connections'] = "40"
+                                                  ^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:54:53: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+override['mysql']['tunable']['query_cache_limit'] = "8M"
+                                                    ^^^^
+cookbooks/local-cookbooks/lamp/attributes/default.rb:55:52: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+override['mysql']['tunable']['query_cache_size'] = "64M"
+                                                   ^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:1:5: C: Put one space between the method name and the first argument.
+name             "lamp"
+    ^^^^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:1:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+name             "lamp"
+                 ^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:2:11: C: Put one space between the method name and the first argument.
+maintainer       ""
+          ^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:2:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+maintainer       ""
+                 ^^
+cookbooks/local-cookbooks/lamp/metadata.rb:3:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+maintainer_email ""
+                 ^^
+cookbooks/local-cookbooks/lamp/metadata.rb:4:8: C: Put one space between the method name and the first argument.
+license          ""
+       ^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:4:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+license          ""
+                 ^^
+cookbooks/local-cookbooks/lamp/metadata.rb:5:12: C: Put one space between the method name and the first argument.
+description      "Install and configures the *AMP stack."
+           ^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:5:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+description      "Install and configures the *AMP stack."
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:6:60: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+long_description IO.read(File.join(File.dirname(__FILE__), "README.md"))
+                                                           ^^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:7:8: C: Put one space between the method name and the first argument.
+version          "0.0.1"
+       ^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:7:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+version          "0.0.1"
+                 ^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:8:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends "apt"
+        ^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:9:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends "apache2"
+        ^^^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:10:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends "cron"
+        ^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:11:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends "database"
+        ^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:12:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends "mysql"
+        ^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:13:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends "openssl"
+        ^^^^^^^^^
+cookbooks/local-cookbooks/lamp/metadata.rb:14:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends "php"
+        ^^^^^
+cookbooks/local-cookbooks/lamp/recipes/default.rb:38:10: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  source "php.ini.erb"
+         ^^^^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/recipes/default.rb:39:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  owner "root"
+        ^^^^^^
+cookbooks/local-cookbooks/lamp/recipes/default.rb:40:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  group "root"
+        ^^^^^^
+cookbooks/local-cookbooks/lamp/recipes/default.rb:41:8: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  mode "0644"
+       ^^^^^^
+cookbooks/local-cookbooks/lamp/recipes/default.rb:45:10: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  source "apc.ini.erb"
+         ^^^^^^^^^^^^^
+cookbooks/local-cookbooks/lamp/recipes/default.rb:46:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  owner "root"
+        ^^^^^^
+cookbooks/local-cookbooks/lamp/recipes/default.rb:47:9: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  group "root"
+        ^^^^^^
+cookbooks/local-cookbooks/lamp/recipes/default.rb:48:8: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  mode "0644"
+       ^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:1:5: C: Put one space between the method name and the first argument.
+name             "default-web"
+    ^^^^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:1:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+name             "default-web"
+                 ^^^^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:2:11: C: Put one space between the method name and the first argument.
+maintainer       ""
+          ^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:2:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+maintainer       ""
+                 ^^
+cookbooks/local-cookbooks/default-web/metadata.rb:3:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+maintainer_email ""
+                 ^^
+cookbooks/local-cookbooks/default-web/metadata.rb:4:8: C: Put one space between the method name and the first argument.
+license          ""
+       ^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:4:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+license          ""
+                 ^^
+cookbooks/local-cookbooks/default-web/metadata.rb:5:12: C: Put one space between the method name and the first argument.
+description      "Configures web site."
+           ^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:5:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+description      "Configures web site."
+                 ^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:6:60: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+long_description IO.read(File.join(File.dirname(__FILE__), "README.md"))
+                                                           ^^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:7:8: C: Put one space between the method name and the first argument.
+version          "0.1.0"
+       ^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:7:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+version          "0.1.0"
+                 ^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:8:8: C: Put one space between the method name and the first argument.
+depends          "lamp"
+       ^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/metadata.rb:8:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends          "lamp"
+                 ^^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:20:16: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+include_recipe "lamp"
+               ^^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:21:16: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+include_recipe "avahi"
+               ^^^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:26:11: C: [33mHash#has_key?[0m is deprecated in favor of [33mHash#key?[0m.
+  if site.has_key?('aliases')
+          ^^^^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:32:3: C: Redundant [33mreturn[0m detected.
+  return aliases
+  ^^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:37:14: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+  ruby_block "append_hosts" do
+             ^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:39:39: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+      file = Chef::Util::FileEdit.new("/etc/hosts")
+                                      ^^^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:59:20: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+    allow_override "All"
+                   ^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:68:16: C: Redundant curly braces around a hash parameter.
+    connection({
+               ^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:69:7: C: Use 2 spaces for indentation in a hash, relative to the first position after the preceding left parenthesis.
+      :host => 'localhost',
+      ^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/default-web/recipes/default.rb:71:57: C: Avoid comma after the last item of a hash.
+      :password => node['mysql']['server_root_password'],
+                                                        ^
+cookbooks/local-cookbooks/drupal/metadata.rb:1:5: C: Put one space between the method name and the first argument.
+name             "drupal"
+    ^^^^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:1:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+name             "drupal"
+                 ^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:2:11: C: Put one space between the method name and the first argument.
+maintainer       "dStack Development Team"
+          ^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:2:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+maintainer       "dStack Development Team"
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:3:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+maintainer_email "delaigle.jonathan@gmail.com"
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:4:8: C: Put one space between the method name and the first argument.
+license          "Apache 2.0"
+       ^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:4:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+license          "Apache 2.0"
+                 ^^^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:5:12: C: Put one space between the method name and the first argument.
+description      "Configures web site."
+           ^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:5:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+description      "Configures web site."
+                 ^^^^^^^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:6:60: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+long_description IO.read(File.join(File.dirname(__FILE__), "README.md"))
+                                                           ^^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:7:8: C: Put one space between the method name and the first argument.
+version          "0.1.0"
+       ^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:7:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+version          "0.1.0"
+                 ^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:8:8: C: Put one space between the method name and the first argument.
+depends          "php"
+       ^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/metadata.rb:8:18: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+depends          "php"
+                 ^^^^^
+cookbooks/local-cookbooks/drupal/recipes/default.rb:22:10: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+php_pear "Console_Table" do
+         ^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/recipes/default.rb:27:23: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+dc = php_pear_channel "pear.drush.org" do
+                      ^^^^^^^^^^^^^^^^
+cookbooks/local-cookbooks/drupal/recipes/default.rb:32:10: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+php_pear "drush" do
+         ^^^^^^^
+cookbooks/local-cookbooks/drupal/recipes/default.rb:38:10: C: Prefer single-quoted strings when you don't need string interpolation or special symbols.
+php_pear "uploadprogress" do
+         ^^^^^^^^^^^^^^^^
+
+30 files inspected, 198 offenses detected
