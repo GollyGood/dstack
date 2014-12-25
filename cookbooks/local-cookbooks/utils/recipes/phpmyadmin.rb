@@ -20,6 +20,10 @@ include_recipe 'avahi'
 include_recipe 'lamp'
 include_recipe 'phpmyadmin'
 
+package 'php5-mcrypt' do
+  action :install
+end
+
 phpmyadmin_db 'phpmyadmin' do
     host '127.0.0.1'
     port node['mysql']['port']
