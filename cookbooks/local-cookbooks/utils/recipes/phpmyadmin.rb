@@ -25,11 +25,11 @@ package 'php5-mcrypt' do
 end
 
 phpmyadmin_db 'phpmyadmin' do
-    host '127.0.0.1'
-    port node['mysql']['port']
-    username 'root'
-    password node['mysql']['server_root_password']
-    hide_dbs %w{ information_schema mysql phpmyadmin performance_schema }
+  host '127.0.0.1'
+  port node['mysql']['port']
+  username 'root'
+  password node['mysql']['server_root_password']
+  hide_dbs %w( information_schema mysql phpmyadmin performance_schema )
 end
 
 if node['utils']['phpmyadmin']['domain'] != ''
@@ -38,8 +38,8 @@ if node['utils']['phpmyadmin']['domain'] != ''
   end
 
   web_app node['utils']['phpmyadmin']['domain'] do
-    cookbook "apache2"
-    allow_override "All"
+    cookbook 'apache2'
+    allow_override 'All'
     docroot node['phpmyadmin']['home']
     server_aliases []
     server_name node['utils']['phpmyadmin']['domain']

@@ -29,10 +29,10 @@ class DStackConfigUtils < DStackConfig
       'scripts' => {
         'post-install' => [],
         'post-up' => []
-      }
+      },
       'phpmyadmin' => {
         'domain' => 'phpmyadmin.<full-domain>'
-      },
+      }
     }
   end
 

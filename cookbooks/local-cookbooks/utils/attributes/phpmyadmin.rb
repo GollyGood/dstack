@@ -19,5 +19,5 @@
 
 include_attribute 'phpmyadmin'
 
-node['phpmyadmin']['fpm'] = false
+override['phpmyadmin']['fpm'] = false
 default['utils']['phpmyadmin']['domain'] = ''
