@@ -8,7 +8,7 @@ What's in the stack?
 Component     | Version(s)                  | Notes
 ------------- | --------------------------- | -------------
 Apache2       | 2.2                         |
-ApacheSolr    | tbd                         | Coming soon
+ApacheSolr    | 3.x(default) & 4.x          |
 APC           | 3.1.7                       |
 Box OS        | Ubuntu 12.04                |
 Chef Solo     | 10.14.2                     |
