@@ -44,5 +44,7 @@ node['default-web']['sites'].each_pair do |key, value|
     docroot value['guest_docroot']
     server_aliases aliases
     server_name server_name
+    ssl_cert_path value['ssl_certificate']
+    ssl_key_path  value['ssl_certificate_key']
   end
 end

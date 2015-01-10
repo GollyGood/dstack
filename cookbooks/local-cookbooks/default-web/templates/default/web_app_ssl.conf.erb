@@ -11,8 +11,8 @@
   </Directory>
 
   SSLEngine on
-  SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
-  SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+  SSLCertificateFile    <%= @params[:ssl_cert_path] %>
+  SSLCertificateKeyFile <%= @params[:ssl_key_path] %>
 
   LogLevel info
   ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-ssl-error.log
