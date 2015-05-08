@@ -11,8 +11,10 @@ projects which are licensed under the Apache license:
 
 - hipsnip-cookbooks/jetty
 - hipsnip-cookbooks/solr
+- needle-cookbooks/chef-avahi
 - opscode-cookbooks/apt
 - opscode-cookbooks/build-essential
+- opscode-cookbooks/cron
 - opscode-cookbooks/database
 - opscode-cookbooks/git
 - opscode-cookbooks/mysql
@@ -20,4 +22,8 @@ projects which are licensed under the Apache license:
 - opscode-cookbooks/php
 - opscode-cookbooks/rsync
 - opscode-cookbooks/vim
+- priestjim/chef-phpmyadmin
 - viverae-cookbooks/apache2
+
+cookbook 'cron', '1.4.0'
+cookbook 'phpmyadmin', '1.0.6'
