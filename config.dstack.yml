@@ -8,7 +8,7 @@ vagrant:
 #      ip: 192.168.50.4
 vlamp:
   sites:
-    # <hostaname> is the combination of the server host and tld.
+    # <full-domain> is the combination of the server hostname and tld.
     # E.x. "example.local"
     <full-domain>:
       host_docroot: ../docroot
@@ -19,7 +19,7 @@ vlamp:
       # @see - (The SSL readme to create a certificate for your domain.)[assets/ssl/README.rd]
       ssl_certificate: /home/vagrant/assets/ssl/<full-domain>.cert
       ssl_certificate_key: /home/vagrant/assets/ssl/<full-domain>.key
-  # E.x. "example"
+  # E.x. "example_local"
   databases:
     - <full-domain>
 utils:
@@ -35,6 +35,7 @@ chef:
     - drupal
 #    - drupal::solr
     - utils::dev-tools
+#    - utils::phpmyadmin
     - utils::scripts
     - utils::xdebug
 #  drupal:

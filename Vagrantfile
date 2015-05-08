@@ -17,6 +17,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = vagrant_config['box']
 
+  if (vagrant_config.key?('box_url'))
+    config.vm.box_url = vagrant_config['box_url']
+  end
+
   config.vm.host_name = vagrant_config['hostname']
 
   # Create each network.
@@ -45,12 +49,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", vagrant_config['memory']]
   end
 
+  config.vm.provision :shell do |shell|
+    shell.inline = <<-EOH
+      apt-get update
+      apt-get install -y build-essential ruby1.9.3
+
+      # @todo Remove these requirements by using Chef omnibus.
+      gem install ohai -v 7.4.0 --no-rdoc --no-ri
+      gem install chef --version 11.16.4 --no-rdoc --no-ri
+    EOH
+  end
+
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
   config.vm.provision "chef_solo" do |chef|
     chef_config = dstack.get_config('chef')
     chef.cookbooks_path = chef_config['cookbooks_path']
+    chef.custom_config_path = "Vagrantfile.chef"
 
     # Pass along our settings to chef.
     # Note: We don't have to do chef.add_recipe() because we are adding them
