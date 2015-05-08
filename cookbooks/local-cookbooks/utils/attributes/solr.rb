@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-include_attribute "java"
-include_attribute "hipsnip-solr"
-include_attribute "hipsnip-jetty"
+include_attribute 'java'
+include_attribute 'hipsnip-solr'
+include_attribute 'hipsnip-jetty'
 
 force_default['jetty']['port'] = 8983
 

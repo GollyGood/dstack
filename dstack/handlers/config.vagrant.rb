@@ -34,18 +34,18 @@ class DStackConfigVagrant < DStackConfig
       'memory' => 2048,
       'synced_folders' => {},
       'synced_folders_type' => 'nfs',
-      'assets_folder' => {'host_directory' => 'assets', 'guest_directory' => '/home/vagrant/assets'},
+      'assets_folder' => { 'host_directory' => 'assets', 'guest_directory' => '/home/vagrant/assets' },
       'tld' => 'local',
       'forward_agent' => true
     }
   end
 
   def values_alter_self
-    values_alter_self_add_assets_synced_folder()
+    values_alter_self_add_assets_synced_folder
   end
 
-  def values_alter_self_add_assets_synced_folder()
-    if (values['assets_folder'].has_key?('host_directory') && values['assets_folder'].has_key?('guest_directory'))
+  def values_alter_self_add_assets_synced_folder
+    if values['assets_folder'].key?('host_directory') && values['assets_folder'].key?('guest_directory')
       values['synced_folders'][values['assets_folder']['host_directory']] = values['assets_folder']['guest_directory']
     end
   end

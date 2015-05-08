@@ -23,9 +23,9 @@ module_conf_dir = node['drupal']['solr']['module_conf_dir']
 apachesolr_conf_dir = node['drupal']['solr']['apachesolr_conf_dir']
 
 if node['drupal']['solr']['module_path'] == ''
-  raise 'Drupal ApacheSolr module directory has not be set.'
+  fail 'Drupal ApacheSolr module directory has not be set.'
 elsif !File.directory? node['drupal']['solr']['module_path']
-  raise 'Unable to locate the Drupal ApacheSolr module directory. Please check the path.'
+  fail 'Unable to locate the Drupal ApacheSolr module directory. Please check the path.'
 end
 
 # Copy the Drupal ApacheSolr conf files to the ApacheSolr conf directory.
