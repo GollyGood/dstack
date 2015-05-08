@@ -15,7 +15,11 @@ vlamp:
       guest_docroot: /home/vagrant/docroot
       aliases:
         - alias.<full-domain>
-  # E.x. "example
+      # Setup certificate and key for SSL. (Optional)
+      # @see - (The SSL readme to create a certificate for your domain.)[assets/ssl/README.rd]
+      ssl_certificate: /home/vagrant/assets/ssl/<full-domain>.cert
+      ssl_certificate_key: /home/vagrant/assets/ssl/<full-domain>.key
+  # E.x. "example"
   databases:
     - <full-domain>
 utils:

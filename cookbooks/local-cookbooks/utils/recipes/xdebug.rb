@@ -23,4 +23,5 @@ php_pear 'xdebug' do
   zend_extensions ['xdebug.so']
   action :install
   directives node['utils']['xdebug']['directives']
+  version '2.2.7'
 end

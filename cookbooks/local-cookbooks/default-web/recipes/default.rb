@@ -61,6 +61,18 @@ node['default-web']['sites'].each_pair do |key, value|
     server_aliases aliases
     server_name server_name
   end
+
+  if value.key?('ssl_certificate') && value.key?('ssl_certificate_key')
+    web_app "#{server_name}-ssl" do
+      template 'web_app_ssl.conf.erb'
+      allow_override 'All'
+      docroot value['guest_docroot']
+      server_aliases aliases
+      server_name server_name
+      ssl_cert_path value['ssl_certificate']
+      ssl_key_path  value['ssl_certificate_key']
+    end
+  end
 end
 
 node['default-web']['databases'].each do |database_name|
