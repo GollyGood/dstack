@@ -24,6 +24,3 @@ projects which are licensed under the Apache license:
 - opscode-cookbooks/vim
 - priestjim/chef-phpmyadmin
 - viverae-cookbooks/apache2
-
-cookbook 'cron', '1.4.0'
-cookbook 'phpmyadmin', '1.0.6'
