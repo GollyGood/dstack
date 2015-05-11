@@ -19,3 +19,4 @@
 
 default['default-web']['sites'] = {}
 default['default-web']['databases'] = []
+default['default-web']['port'] = 80

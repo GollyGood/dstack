@@ -34,10 +34,11 @@ chef:
     - default-web
     - drupal
 #    - drupal::solr
+    - drupal::varnish
     - utils::dev-tools
 #    - utils::phpmyadmin
     - utils::scripts
-    - utils::xdebug
+      #- utils::xdebug
 #  drupal:
 #    solr:
 #      module_path: /home/vagrant/docroot/sites/all/modules/contrib/apachesolr

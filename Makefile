@@ -1,4 +1,4 @@
-.PHONY: dependencies install_gems install_chef_cookbooks update_chef_cookbooks tests
+.PHONY: all apply-patches development install-gems install-vendor-cookbooks refresh-vendor-cookbooks delete-vendor-cookbooks test
 
 all: development
 
