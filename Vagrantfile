@@ -57,7 +57,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # @todo Remove these requirements by using Chef omnibus.
       gem install ohai -v 7.4.0 --no-rdoc --no-ri
       gem install chef --version 11.16.4 --no-rdoc --no-ri
+
+      sudo apt-get -y install virtualbox-guest-dkms
     EOH
+  end
+
+  # When using dhcp NFS shares will fail. This is probably "Failsafe Boot delay"
+  # preventing VBoxService. Apparently this issue only exists with Ubuntu. I
+  # tried a few fixes fromt he following issue, however, the used solution
+  # seemed to be the only one that worked. Note that /etc/network/interfaces
+  # will still be populated by Vagrant.
+  # @see - https://github.com/mitchellh/vagrant/issues/2626
+  if vagrant_config['is_dhcp'] && vagrant_config['dhcp_workaround']
+    config.vm.provision 'shell', run: 'always', inline: "cat /etc/network/interfaces | grep -v 'post-up' | tee /etc/network/interfaces 1>/dev/null 2>&1"
   end
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
