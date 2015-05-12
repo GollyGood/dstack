@@ -30,6 +30,8 @@ class DStackConfigVagrant < DStackConfig
       'tld' => 'local',
       'box' => 'hashicorp/precise64',
       'networks' => { 'private_network' => { :type => 'dhcp' } },
+      'dhcp_workaround' => true,
+      'is_dhcp' => false,
       'ipaddress' => '',
       'memory' => 2048,
       'synced_folders' => {},
@@ -42,11 +44,20 @@ class DStackConfigVagrant < DStackConfig
 
   def values_alter_self
     values_alter_self_add_assets_synced_folder
+    values_alter_self_set_is_dhcp
   end
 
   def values_alter_self_add_assets_synced_folder
     if values['assets_folder'].key?('host_directory') && values['assets_folder'].key?('guest_directory')
       values['synced_folders'][values['assets_folder']['host_directory']] = values['assets_folder']['guest_directory']
+    end
+  end
+
+  def values_alter_self_set_is_dhcp
+    values['networks'].each_pair do |network, options|
+      if options.key?(:type) && options[:type] == 'dhcp'
+        values['is_dhcp'] = true
+      end
     end
   end
 end
