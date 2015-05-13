@@ -68,5 +68,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Note: We don't have to do chef.add_recipe() because we are adding them
     #       via the :recipes value in the config.
     chef.json = dstack.chef_array()
-   end
+  end
 end
