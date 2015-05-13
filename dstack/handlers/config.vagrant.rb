@@ -28,7 +28,8 @@ class DStackConfigVagrant < DStackConfig
     @defaults = {
       'hostname' => 'default',
       'tld' => 'local',
-      'box' => 'hashicorp/precise64',
+      'box' => 'dstack-ubuntu-12.04',
+      'box_url' => 'http://devhumans.com/dstack/dstack-ubuntu-12.04.json',
       'networks' => { 'private_network' => { :type => 'dhcp' } },
       'ipaddress' => '',
       'memory' => 2048,

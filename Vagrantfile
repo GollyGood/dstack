@@ -52,11 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell do |shell|
     shell.inline = <<-EOH
       apt-get update
-      apt-get install -y build-essential ruby1.9.3
-
-      # @todo Remove these requirements by using Chef omnibus.
-      gem install ohai -v 7.4.0 --no-rdoc --no-ri
-      gem install chef --version 11.16.4 --no-rdoc --no-ri
+      apt-get install -y build-essential
     EOH
   end
 
