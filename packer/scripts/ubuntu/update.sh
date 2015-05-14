@@ -29,6 +29,6 @@ EOF
 if [[ $UBUNTU_VERSION == '12.04' ]]; then
   apt-get -y install libreadline-dev dpkg
 
-  /etc/init.d/vboxadd setup
-  ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+  #/etc/init.d/vboxadd setup
+  #ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
 fi

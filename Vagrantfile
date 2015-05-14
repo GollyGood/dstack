@@ -24,7 +24,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.host_name = vagrant_config['hostname']
 
   # Create each network.
-  # default is 'private_network', type: 'dhcp'
   vagrant_config['networks'].each_pair do |network, options|
     config.vm.network network.to_sym, options.inject({}){|option,(k,v)| option[k.to_sym] = v; option}
   end
@@ -56,9 +55,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     EOH
   end
 
-  # Enable provisioning with chef solo, specifying a cookbooks path, roles
-  # path, and data_bags path (all relative to this Vagrantfile), and adding
-  # some recipes and/or roles.
+  ## Enable provisioning with chef solo, specifying a cookbooks path, roles
+  ## path, and data_bags path (all relative to this Vagrantfile), and adding
+  ## some recipes and/or roles.
   config.vm.provision "chef_solo" do |chef|
     chef_config = dstack.get_config('chef')
     chef.cookbooks_path = chef_config['cookbooks_path']
