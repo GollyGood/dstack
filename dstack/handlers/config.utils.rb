@@ -35,6 +35,9 @@ class DStackConfigUtils < DStackConfig
       },
       'webgrind' => {
         'domain' => 'webgrind.<full-domain>'
+      },
+      'xhprof' => {
+        'domain' => 'xhprof.<full-domain>'
       }
     }
   end
