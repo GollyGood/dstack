@@ -152,10 +152,10 @@ a.button span {
 }
 
 #download-zip span {
-  background: transparent url(../images/1431693301_application-zip.png) 12px 50% no-repeat;
+  background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
 }
 #download-tar-gz span {
-  background: transparent url(../images/1431693294_application-x-compressed-tar.png) 12px 50% no-repeat;
+  background: transparent url(../images/tar-icon.png) 12px 50% no-repeat;
 }
 #view-on-github span {
   background: transparent url(../images/octocat-icon.png) 12px 50% no-repeat;
