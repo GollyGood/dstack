@@ -32,6 +32,9 @@ class DStackConfigUtils < DStackConfig
       },
       'phpmyadmin' => {
         'domain' => 'phpmyadmin.<full-domain>'
+      },
+      'webgrind' => {
+        'domain' => 'webgrind.<full-domain>'
       }
     }
   end

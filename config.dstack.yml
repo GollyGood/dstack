@@ -37,7 +37,8 @@ chef:
     - utils::dev-tools
 #    - utils::phpmyadmin
     - utils::scripts
-    - utils::xdebug
+#    - utils::xdebug
+#    - utils::webgrind
 #  drupal:
 #    solr:
 #      module_path: /home/vagrant/docroot/sites/all/modules/contrib/apachesolr
