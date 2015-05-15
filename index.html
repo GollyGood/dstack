@@ -33,6 +33,74 @@
         <section id="main_content">
           <h1>Still under development!</h1>
           <p>dStack short for "development stack" is a Vagrant+Chef powered LAMP stack that allows setup of web nodes via a configuration YAML file. The primary target users are enterprise development teams that need similar-to-production development.</p>
+
+          <h3>Example YAML configuration file</h3>
+          <pre><code>
+###############################################################################
+# Set/Override system level settings.
+###############################################################################
+vagrant:
+  hostname: example
+  networks:
+    private_network:
+      ip: 192.168.50.4
+#  memory: 2048
+#  synced_folders:
+#    HOST_DIRECTORY: GUEST_DIRECTORY
+
+###############################################################################
+# Create PHP sites with databases.
+###############################################################################
+vlamp:
+  sites:
+    # &lt;full-domain> is the combination of the server hostname and tld.
+    # E.x. "example.local"
+    &lt;full-domain>:
+      host_docroot: ../docroot
+      guest_docroot: /home/vagrant/docroot
+      aliases:
+        - alias.&lt;full-domain>
+      # Setup certificate and key for SSL. (Optional)
+      # @see - (The SSL readme to create a certificate for your domain.)[assets/ssl/README.rd]
+      ssl_certificate: /home/vagrant/assets/ssl/<full-domain>.cert
+      ssl_certificate_key: /home/vagrant/assets/ssl/<full-domain>.key
+  # E.x. "example_local"
+  databases:
+    - &lt;full-domain>
+
+###############################################################################
+# Configure util attributes.
+###############################################################################
+utils:
+  scripts:
+    post-install:
+      - docroot/sites/all/dstack/install.sh
+    post-up:
+      - docroot/sites/all/dstack/up.sh
+
+###############################################################################
+# Select which recipes that should execute & override recipe attributes.
+###############################################################################
+chef:
+  recipes:
+    - avahi
+    - default-web
+    - drupal
+#    - drupal::solr
+    - utils::dev-tools
+#    - utils::phpmyadmin
+    - utils::scripts
+#    - utils::xdebug
+#    - utils::webgrind
+#    - utils::xhprof
+# Overriding recipe attributes.
+#  drupal:
+#    solr:
+#      module_path: /home/vagrant/docroot/sites/all/modules/contrib/apachesolr
+#  lamp:
+#    php:
+#      memory_limit: '128M'
+          </code></pre>
         </section>
 
         <footer>
