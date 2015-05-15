@@ -53,14 +53,14 @@ body {
   line-height: 1.5;
   color: #6d6d6d;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  background: #e7e7e7 url(../images/body-bg.png) 0 0 repeat;
+  background: #ffffff
 }
 
 a {
-  color: #d5000d;
+  color: #986353;
 }
 a:hover {
-  color: #c5000c;
+  color: #cbb16d;
 }
 
 header {
@@ -86,7 +86,6 @@ header h2 {
 
 #container {
   min-height: 595px;
-  background: transparent url(../images/highlight-bg.jpg) 50% 0 no-repeat;
 }
 
 .inner {
@@ -153,10 +152,10 @@ a.button span {
 }
 
 #download-zip span {
-  background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
+  background: transparent url(../images/1431693301_application-zip.png) 12px 50% no-repeat;
 }
 #download-tar-gz span {
-  background: transparent url(../images/tar-gz-icon.png) 12px 50% no-repeat;
+  background: transparent url(../images/1431693294_application-x-compressed-tar.png) 12px 50% no-repeat;
 }
 #view-on-github span {
   background: transparent url(../images/octocat-icon.png) 12px 50% no-repeat;
@@ -255,7 +254,7 @@ h3 {
   margin-bottom: 8px;
   font-size: 18px;
   font-weight: bold;
-  color: #d5000d;
+  color: #732914;
 }
 
 h4 {
