@@ -26,10 +26,10 @@ Xdebug        | 2.2.7                       |
 XHprof        | tbd                         | Coming soon
 
 [Documentation](documentation)
--------------
+------------------------------
 
 The documentation is included as part of the codebase for easier reference
-and continuity of versions of dStack. Each cookbooks contains its own
+and continuity of versions of dStack. Each cookbook contains its own
 documentation, however, an index of all documentation may be found in the
 [documentation](documentation) directory along with any higher level documentation
 that corresponds to dStack.
