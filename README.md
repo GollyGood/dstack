@@ -46,3 +46,22 @@ Requirements
     * Will also need to turn of your firewall if enabled. We are current looking to see what we can do about this on this [issue](https://github.com/grndlvl/dstack/issues/10).
     * Cannot be ran in an encrypted home directory or sharing directories in an encrypted home directory. Entire disk encryption is fine.
   * MacOSX - Already contains a working version of nfs.
+
+License
+-------
+
+Copyright:: 2015, Jonathan DeLaigle
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+
+*Vendor software maintain authorship and copyrights of their original authors
+under the Apache License see [NOTICE](NOTICE)*.
