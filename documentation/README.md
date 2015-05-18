@@ -1,6 +1,13 @@
 Documentation
 =============
 
+[Configuration](configuration.md)
+-------------------------
+
+The configuration file is a single YAML file that dictates Vagrant box settings
+as well as chef recipe attributes. For additional information about available
+settings and an indepth description of each see [configuration.md](configuration.md).
+
 [Cookbooks](cookbooks.md)
 -------------------------
 
