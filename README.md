@@ -25,7 +25,7 @@ Webgrind      | tbd                         |
 Xdebug        | 2.2.7                       |
 XHprof        | tbd                         | Coming soon
 
-Documentation
+[Documentation](documentation)
 -------------
 
 The documentation is included as part of the codebase for easier reference
