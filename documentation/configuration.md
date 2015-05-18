@@ -14,10 +14,7 @@ machine.
 ### Common settings
 * `hostname`
 
-    **default:**
-    ```
-    'default'
-    ```
+    **default:** `'default'`
 
     The hostname to be used for the guest machine.
 
@@ -25,10 +22,7 @@ machine.
 
     The memory in MB to be allocated for the guest machine.
 
-    **default:**
-    ```
-    2048
-    ```
+    **default:** `2048`
 
 * `networks`
 
@@ -58,10 +52,7 @@ machine.
    <full-domain> token. It is important to note that this should not be changed
    if Avahi is being used as currently the default is only supported.*
 
-    **default:**
-    ```
-    'local'
-    ```
+    **default:** `'local'`
 
 * `box`
 
@@ -69,10 +60,7 @@ machine.
    to use the provided dStack boxes, however, you may use any Vagrant box file
    or even create your own.
 
-    **default:**
-    ```
-    'dstack-ubuntu-12.04'
-    ```
+    **default:** `'dstack-ubuntu-12.04'`
 
 * `synced_folders`
 
@@ -98,10 +86,7 @@ machine.
      include nfs, rsync, smb(untested), and the default virtual box
      sync(set to `''`).
 
-     **default:**
-     ```
-     'nfs'
-     ```
+     **default:** `'nfs'`
 
 * `assets_folder`
 
@@ -120,10 +105,7 @@ machine.
     Determines if all ssh connections should forward the user's ssh agent for
     all ssh connections.
 
-    **default:**
-    ```
-    true
-    ```
+    **default:** `true`
 
 vlamp
 -------
