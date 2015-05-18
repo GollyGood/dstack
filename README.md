@@ -32,7 +32,7 @@ Xdebug        | 2.2.7                       |
 XHprof        | tbd                         | Coming soon
 
 [Documentation](documentation)
-------------------------------
+-------------
 
 The documentation is included as part of the codebase for easier reference
 and continuity of versions of dStack. Each cookbook contains its own
