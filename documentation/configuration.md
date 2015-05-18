@@ -77,13 +77,14 @@ machine.
     By default this is blank, however, some directories, such as, `assets` and
     `docroots` are automatically set up as synced folders.
 
-    **default:** No default supplied.
-
     **example:**
     ```
     HOST_DIRECTORY: GUEST_DIRECTORY
     ANOTHER_HOST_DIRECTORY: ANOTHER_GUEST_DIRECTORY
     ```
+
+    **default:** No default supplied.
+
 
 * `synced_folders_type`
 
@@ -114,6 +115,78 @@ machine.
 
 vlamp
 -------
+
+ The vlamp configuration contains two sections, sites and databases.
+
+ This section provideds a token `<full-domain>` that is populated with
+ the fully qualified domain(FQD) created from the concatenation of the
+ `hostname` and `tld` settings from the vagrant section it may be used in
+ place of specifying a static FQD.
+
+### `sites`
+
+Sites contain a keyed array of web sites that will be on the guest machine
+and based on the settings provided here each sites docroot will be created
+and setup as a synced directory between the host and guest machine. It will
+also configure Apache2 to host the site.
+
+The key provided for a site must be a fully qualified domain.
+
+No defaults are supplied. See the example.
+
+**example:**
+
+```
+<full-domain>:
+  host_docroot: ../docroot
+  guest_docroot: /home/vagrant/docroot
+  aliases:
+    - alias.<full-domain>
+  ssl_certificate: /home/vagrant/assets/ssl/<full-domain>.cert
+  ssl_certificate_key: /home/vagrant/assets/ssl/<full-domain>.key
+another-site.<full-domain>:
+  guest_docroot: /home/vagrant/another-site
+```
+
+* `guest_docroot` (required)
+
+    The docroot of the site on the guest machine.
+
+* `host_docroot` (optional)
+
+    The directory that is on the host machine that should by synced to the guest
+    machine as the docroot of the site.
+
+* `aliases` (optional)
+
+    Any fully qualified domains that should be set as aliases for the site.
+
+* `ssl_certificate` (optional)
+
+   The ssl certificate to use for the site. Typically the certificate will be
+   placed in the assets directory for use on the guest machine, however, it may
+   be placed in any synced directory. See [creating a self signed certificate](../assets/ssl).
+
+* `ssl_certificate_key` (optional)
+
+   The ssl key to use for the site. Typically the key will be placed in the
+   assets directory for use on the guest machine, however, it may be placed in
+   any synced directory. See [creating a self signed certificate](../assets/ssl).
+
+### `databases` (optional)
+
+Contains an array of databases that should be created for the sites if any are
+required. All that is needed is a database name.
+
+The sites token `<full-domain>` will replace periods(.) with underscores(_.)
+
+**example:**
+
+```
+ - <full-domain>
+ - my_database
+ - another_database
+```
 
 utils
 -------
