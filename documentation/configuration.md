@@ -5,6 +5,11 @@ The configuration file is a single YAML file that dictates Vagrant box settings
 as well as chef recipe attributes. Any settings within this configuration file
 will take precedence over default and normal recipe attributes.
 
+* [vagrant](#vagrant)
+* [vlamp](#vlamp)
+* [utils](#utils)
+* [chef](#chef)
+
 vagrant
 -------
 
@@ -106,9 +111,6 @@ machine.
     all ssh connections.
 
     **default:** `true`
-
-vlamp
--------
 
 vlamp
 -------
