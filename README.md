@@ -26,12 +26,16 @@ Xdebug        | 2.2.7                       |
 XHprof        | tbd                         | Coming soon
 
 Documentation
------------
+-------------
 
-The main documentation may be found on the [wiki](https://github.com/grndlvl/dstack/wiki).
+The documentation is included as part of the codebase for easier reference
+and continuity of versions of dStack. Each cookbooks contains its own
+documentation, however, an index of all documentation may be found in the
+[documentation](documentation) directory along with any higher level documentation
+that corresponds to dStack.
 
 Requirements
------------
+------------
 
 * Ruby >= 2.1.1
 * Vagrant >= 1.6.3
