@@ -1,5 +1,5 @@
-Documenation
-============
+Documentation
+=============
 
 [Cookbooks](cookbooks.md)
 -------------------------
