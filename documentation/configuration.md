@@ -71,7 +71,7 @@ machine.
 
     Additional synced directories that should be synced between the host and
     guest machine. This is supplied as an associative array where the key is
-    the host machines directory and the value is the directory on the guest
+    the host machine's directory and the value is the directory on the guest
     machine.
 
     By default this is blank, however, some directories, such as, `assets` and
