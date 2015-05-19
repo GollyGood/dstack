@@ -20,7 +20,7 @@ its requirements, and additional specific configurations for Apache Solr.
 
 ### [lamp](../cookbooks/local-cookbooks/lamp)
 
-The LAMP cookbook installs the base components for a traditional -AMP
+The lamp cookbook installs the base components for a traditional -AMP
 environment, including Apache2, MySQL, and PHP. It also includes some additional
 packages including [suhosin](https://suhosin.org/stories/index.html) for
 security and [APC](http://php.net/manual/en/book.apc.php) for performance as
