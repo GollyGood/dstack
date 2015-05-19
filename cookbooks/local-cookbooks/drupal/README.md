@@ -38,7 +38,7 @@ $aliases['example'] = array(
     Is the verion of drush to install from PHP's PEAR. Note the additional 0 at the
     end. To see available versions see [Drush's pear channel](http://pear.drush.org/).
 
-**default:** `6.2.0.0`
+    **default:** `6.2.0.0`
 
 
 solr recipe
@@ -64,7 +64,6 @@ configuration XML documents.*
     The path to the Drupal Apache Solr module within the site's docroot.
 
     **example:** `sites/all/modules/contrib/apachesolr`
-
 
 * `solr::module_conf_dir`
 
