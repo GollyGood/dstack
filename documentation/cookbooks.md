@@ -30,39 +30,39 @@ they are traditionally included in enterprise hosting environments.
 
 A cookbook that contains utilities for developers and advanced packages for sites.
 
-* dev-tools
+* [dev-tools](../cookbooks/local-cookbooks/utils#dev-tools)
 
     Installs and configures development tools like git, rsync, and vim.
 
-* phpmyadmin
+* [phpmyadmin](../cookbooks/local-cookbooks/utils#phpmyadmin)
 
     Installs and configures the web based MySQL database administration tool
     [phpMyAdmin](http://www.phpmyadmin.net/home_page/index.php).
 
-* scripts
+* [scripts](../cookbooks/local-cookbooks/utils#scripts)
 
     Runs user supplied scripts that may be written in any language during
     `vagrant up`. These scripts may either be ran on every `provision` or only
     once during the very first `vagrant up` depending on the scripts naming
     convention.
 
-* solr
+* [solr](../cookbooks/local-cookbooks/utils#solr)
 
     Installs and configures Apache Solr package. *Note: Depending on what is
     being done with ApacheSolr, it will most likely be required that additional
     customizations will need to be done.*
 
-* webgrind
+* [webgrind](../cookbooks/local-cookbooks/utils#webgrind)
 
     Installs and configures [Webgrind](https://github.com/jokkedk/webgrind), a
     Xdebug web profiling frontend for PHP5.
 
-* xhprof
+* [xhprof](../cookbooks/local-cookbooks/utils#xhprof)
 
     Installs and configures [XHProf](https://github.com/phacility/xhprof), a
     web based function-level hierarchical profiler frontend for PHP.
 
-* xdebug
+* [xdebug](../cookbooks/local-cookbooks/utils#xdebug)
 
     Installs and configures [Xdebug](http://xdebug.org/), the PHP debugger and
     profiling tool.
