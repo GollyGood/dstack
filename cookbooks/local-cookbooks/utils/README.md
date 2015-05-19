@@ -28,7 +28,7 @@ The phpmyadmin recipe installs and configures the web based MySQL database
 administration tool [phpMyAdmin](http://www.phpmyadmin.net/home_page/index.php).
 
 By default when added to the run list phpMyAdmin may be found at
-http://phpmyadmin.<full-domain>.
+`http://phpmyadmin.<full-domain>`.
 
 The user name and passwor are the same as MySQL's root user's.
 
