@@ -52,6 +52,7 @@ The path to the Drupal Apache Solr module within the site's docroot.
 The configuration directory within the Drupal Apache Solr module.
 
 **4.x default:** `solr-conf/solr-4.x`
+
 **3.x default:** `solr-conf/solr-3.x`
 
 * `solr::module_conf_files`
@@ -77,4 +78,5 @@ directory. See the [hipsnip-solr cookbook](../../berks-cookbooks/hipsnip-solr)
 for additional information.
 
 **4.x default:** `collection1/conf`
+
 **3.x default:** `conf`
