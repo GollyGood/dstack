@@ -19,7 +19,7 @@ machine.
 ### Common settings
 * `hostname`
 
-    **default:** `'default'`
+    **default:** `default`
 
     The hostname to be used for the guest machine.
 
@@ -57,7 +57,7 @@ machine.
    <full-domain> token. It is important to note that this should not be changed
    if Avahi is being used as currently the default is only supported.*
 
-    **default:** `'local'`
+    **default:** `local`
 
 * `box`
 
@@ -65,7 +65,7 @@ machine.
    to use the provided dStack boxes, however, you may use any Vagrant box file
    or even create your own.
 
-    **default:** `'dstack-ubuntu-12.04'`
+    **default:** `dstack-ubuntu-12.04`
 
 * `synced_folders`
 
@@ -92,7 +92,7 @@ machine.
      include nfs, rsync, smb(untested), and the default virtual box
      sync(set to `''`).
 
-     **default:** `'nfs'`
+     **default:** `nfs`
 
 * `assets_folder`
 
@@ -102,8 +102,8 @@ machine.
 
      **default:**
      ```
-     host_directory: 'assets'
-     guest_directory: '/home/vagrant/assets'
+     host_directory: assets
+     guest_directory: /home/vagrant/assets
      ```
 
 * `forward_agent`
@@ -178,7 +178,7 @@ another-site.<full-domain>:
 Contains an array of databases that should be created for the sites if any are
 required. All that is needed is a database name.
 
-The sites token `<full-domain>` will replace periods(.) with underscores(_.)
+The sites token `<full-domain>` will replace periods(.) with underscores(\_).
 
 **example:**
 
@@ -191,5 +191,68 @@ The sites token `<full-domain>` will replace periods(.) with underscores(_.)
 utils
 -------
 
+The utils section is a higher level abstration of attribute overrides for the
+dStack utils cookbook and its recipes. See the [utils cookbook documentation](../cookbooks/local-cookbooks/utils)
+for additional information.
+
+The utils section also respects the use of the <full-domain> token as mentioned
+in the [sites](#sites) section.
+
+**example:**
+```
+scripts:
+  post-install:
+    - docroot/sites/all/dstack/install.sh
+  post-up:
+    - docroot/sites/all/dstack/up.sh
+```
+
+**default:**
+```
+phpmyadmin:
+   domain: phpmyadmin.<full-domain>
+webgrind:
+   domain: webgrind.<full-domain>
+xdebug:
+   domain: xdebug.<full-domain>
+```
+
+
 chef
 -------
+
+The chef section within the configuration is where the recipe runlist is set
+and recipe attribute overrides are done.
+
+Nothing is setup as default for this as it completely depends on what is needed
+based on the project, however, checkout the example.dstack.yml file for an idea
+of what would necessary.
+
+To add recipes to the run list add them under the `recipes` header.
+
+**example:**
+```
+recipes:
+  - avahi
+   - default-web
+   - drupal
+   - utils::dev-tools
+   - utils::phpmyadmin
+   - utils::scripts
+   - utils::xdebug
+```
+
+To override recipe attributes use the following format:
+
+```
+COOKBOOK_NAME:
+  RECIPE_NAME:
+    ATTRIBUTE_NAME: ATTRIBUTE_VALUE
+```
+
+**example:**
+```
+lamp:
+  php:
+    memory_limit: 128M
+```
