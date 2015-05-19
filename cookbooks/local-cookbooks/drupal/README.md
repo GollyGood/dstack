@@ -16,8 +16,8 @@ module.
 
 * `drush::version`
 
-Is the verion of drush to install from PHP's PEAR. Note the additional 0 at the
-end. To see available versions see [Drush's pear channel](http://pear.drush.org/).
+    Is the verion of drush to install from PHP's PEAR. Note the additional 0 at the
+    end. To see available versions see [Drush's pear channel](http://pear.drush.org/).
 
 **default:** `6.2.0.0`
 
@@ -42,41 +42,41 @@ configuration XML documents.*
 
 * `solr::module_path`
 
-The path to the Drupal Apache Solr module within the site's docroot.
+    The path to the Drupal Apache Solr module within the site's docroot.
 
-**example:** `sites/all/modules/contrib/apachesolr`
+    **example:** `sites/all/modules/contrib/apachesolr`
 
 
 * `solr::module_conf_dir`
 
-The configuration directory within the Drupal Apache Solr module.
+    The configuration directory within the Drupal Apache Solr module.
 
-**4.x default:** `solr-conf/solr-4.x`
+    **4.x default:** `solr-conf/solr-4.x`
 
-**3.x default:** `solr-conf/solr-3.x`
+    **3.x default:** `solr-conf/solr-3.x`
 
 * `solr::module_conf_files`
 
-An array of files to use from within the Drupal Apache Solr module configuration
-directory.
+    An array of files to use from within the Drupal Apache Solr module configuration
+    directory.
 
-**default:**
-```
-  'protwords.txt',
-  'schema.xml',
-  'schema_extra_fields.xml',
-  'schema_extra_types.xml',
-  'solrconfig.xml',
-  'solrconfig_extra.xml',
-  'solrcore.properties'
-```
+    **default:**
+    ```
+    'protwords.txt',
+    'schema.xml',
+    'schema_extra_fields.xml',
+    'schema_extra_types.xml',
+    'solrconfig.xml',
+    'solrconfig_extra.xml',
+    'solrcore.properties'
+    ```
 
 * `solr::apachesolr_conf_dir`
 
-The configuration directory for Apache Solr relative to the Apache Solr home
-directory. See the [hipsnip-solr cookbook](../../berks-cookbooks/hipsnip-solr)
-for additional information.
+    The configuration directory for Apache Solr relative to the Apache Solr home
+    directory. See the [hipsnip-solr cookbook](../../berks-cookbooks/hipsnip-solr)
+    for additional information.
 
-**4.x default:** `collection1/conf`
+    **4.x default:** `collection1/conf`
 
-**3.x default:** `conf`
+    **3.x default:** `conf`
