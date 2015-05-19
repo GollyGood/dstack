@@ -25,6 +25,6 @@ these settings and check out their respective documentation.
 
 ### MySQL
 
-* [Database cookbook](../../berks-cookbooks/databse)
+* [Database cookbook](../../berks-cookbooks/database)
 * [MySQL cookbook](../../berks-cookbooks/mysql)
 * [Server configuration](https://dev.mysql.com/doc/refman/5.5/en/server-configuration-defaults.html)
