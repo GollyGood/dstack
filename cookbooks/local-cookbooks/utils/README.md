@@ -49,25 +49,27 @@ for additional information.
 
 ### Attributes
 
-    * `scripts::post-install`
+   * `scripts::post-install`
 
-    An array of paths to scripts to run once on the very first up on the guest
-    machine.
+   An array of paths to scripts to run once on the very first up on the guest
+   machine. The path by default is relative to vagrant's home directory, however,
+   any path may be used.
 
-    **example:**
-    ```
-    - docroot/sites/all/dstack/install.sh
-    ```
+   **example:**
+   ```
+   - docroot/sites/all/dstack/install.sh
+   ```
 
-    * `scripts::post-up`
+   * `scripts::post-up`
 
-    An array of paths to scripts to run every time provisioning takes place on
-    the guest machine.
+   An array of paths to scripts to run every time provisioning takes place on
+   the guest machine. The path by default is relative to vagrant's home directory, however,
+   any path may be used.
 
-    **example:**
-    ```
-    - docroot/sites/all/dstack/up.sh
-    ```
+   **example:**
+   ```
+   - docroot/sites/all/dstack/up.sh
+   ```
 
 solr recipe
 -----------
