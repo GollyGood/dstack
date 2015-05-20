@@ -104,30 +104,30 @@ for the page you wish to profile.
 
 ### Attributes
 
-    * `webgrind::docroot`
+   * `webgrind::docroot`
 
-    The location on the guest to install Webgrind at.
+   The location on the guest to install Webgrind at.
 
-    **default:** `/var/www/webgrind`
+   **default:** `/var/www/webgrind`
 
-    * `webgrind::domain`
+   * `webgrind::domain`
 
-    The domain to use for navigating to the Webgrind interface.
+   The domain to use for navigating to the Webgrind interface.
 
-    **default:** `http://webgrind.<full-domain>`
+   **default:** `http://webgrind.<full-domain>`
 
-    * `webgrind::storageDir`
-    * `webgrind::profilerDir`
-    * `webgrind::preprocessedSuffix`
-    * `webgrind::defaultTimezone`
-    * `webgrind::dateFormat`
-    * `webgrind::defaultCostformat`
-    * `webgrind::defaultFunctionPercentage`
-    * `webgrind::defaultHideInternalFunctions`
-    * `webgrind::pythonExecutable`
-    * `webgrind::dotExecutable`
-    * `webgrind::fileUrlFormat`
-    * `webgrind::traceFileListFormat`
+   * `webgrind::storageDir`
+   * `webgrind::profilerDir`
+   * `webgrind::preprocessedSuffix`
+   * `webgrind::defaultTimezone`
+   * `webgrind::dateFormat`
+   * `webgrind::defaultCostformat`
+   * `webgrind::defaultFunctionPercentage`
+   * `webgrind::defaultHideInternalFunctions`
+   * `webgrind::pythonExecutable`
+   * `webgrind::dotExecutable`
+   * `webgrind::fileUrlFormat`
+   * `webgrind::traceFileListFormat`
 
 xhprof recipe
 -------------
@@ -143,14 +143,14 @@ By default when added to the run list XhProf may be found at
 
 ### Attributes
 
-    * `xhprof::domain`
+   * `xhprof::domain`
 
-    The domain to use for navigating to the XHProf interface.
+   The domain to use for navigating to the XHProf interface.
 
-    **default:** `http://xhprof.<full-domain>`
+   **default:** `http://xhprof.<full-domain>`
 
-    * `xhprof::docroot`
-    * `xhprof::html`
+   * `xhprof::docroot`
+   * `xhprof::html`
 
 xdebug recipe
 -------------
@@ -160,16 +160,16 @@ the PHP debugger and profiling tool and its dependencies.
 
 ### Attributes
 
-    * `xdebug::directives`
+   * `xdebug::directives`
 
-    Used to set all Xdebug directives. Checkout its settings that maybe set
-    at its site [Xdebug: Documentation - All settings](http://xdebug.org/docs/all_settings).
-    By default all directives are using the Xdebug default with exception of the
-    ones listed below.
+   Used to set all Xdebug directives. Checkout its settings that maybe set
+   at its site [Xdebug: Documentation - All settings](http://xdebug.org/docs/all_settings).
+   By default all directives are using the Xdebug default with exception of the
+   ones listed below.
 
-    **default:**
-    ```
-    profiler_output_name: cachegrind.out.%t-%s
-    remote_enable: 1
-    profilter_enable_trigger: 1
-    ```
+   **default:**
+   ```
+   profiler_output_name: cachegrind.out.%t-%s
+   remote_enable: 1
+   profilter_enable_trigger: 1
+   ```
