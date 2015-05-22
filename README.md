@@ -35,6 +35,18 @@ documentation, however, an index of all documentation may be found in the
 [documentation](documentation) directory along with any higher level documentation
 that corresponds to dStack.
 
+Bugs
+----
+
+Submit all bugs to the [issue queue](https://github.com/grndlvl/dstack/issues) on GitHub.
+
+Contributing
+------------
+
+Make changes in a fork and submit a [pull request](https://github.com/grndlvl/dstack/pulls).
+Before creating a pull request be sure there are no errors from the tests and
+fix all issues reported by Rubcop.
+
 License
 -------
 

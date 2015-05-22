@@ -1,4 +1,4 @@
-MakeFile
+Makefile
 ========
 
 The make file has a few helper targets that assit with dStack development and
