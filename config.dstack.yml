@@ -4,8 +4,8 @@ vagrant:
 #  synced_folders:
 #    HOST_DIRECTORY: GUEST_DIRECTORY
 #  networks:
-#    private_network:
-#      ip: 192.168.50.4
+#    - private_network:
+#       ip: 192.168.50.4
 vlamp:
   sites:
     # <full-domain> is the combination of the server hostname and tld.

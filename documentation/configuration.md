@@ -52,8 +52,8 @@ machine.
     **default:**
     ```
       networks:
-        private_network:
-          ip: 192.168.50.4
+        - private_network:
+            ip: 192.168.50.4
     ```
 
 ### Advanced settings

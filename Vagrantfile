@@ -24,8 +24,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.host_name = vagrant_config['hostname']
 
   # Create each network.
-  vagrant_config['networks'].each_pair do |network, options|
-    config.vm.network network.to_sym, options.inject({}){|option,(k,v)| option[k.to_sym] = v; option}
+  # default is 'private_network', type: 'dhcp'
+  vagrant_config['networks'].each do |network|
+    type, options = network.first
+    config.vm.network type.to_sym, options.inject({}){|option,(k,v)| option[k.to_sym] = v; option}
   end
 
   # If true, then any SSH connections made will enable agent forwarding.
