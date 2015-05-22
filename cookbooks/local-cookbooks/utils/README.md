@@ -117,17 +117,65 @@ for the page you wish to profile.
    **default:** `http://webgrind.<full-domain>`
 
    * `webgrind::storageDir`
+
+   The path to a writeable directory where webgrind may store processed
+   cachegrind files.
+
+  **default:** NOT SET
+
    * `webgrind::profilerDir`
+
+   If Xdebug is not installed, this variable defines a directory searched for
+   cachegrind files. If Xdebug is installed, webgrind will look for cachegrind
+   files defined by the xdebug.profiler_output_dir setting.
+
+   **default:** `/tmp`
+
    * `webgrind::preprocessedSuffix`
+
+   The suffix for processed files.
+
+   **default:** `.webgrind`
+
    * `webgrind::defaultTimezone`
+
+   **default:** `America/New_York`
+
    * `webgrind::dateFormat`
+
+   **default:** `Y-m-d H:i:s`
+
    * `webgrind::defaultCostformat`
+
+   **default:** `percent`
+
    * `webgrind::defaultFunctionPercentage`
+
+   **default:** `90`
+
    * `webgrind::defaultHideInternalFunctions`
+
+   **default:** `false`
+
    * `webgrind::pythonExecutable`
+
+   The path to the python executeable.
+
+   **default:** `/usr/bin/python`
+
    * `webgrind::dotExecutable`
+
+   The path to the graphviz dot executable.
+
+   **default:** `/usr/bin/dot`
+
    * `webgrind::fileUrlFormat`
+
+   **default:** `index.php?op=fileviewer&file=%1$s#line%2$d`
+
    * `webgrind::traceFileListFormat`
+
+   **default:** `%i (%f) [%s]`
 
 xhprof recipe
 -------------
@@ -139,7 +187,7 @@ dependencies.
 By default when added to the run list XhProf may be found at
 `http://xhprof.<full-domain>`.
 
-@todo: Add notes about settings for Drupal.
+The XHProf directory is in `/usr/share/php`.
 
 ### Attributes
 
@@ -150,7 +198,16 @@ By default when added to the run list XhProf may be found at
    **default:** `http://xhprof.<full-domain>`
 
    * `xhprof::docroot`
+
+   The location on the guest to link the HTML at.
+
+   **default:** `/var/www/xhprof`
+
    * `xhprof::html`
+
+   The location of the XHProf HTML files.
+
+   **default:** `/usr/share/php/xhprof_html`
 
 xdebug recipe
 -------------
