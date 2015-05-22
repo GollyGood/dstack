@@ -62,7 +62,8 @@ Installation
    After the base box is downloaded it will begin to setup the virtual machine.
    You will need to type in your root password to allow for NFS to setup your
    shared directories. If the up fails be sure to check that you have your
-   firewall disabled. See [requirements](#requirements)
+   firewall configured to allow NFS or disabled. See [requirements](#requirements)
+   for additional information.
 
 Editing files
 ---------------------------
