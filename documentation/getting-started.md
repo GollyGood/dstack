@@ -3,7 +3,7 @@ Getting started
 
 This document covers requirements and installation for typical users of dStack
 go to [configuration](configuration.md) for instructions on configuring dStack
-for use, if it has not be setup already.
+for use, if it has not been setup already.
 
 Requirements
 ------------
