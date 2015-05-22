@@ -11,6 +11,7 @@ class DStack
   def initialize(config_file = '')
     @configuration = DStackConfig
     @configs = {}
+    @version = 'development'
 
     load_config_wrappers
     load_configs_from_file(config_file)
