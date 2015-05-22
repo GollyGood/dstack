@@ -35,18 +35,6 @@ documentation, however, an index of all documentation may be found in the
 [documentation](documentation) directory along with any higher level documentation
 that corresponds to dStack.
 
-Requirements
-------------
-
-* Ruby >= 2.1.1
-* Vagrant >= 1.6.3
-* nfs
-  * Ubuntu
-    * Will need to be [installed](https://help.ubuntu.com/lts/serverguide/network-file-system.html) if using nfs.
-    * Will also need to turn of your firewall if enabled. We are current looking to see what we can do about this on this [issue](https://github.com/grndlvl/dstack/issues/10).
-    * Cannot be ran in an encrypted home directory or sharing directories in an encrypted home directory. Entire disk encryption is fine.
-  * MacOSX - Already contains a working version of nfs.
-
 License
 -------
 

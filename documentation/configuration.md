@@ -1,6 +1,10 @@
 Configuration
 =============
 
+To begin configuration, copy example.config.yml to config.yml. Alter the sections
+relevant to your project. Check out the [common settings](#common-settings) and
+[vlamp](#vlamp) for a run down of the minimum configuration.
+
 The configuration file is a single YAML file that dictates Vagrant box settings
 as well as chef recipe attributes. Any settings within this configuration file
 will take precedence over default and normal recipe attributes.
@@ -33,9 +37,11 @@ machine.
 
     All network adapters for the guest machine. By default a private network is
     created for use of NFS. Due to issues with dhcp on Vagrant+VirtualBox with
-    Ubuntu 12.04 a static ip address is required. We recommend keeping track of
-    assigned ip addresses via a spreadsheet as to prevent collisions between
-    multiple projects. We hope to resolve this in future versions [Get DHCP Working again #47](https://github.com/grndlvl/dstack/issues/47).
+    Ubuntu 12.04 a static ip address is required and must be unique between boxes
+    if it is planned to have multiple machines running at the same time.
+    We recommend keeping track of assigned ip addresses via a spreadsheet as to
+    prevent collisions between multiple projects. We hope to resolve this in
+    future versions [Get DHCP Working again #47](https://github.com/grndlvl/dstack/issues/47).
 
     To declare network adapters, an array of settings will need to be supplied
     where the key is the type of adapter and its values are an associative array

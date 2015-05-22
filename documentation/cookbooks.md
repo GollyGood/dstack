@@ -76,3 +76,10 @@ are managed via [Berkshelf](http://berkshelf.com/) and stored in
 `cookbooks/berks-cookbooks`. They are included as part of dStack for ease of
 use and maintain their copyrights as provided by their original authors.
 [See NOTICE](../NOTICE)
+
+Custom Cookbooks
+----------------
+
+If you need to install custom cookbooks add your cookbooks to `cookbooks/custom-cookbooks`.
+Check out [custom cookbooks](../cookbooks/custom-cookbooks) for information on
+adding your custom recipes to the run list.
