@@ -1,6 +1,6 @@
 [![dStack logo](http://www.grndlvl.com/dstack/images/dstack-logo.jpg)](http://grndlvl.com/dStack)
 
-[![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.svg)](https://waffle.io/grndlvl/dstack)
+[![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.png?label=Ready)](https://waffle.io/grndlvl/dstack)
 
 Version: development (CaneSyrup)
 
