@@ -9,6 +9,11 @@ apply-patches:
 
 development: install-gems
 
+install:
+	ln -s ~/.vagrant.d/insecure_private_key ~/.ssh/vagrant_insecure_private_key
+	chmod 600 ~/.ssh/vagrant_insecure_private_key
+	echo "\nHost *.local\n  IdentityFile ~/.ssh/vagrant_insecure_private_key\n  User vagrant" >> ~/.ssh/config
+
 install-gems:
 	bundle install
 
