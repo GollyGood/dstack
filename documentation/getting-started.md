@@ -57,7 +57,7 @@ Installation
 
 5. Run it!
 
-   Run the $`vagrant up` command from the dStack root directory. Wait...
+   Run the $`vagrant up` command from the dStack root directory. Then wait...
    The first time this command runs it will need to download the base box.
    After the base box is downloaded it will begin to setup the virtual machine.
    You will need to type in your root password to allow for NFS to setup your
