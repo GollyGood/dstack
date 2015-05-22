@@ -2,7 +2,10 @@
 
 [![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.svg)](https://waffle.io/grndlvl/dstack)
 
-dStack short for "development stack" is a Vagrant+Chef powered LAMP stack that allows setup of web nodes via a configuration YAML file. The primary target users are enterprise development teams that need similar-to-production development.
+dStack(short for "development stack") is a Vagrant+Chef powered LAMP stack that
+allows setup of web nodes via a configuration YAML file. The primary target
+users are enterprise development teams that need similar-to-production
+development.
 
 What's in the stack?
 -----------
@@ -32,20 +35,25 @@ XHprof        | tbd                         | Coming soon
 The documentation is included as part of the codebase for easier reference
 and continuity of versions of dStack. Each cookbook contains its own
 documentation, however, an index of all documentation may be found in the
-[documentation](documentation) directory along with any higher level documentation
-that corresponds to dStack.
+[documentation](documentation) directory along with any higher level
+documentation that corresponds to dStack.
 
 Bugs
 ----
 
-Submit all bugs to the [issue queue](https://github.com/grndlvl/dstack/issues) on GitHub.
+Submit all bugs to the [issue queue](https://github.com/grndlvl/dstack/issues)
+on GitHub.
 
 Contributing
 ------------
 
 Make changes in a fork and submit a [pull request](https://github.com/grndlvl/dstack/pulls).
-Before creating a pull request be sure there are no errors from the tests and
-fix all issues reported by Rubcop.
+
+For development you will need to install [Bundler](http://bundler.io/) and run
+`make development`. This will install the tools necessary for development.
+
+Before submitting a pull request run `make test` to make sure your code passes
+tests and adhears to the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide).
 
 License
 -------
