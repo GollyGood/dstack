@@ -1,11 +1,13 @@
 Configuration
 =============
 
-To begin configuration, copy example.config.yml to config.yml. Alter the sections
-relevant to your project. Check out the [common settings](#common-settings) and
-[vlamp](#vlamp) for a run down of the minimum configuration.
+To begin configuration, copy `example.config.yml` to `config.yml`. Alter the sections
+relevant to your project.
 
-The configuration file is a single YAML file that dictates Vagrant box settings
+For a run down of the minimum configuration check out the [vagrant](#vagrant) and
+[vlamp](#vlamp) sections.
+
+The configuration file is a single YAML file that dictates the Vagrant box settings
 as well as chef recipe attributes. Any settings within this configuration file
 will take precedence over default and normal recipe attributes.
 
