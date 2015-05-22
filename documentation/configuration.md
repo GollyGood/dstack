@@ -225,7 +225,6 @@ xdebug:
    domain: xdebug.<full-domain>
 ```
 
-
 chef
 -------
 
