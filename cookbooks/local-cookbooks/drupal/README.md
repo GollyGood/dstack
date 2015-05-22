@@ -12,6 +12,8 @@ default recipe
 The default recipe installs Drush, Console_Table, and the uploadprogress php
 module.
 
+### Drush
+
 Since drupal cookbook installs drush, if you have drush installed on the host machine
 you may use drush with your development site. See below for an example alias.
 
