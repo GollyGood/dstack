@@ -31,7 +31,7 @@ By default when added to the run list phpMyAdmin may be found at
 `http://phpmyadmin.<full-domain>`. This may be modified by the
 `utils::phpmyadmin::domain` attribute.
 
-The user name and passwor are the same as MySQL's root user's.
+The user name and password are the same as MySQL's root user's.
 
 user name: root
 password: password
