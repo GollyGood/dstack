@@ -12,6 +12,23 @@ default recipe
 The default recipe installs Drush, Console_Table, and the uploadprogress php
 module.
 
+Since drupal cookbook installs drush, if you have drush installed on the host machine
+you may use drush with your development site. See below for an example alias.
+
+**example:**
+```
+$aliases['example'] = array(
+  'uri' => 'example.local',
+  'root' => '/home/vagrant/docroot',
+  'remote-host' => 'example.local',
+  'path-aliases' => array(
+    '%drush-script' => '/usr/local/bin/drush',
+    '%dump-dir' => '/tmp',
+  ),
+  'remote-user' => 'vagrant',
+);
+```
+
 ### Attributes
 
 * `drush::version`
