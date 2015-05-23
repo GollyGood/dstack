@@ -2,7 +2,7 @@
 
 [![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.png?label=Ready)](https://waffle.io/grndlvl/dstack)
 
-Version: development (CaneSyrup)
+Version: {{dStackVersion}} (CaneSyrup)
 
 dStack(short for "development stack") is a Vagrant+Chef powered LAMP stack that
 allows setup of web nodes via a configuration YAML file. The primary target

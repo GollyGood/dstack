@@ -14,6 +14,13 @@ apply-patches
 
 Applies custom patches to 3rd party cookbooks.
 
+apply-version
+-------------
+
+Must add `VERSION=X.X.X` as a parameter to the Makefile call.
+
+**example:** $`make apply-version VERSION=0.0.0`
+
 development
 -------------
 
