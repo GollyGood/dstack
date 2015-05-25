@@ -28,12 +28,12 @@ class DStackConfigVagrant < DStackConfig
     @defaults = {
       'hostname' => 'default',
       'tld' => 'local',
-      'box' => 'hashicorp/precise64',
-      'networks' => { 'private_network' => { :type => 'dhcp' } },
-      'ipaddress' => '',
+      'box' => 'dstack-ubuntu-12.04',
+      'box_url' => 'http://devhumans.com/dstack/dstack-ubuntu-12.04.json',
+      'networks' => { 'private_network' => { :ip => '172.28.128.4' } },
       'memory' => 2048,
       'synced_folders' => {},
-      'synced_folders_type' => 'nfs',
+      'synced_folders_type' => 'rsync',
       'assets_folder' => { 'host_directory' => 'assets', 'guest_directory' => '/home/vagrant/assets' },
       'tld' => 'local',
       'forward_agent' => true

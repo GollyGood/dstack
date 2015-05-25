@@ -24,7 +24,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.host_name = vagrant_config['hostname']
 
   # Create each network.
-  # default is 'private_network', type: 'dhcp'
   vagrant_config['networks'].each_pair do |network, options|
     config.vm.network network.to_sym, options.inject({}){|option,(k,v)| option[k.to_sym] = v; option}
   end
@@ -52,17 +51,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell do |shell|
     shell.inline = <<-EOH
       apt-get update
-      apt-get install -y build-essential ruby1.9.3
-
-      # @todo Remove these requirements by using Chef omnibus.
-      gem install ohai -v 7.4.0 --no-rdoc --no-ri
-      gem install chef --version 11.16.4 --no-rdoc --no-ri
+      apt-get install -y build-essential
     EOH
   end
 
-  # Enable provisioning with chef solo, specifying a cookbooks path, roles
-  # path, and data_bags path (all relative to this Vagrantfile), and adding
-  # some recipes and/or roles.
+  ## Enable provisioning with chef solo, specifying a cookbooks path, roles
+  ## path, and data_bags path (all relative to this Vagrantfile), and adding
+  ## some recipes and/or roles.
   config.vm.provision "chef_solo" do |chef|
     chef_config = dstack.get_config('chef')
     chef.cookbooks_path = chef_config['cookbooks_path']
@@ -72,5 +67,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Note: We don't have to do chef.add_recipe() because we are adding them
     #       via the :recipes value in the config.
     chef.json = dstack.chef_array()
-   end
+  end
 end
