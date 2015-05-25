@@ -60,6 +60,7 @@ node['default-web']['sites'].each_pair do |key, value|
     docroot value['guest_docroot']
     server_aliases aliases
     server_name server_name
+    port node['default-web']['port']
   end
 
   if value.key?('ssl_certificate') && value.key?('ssl_certificate_key')

@@ -1,4 +1,4 @@
-dStack  [![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.svg)](https://waffle.io/grndlvl/dstack)
+dStack  [![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.png?label=Ready)](https://waffle.io/grndlvl/dstack)
 =========
 
 dStack short for "development stack" is a Vagrant+Chef powered LAMP stack that allows setup of web nodes via a configuration YAML file. The primary target users are enterprise development teams that need similar-to-production development.
@@ -8,7 +8,7 @@ What's in the stack?
 Component     | Version(s)                  | Notes
 ------------- | --------------------------- | -------------
 Apache2       | 2.2                         |
-ApacheSolr    | 3.x(default) & 4.x          |
+ApacheSolr    | 3.x(default) or 4.x         |
 APC           | 3.1.7                       |
 Box OS        | Ubuntu 12.04                |
 Chef Solo     | 10.14.2                     |
@@ -19,10 +19,10 @@ memcache      | tbd                         | Coming soon
 PHP           | 5.3.10                      |
 ruby          | 1.8.7                       | Coming soon
 tika          | tbd                         | Coming soon
-varnish       | tbd                         | Coming soon
-vim           | 7.3.429                     | Coming soon
+varnish       | 3.x(default) or 4.x         |
+vim           | 7.3
 Webgrind      | tbd                         |
-Xdebug        | tbd                         | Coming soon
+Xdebug        | 2.2.7                       |
 XHprof        | tbd                         | Coming soon
 
 Documentation

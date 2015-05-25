@@ -28,6 +28,7 @@ class DStackConfigChef < DStackConfig
       'cookbooks_path' => %w(
         cookbooks/berks-cookbooks
         cookbooks/local-cookbooks
+        cookbooks/custom-cookbooks
       ),
       'recipes' => %w(
         avahi
