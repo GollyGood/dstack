@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: utils
-# Recipe:: solr
+# Attributes:: varnish
 #
 # Copyright 2014 dStack Development Team
 #
@@ -17,8 +17,10 @@
 # limitations under the License.
 #
 
-include_recipe 'hipsnip-solr'
+include_attribute 'varnish'
 
-if !node['solr']['version'].start_with?('4\.') && !node['solr']['version'].start_with?('3\.')
-  fail 'Only ApacheSolr versions 3.x and 4.x are currently supported.'
-end
+force_default['varnish']['backend_host'] = '127.0.0.1'
+force_default['varnish']['backend_port'] = 80
+force_default['varnish']['secret-non_secure'] = '49d7f218-231f-4e32-9582-f1aa8168b95e'
+force_default['varnish']['vcl_source'] = 'varnish-3.erb'
+force_default['varnish']['version'] = '3.0'
