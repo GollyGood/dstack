@@ -1,7 +1,13 @@
-dStack  [![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.png?label=Ready)](https://waffle.io/grndlvl/dstack)
-=========
+[![dStack logo](http://www.grndlvl.com/dstack/images/dstack-logo.jpg)](http://grndlvl.com/dStack)
 
-dStack short for "development stack" is a Vagrant+Chef powered LAMP stack that allows setup of web nodes via a configuration YAML file. The primary target users are enterprise development teams that need similar-to-production development.
+[![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.png?label=Ready)](https://waffle.io/grndlvl/dstack)
+
+Version: development (CaneSyrup)
+
+dStack(short for "development stack") is a Vagrant+Chef powered LAMP stack that
+allows setup of web nodes via a configuration YAML file. The primary target
+users are enterprise development teams that need similar-to-production
+development.
 
 What's in the stack?
 -----------
@@ -25,19 +31,47 @@ Webgrind      | tbd                         |
 Xdebug        | 2.2.7                       |
 XHprof        | tbd                         | Coming soon
 
-Documentation
------------
+[Documentation](documentation)
+------------------------------
 
-The main documentation may be found on the [wiki](https://github.com/grndlvl/dstack/wiki).
+The documentation is included as part of the codebase for easier reference
+and continuity of versions of dStack. Each cookbook contains its own
+documentation, however, an index of all documentation may be found in the
+[documentation](documentation) directory along with any higher level
+documentation that corresponds to dStack.
 
-Requirements
------------
+Bugs
+----
 
-* Ruby >= 2.1.1
-* Vagrant >= 1.6.3
-* nfs
-  * Ubuntu
-    * Will need to be [installed](https://help.ubuntu.com/lts/serverguide/network-file-system.html) if using nfs.
-    * Will also need to turn of your firewall if enabled. We are current looking to see what we can do about this on this [issue](https://github.com/grndlvl/dstack/issues/10).
-    * Cannot be ran in an encrypted home directory or sharing directories in an encrypted home directory. Entire disk encryption is fine.
-  * MacOSX - Already contains a working version of nfs.
+Submit all bugs to the [issue queue](https://github.com/grndlvl/dstack/issues)
+on GitHub.
+
+Contributing
+------------
+
+Make changes in a fork and submit a [pull request](https://github.com/grndlvl/dstack/pulls).
+
+For development you will need to install [Bundler](http://bundler.io/) and run
+`make development`. This will install the tools necessary for development.
+
+Before submitting a pull request run `make test` to make sure your code passes
+tests and adhears to the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide).
+
+License
+-------
+
+Copyright:: 2015 dStack Development Team
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+
+*Vendor software maintain authorship and copyrights of their original authors
+under the Apache License see [NOTICE](NOTICE)*.
