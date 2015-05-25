@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: utils
-# Attributes:: xdebug
+# Recipe:: xdebug
 #
 # Copyright 2014 dStack Development Team
 #
@@ -17,8 +17,32 @@
 # limitations under the License.
 #
 
-default['utils']['xdebug']['directives'] = {
-  'profiler_output_name' => 'cachegrind.out.%t-%s',
-  'remote_enable' => 1,
-  'profiler_enable_trigger' => 1
-}
+include_recipe 'avahi'
+include_recipe 'git'
+include_recipe 'lamp'
+include_recipe 'utils::xdebug'
+
+php_pear 'xhprof' do
+  preferred_state 'beta'
+  action :install
+end
+
+package 'graphviz' do
+  action :install
+end
+
+avahi_alias node['utils']['xhprof']['domain'] do
+  action :add
+end
+
+link node['utils']['xhprof']['docroot'] do
+  to node['utils']['xhprof']['html']
+end
+
+web_app node['utils']['xhprof']['domain'] do
+  cookbook 'apache2'
+  allow_override 'All'
+  docroot node['utils']['xhprof']['docroot']
+  server_aliases []
+  server_name node['utils']['xhprof']['domain']
+end

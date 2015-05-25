@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: utils
-# Attributes:: xdebug
+# Attributes:: webgrind
 #
 # Copyright 2014 dStack Development Team
 #
@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-default['utils']['xdebug']['directives'] = {
-  'profiler_output_name' => 'cachegrind.out.%t-%s',
-  'remote_enable' => 1,
-  'profiler_enable_trigger' => 1
-}
+default['utils']['xhprof']['docroot'] = '/var/www/xhprof'
+default['utils']['xhprof']['domain'] = ''
+default['utils']['xhprof']['html'] = '/usr/share/php/xhprof_html'
