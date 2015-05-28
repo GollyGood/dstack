@@ -68,7 +68,7 @@ For development you will need to install [Bundler](http://bundler.io/) and run
 `make development`. This will install the tools necessary for development.
 
 Before submitting a pull request run `make test` to make sure your code passes
-tests and adhears to the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide).
+tests and adheres to the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide).
 
 License
 -------
