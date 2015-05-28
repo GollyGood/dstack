@@ -10,7 +10,7 @@ users are enterprise development teams that need similar-to-production
 development.
 
 What's in the stack?
------------
+--------------------
 Component     | Version(s)                  | Notes
 ------------- | --------------------------- | -------------
 Apache2       | 2.2                         |
@@ -21,18 +21,31 @@ Chef Solo     | 10.14.2                     |
 Drush         | 6.02                        |
 Git           | 1.7.9.5                     |
 MySQL         | 5.5.40                      |
-memcache      | tbd                         | Coming soon
 PHP           | 5.3.10                      |
-ruby          | 1.8.7                       | Coming soon
-tika          | tbd                         | Coming soon
+ruby          | 1.9.3                       |
 varnish       | 3.x(default) or 4.x         |
-vim           | 7.3
-Webgrind      | tbd                         |
+tika          |                             | @todo: Add tika.
+vim           | 7.3                         |
+Webgrind      | master                      | Commit: 077f79f13ddc8efa4cb10c2c041eb4b50037e0e3
 Xdebug        | 2.2.7                       |
-XHprof        | tbd                         | Coming soon
+XHprof        | beta                        | @todo: Lock to version
+
+Requirements
+------------
+
+* Ruby >= 2.1.1
+* Vagrant >= 1.6.3
+* nfs
+  * Ubuntu
+    * Will need to be [installed](https://help.ubuntu.com/lts/serverguide/network-file-system.html) if using nfs.
+    * Will also need to either configure your firewall for NFS or turn of your firewall if enabled. We are current looking to see what we can do about this on this [issue](https://github.com/grndlvl/dstack/issues/10).
+    * Cannot be ran in an encrypted home directory or sharing directories in an encrypted home directory. Entire disk encryption is fine.
+  * MacOSX - Already contains a working version of nfs.
+
+**Windows is not supported.**
 
 [Documentation](documentation)
--------------
+------------------------------
 
 The documentation is included as part of the codebase for easier reference
 and continuity of versions of dStack. Each cookbook contains its own
