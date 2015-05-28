@@ -241,12 +241,12 @@ To add recipes to the run list add them under the `recipes` header.
 ```
 recipes:
   - avahi
-   - default-web
-   - drupal
-   - utils::dev-tools
-   - utils::phpmyadmin
-   - utils::scripts
-   - utils::xdebug
+  - default-web
+  - drupal
+  - utils::dev-tools
+  - utils::phpmyadmin
+  - utils::scripts
+  - utils::xdebug
 ```
 
 To override recipe attributes use the following format:
