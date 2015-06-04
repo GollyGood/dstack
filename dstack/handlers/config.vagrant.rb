@@ -30,7 +30,7 @@ class DStackConfigVagrant < DStackConfig
       'tld' => 'local',
       'box' => 'dstack-ubuntu-12.04',
       'box_url' => 'http://devhumans.com/dstack/dstack-ubuntu-12.04.json',
-      'networks' => { 'private_network' => { :ip => '172.28.128.4' } },
+      'networks' => [{ 'private_network' => { :type => 'dhcp' } }],
       'memory' => 2048,
       'synced_folders' => {},
       'synced_folders_type' => 'rsync',
