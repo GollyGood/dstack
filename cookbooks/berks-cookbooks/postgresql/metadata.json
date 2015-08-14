@@ -22,18 +22,25 @@
     "openssl": ">= 0.0.0"
   },
   "recommendations": {
+
   },
   "suggestions": {
+
   },
   "conflicting": {
+
   },
   "providing": {
+
   },
   "replacing": {
+
   },
   "attributes": {
+
   },
   "groupings": {
+
   },
   "recipes": {
     "postgresql": "Includes postgresql::client",
@@ -43,5 +50,7 @@
     "postgresql::server_redhat": "Installs postgresql server packages, redhat family style",
     "postgresql::server_debian": "Installs postgresql server packages, debian family style"
   },
-  "version": "3.4.14"
+  "version": "3.4.16",
+  "source_url": "",
+  "issues_url": ""
 }

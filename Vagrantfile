@@ -54,6 +54,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     shell.inline = <<-EOH
       apt-get update
       apt-get install -y build-essential
+      apt-get install -y python-software-properties
+      #add-apt-repository -y ppa:ondrej/php5
+      add-apt-repository -y ppa:ondrej/php5-5.6
+      apt-get update
     EOH
   end
 

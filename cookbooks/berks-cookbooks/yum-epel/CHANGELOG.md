@@ -1,6 +1,20 @@
 yum-epel Cookbook CHANGELOG
 ======================
-This file is used to list changes made in each version of the yum-epel cookbook.
+
+v0.6.2 (2015-06-21)
+-------------------
+- Depending on yum ~> 3.2
+- Support for the password attribute wasn't added to the
+  yum_repository LWRP until yum 3.2.0.  
+
+v0.6.1 (2015-06-21)
+-------------------
+- Switching to https for URL links
+- Using metalink URLs
+
+v0.6.0 (2015-01-03)
+-------------------
+- Adding EL7 support
 
 v0.5.3 (2014-10-28)
 -------------------

@@ -23,8 +23,8 @@ node.set['rsyslog']['server'] = true
 include_recipe 'rsyslog::default'
 
 directory node['rsyslog']['log_dir'] do
-  owner    'root'
-  group    'root'
+  owner    node['rsyslog']['user']
+  group    node['rsyslog']['group']
   mode     '0755'
   recursive true
 end
@@ -39,6 +39,6 @@ end
 
 file "#{node['rsyslog']['config_prefix']}/rsyslog.d/remote.conf" do
   action   :delete
-  notifies :reload, "service[#{node['rsyslog']['service_name']}]"
+  notifies :restart, "service[#{node['rsyslog']['service_name']}]"
   only_if  { ::File.exist?("#{node['rsyslog']['config_prefix']}/rsyslog.d/remote.conf") }
 end

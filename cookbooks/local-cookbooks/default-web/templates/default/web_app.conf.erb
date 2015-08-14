@@ -8,6 +8,7 @@
     AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
     Order allow,deny
     Allow from all
+    Require all granted
   </Directory>
 
   LogLevel info

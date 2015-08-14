@@ -49,6 +49,6 @@ template "#{node['php']['ext_conf_dir']}/apc.ini" do
   mode '0644'
 end
 
-package 'php5-suhosin' do
-  action :install
-end
+#package 'php5-suhosin' do
+#  action :install
+#end
