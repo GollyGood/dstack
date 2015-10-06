@@ -38,7 +38,7 @@ $aliases['example'] = array(
     Is the verion of drush to install from PHP's PEAR. Note the additional 0 at the
     end. To see available versions see [Drush's pear channel](http://pear.drush.org/).
 
-**default:** `6.2.0.0`
+    **default:** `6.2.0.0`
 
 
 solr recipe
@@ -64,7 +64,6 @@ configuration XML documents.*
     The path to the Drupal Apache Solr module within the site's docroot.
 
     **example:** `sites/all/modules/contrib/apachesolr`
-
 
 * `solr::module_conf_dir`
 
@@ -99,3 +98,71 @@ configuration XML documents.*
     **4.x default:** `collection1/conf`
 
     **3.x default:** `conf`
+
+
+varnish recipe
+--------------
+
+The varnish recipe installs and configures [Varnish](https://www.varnish-cache.org/)
+for use with Drupal.
+
+To vist a page served by Varnish go to `http://<full-domain>:6081`.
+
+Currently only version 3.x is supported.
+
+To configure Drupal add the following to your `settings.php` file:
+
+```
+/**
+ * Varnish settings.
+ */
+$conf['reverse_proxy'] = TRUE;
+// Include in this array all webheads, load balancers, and 127.0.0.1.
+$conf['reverse_proxy_addresses'] = array('127.0.0.1');
+
+// Varnish control terminal.
+// Usually the internal IP of all webheads on port 6082 space separated.
+$conf['varnish_control_terminal'] = '127.0.0.1:6082';
+$conf['varnish_control_key'] = '49d7f218-231f-4e32-9582-f1aa8168b95e';
+$conf['varnish_version'] = '3';
+
+// Drupal 7 does not cache pages when we invoke hooks during bootstrap. This
+// needs to be disabled.
+$conf['cache_backends'][] = 'sites/all/modules/contrib/varnish/varnish.cache.inc';
+$conf['cache_class_cache_page'] = 'VarnishCache';
+$conf['page_cache_invoke_hooks'] = FALSE;
+```
+
+###Attributes
+
+* `varnish::backend_host`
+
+  The host of the webserver.
+
+  **default:** `127.0.0.1`
+
+* `varnish::backend_port`
+
+  The port of the webserver backend.
+
+  **default:** `80`
+
+* `varnish::secure-non_secure`
+
+  The secure key to use with varnish.
+
+  **default:** `49d7f218-231f-4e32-9582-f1aa8168b95e`
+
+* `varnish::vcl_source`
+
+  The template to use for creating the VCL file.
+
+  **default:** `varnish-3.erb`
+
+* `varnish::version`
+
+  The version of varnish to use.
+
+  **default:** `3.0`
+
+For additional attributes see the [varnish cookbook](../berks-cookbooks/varnish)

@@ -7,6 +7,9 @@ apply-patches:
 	# since PEAR < 1.10.0 doesn't use the configured ext_dir. @see http://pear.php.net/bugs/bug.php?id=18666
 	patch -d cookbooks/berks-cookbooks/php -p1 < cookbooks/patches/opscode_php-PECL_version_detection.patch
 
+apply-version:
+	find ./ -type f -not -path './.git/*' -not -path './cookbooks/berks-cookbooks/*' -not -path './Makefile' -exec sed -i 's/{{dStackVersion}}/$(VERSION)/' {} ';'
+
 development: install-gems
 
 install:
