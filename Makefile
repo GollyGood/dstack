@@ -8,7 +8,7 @@ apply-patches:
 	patch -d cookbooks/berks-cookbooks/php -p1 < cookbooks/patches/opscode_php-PECL_version_detection.patch
 
 apply-version:
-	find ./ -type f -not -path './.git/*' -not -path './cookbooks/berks-cookbooks/*' -not -path './Makefile' -exec sed -i 's/{{dStackVersion}}/$(VERSION)/' {} ';'
+	find ./ -type f -not -path './.git/*' -not -path './cookbooks/berks-cookbooks/*' -not -path './Makefile' -exec sed -i 's/01110110.01110100/$(VERSION)/' {} ';'
 
 development: install-gems
 
