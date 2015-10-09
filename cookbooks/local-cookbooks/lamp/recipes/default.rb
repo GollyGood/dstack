@@ -61,7 +61,7 @@ template "#{node['php']['ext_conf_dir']}/apc.ini" do
   mode '0644'
 end
 
-if node['lamp']['php']['version'] == '5.2'
+if node['lamp']['php']['version'] == '5.3'
   package 'php5-suhosin' do
     action :install
   end
