@@ -38,7 +38,3 @@ end
 php_pear 'uploadprogress' do
   action :install
 end
-
-#sudo echo -e "extension=uploadprogress.so" > /etc/php5/mods-available/uploadprogress.ini
-#cd /etc/php5/apache2/conf.d/
-#ln -s ../../mods-available/uploadprogress.ini 20-uploadprogress.ini
