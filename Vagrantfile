@@ -38,8 +38,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  vagrant_config['synced_folders'].each_pair do |host, guest|
-    config.vm.synced_folder host, guest, type: vagrant_config['synced_folders_type']
+  vagrant_config['synced_folders'].each do |synced_folder|
+    config.vm.synced_folder synced_folder['host_directory'], synced_folder['guest_directory'], synced_folder['options'].inject({}){|option,(k,v)| option[k.to_sym] = v; option}
   end
 
   config.vm.provider "virtualbox" do |vb|

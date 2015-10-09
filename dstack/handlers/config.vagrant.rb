@@ -32,8 +32,8 @@ class DStackConfigVagrant < DStackConfig
       'box_url' => 'http://devhumans.com/dstack/dstack-ubuntu-12.04.json',
       'networks' => [{ 'private_network' => { :type => 'dhcp' } }],
       'memory' => 2048,
-      'synced_folders' => {},
-      'synced_folders_type' => 'rsync',
+      'synced_folders' => [],
+      'synced_folders_type_default' => 'rsync',
       'assets_folder' => { 'host_directory' => 'assets', 'guest_directory' => '/home/vagrant/assets' },
       'tld' => 'local',
       'forward_agent' => true
@@ -44,9 +44,28 @@ class DStackConfigVagrant < DStackConfig
     values_alter_self_add_assets_synced_folder
   end
 
+  def values_finalize_all(dstack)
+    values_alter_self_set_defaults(dstack)
+  end
+
   def values_alter_self_add_assets_synced_folder
-    if values['assets_folder'].key?('host_directory') && values['assets_folder'].key?('guest_directory')
-      values['synced_folders'][values['assets_folder']['host_directory']] = values['assets_folder']['guest_directory']
+    if values.key?('assets_folder')
+      values['synced_folders'] << values['assets_folder']
+    end
+  end
+
+  def values_alter_self_set_defaults(dstack)
+    vagrant = dstack.get_config('vagrant')
+
+    vagrant['synced_folders'].each_with_index do |synced_folder, index|
+      if !synced_folder.has_key?('options')
+        vagrant['synced_folders'][index]['options'] = {}
+      end
+
+      if !synced_folder['options'].has_key?('type')
+        vagrant['synced_folders'][index]['options']['type'] = values['synced_folders_type_default']
+      end
+
     end
   end
 end
