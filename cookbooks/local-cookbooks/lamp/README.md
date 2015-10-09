@@ -40,7 +40,7 @@ these settings and check out their respective documentation.
     The version of PHP may be set and based on that dStack will use Apache 2.2
     or 2.4. Available versions are *5.3, 5.5, 5.6*.
 
-    **default:** `5.2`
+    **default:** `5.3`
 
     * `lamp::php::apache_conf_dir`
 
