@@ -1,4 +1,4 @@
-[![dStack logo](http://www.grndlvl.com/dstack/images/dstack-logo.jpg)](http://grndlvl.com/dStack)
+[![dStack logo](http://dstack.gollygood.software/dstack/images/dstack-logo.jpg)](http://dstack.gollygood.software/dStack)
 
 [![Stories in Ready](https://badge.waffle.io/gollygood/dstack.png?label=Ready)](https://waffle.io/gollygood/dstack)
 
