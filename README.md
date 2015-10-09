@@ -1,6 +1,6 @@
 [![dStack logo](http://www.grndlvl.com/dstack/images/dstack-logo.jpg)](http://grndlvl.com/dStack)
 
-[![Stories in Ready](https://badge.waffle.io/grndlvl/dstack.png?label=Ready)](https://waffle.io/grndlvl/dstack)
+[![Stories in Ready](https://badge.waffle.io/gollygood/dstack.png?label=Ready)](https://waffle.io/gollygood/dstack)
 
 Version: {{dStackVersion}} (CaneSyrup)
 
@@ -38,7 +38,7 @@ Requirements
 * nfs
   * Ubuntu
     * Will need to be [installed](https://help.ubuntu.com/lts/serverguide/network-file-system.html) if using nfs.
-    * Will also need to either configure your firewall for NFS or turn of your firewall if enabled. We are current looking to see what we can do about this on this [issue](https://github.com/grndlvl/dstack/issues/10).
+    * Will also need to either configure your firewall for NFS or turn of your firewall if enabled. We are current looking to see what we can do about this on this [issue](https://github.com/gollygood/dstack/issues/10).
     * Cannot be ran in an encrypted home directory or sharing directories in an encrypted home directory. Entire disk encryption is fine.
   * MacOSX - Already contains a working version of nfs.
 
@@ -56,13 +56,13 @@ documentation that corresponds to dStack.
 Bugs
 ----
 
-Submit all bugs to the [issue queue](https://github.com/grndlvl/dstack/issues)
+Submit all bugs to the [issue queue](https://github.com/gollygood/dstack/issues)
 on GitHub.
 
 Contributing
 ------------
 
-Make changes in a fork and submit a [pull request](https://github.com/grndlvl/dstack/pulls).
+Make changes in a fork and submit a [pull request](https://github.com/gollygood/dstack/pulls).
 
 For development you will need to install [Bundler](http://bundler.io/) and run
 `make development`. This will install the tools necessary for development.

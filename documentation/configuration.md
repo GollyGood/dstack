@@ -43,7 +43,7 @@ machine.
     if it is planned to have multiple machines running at the same time.
     We recommend keeping track of assigned ip addresses via a spreadsheet as to
     prevent collisions between multiple projects. We hope to resolve this in
-    future versions [Get DHCP Working again #47](https://github.com/grndlvl/dstack/issues/47).
+    future versions [Get DHCP Working again #47](https://github.com/gollygood/dstack/issues/47).
 
     To declare network adapters, an array of settings will need to be supplied
     where the key is the type of adapter and its values are an associative array
