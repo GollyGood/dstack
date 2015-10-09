@@ -5,12 +5,12 @@
 
   <Directory <%= @params[:docroot] %>>
     Options <%= [@params[:directory_options] || "Indexes FollowSymLinks" ].flatten.join " " %>
+    AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
     <% if node['apache']['version'] == '2.4' -%>
-      Require all granted
+    Require all granted
     <% else -%>
-      AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
-      Order allow,deny
-      Allow from all
+    Allow from all
+    Order allow,deny
     <% end -%>
   </Directory>
 
