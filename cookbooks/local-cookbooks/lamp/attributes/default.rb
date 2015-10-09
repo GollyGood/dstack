@@ -44,6 +44,27 @@ default['lamp']['apc']['mmap_file_mask'] = '/tmp/XXXXXX'
 default['lamp']['php']['apache_conf_dir'] = '/etc/php5/apache2'
 default['lamp']['php']['error_reporting'] = 'E_ALL'
 default['lamp']['php']['memory_limit'] = '128M'
+default['lamp']['php']['version'] = '5.3'
+override['php']['version'] = node['lamp']['php']['version']
+
+if node['lamp']['php']['version'] == '5.5'
+  default['lamp']['php']['repo']['name'] = 'ppa-ondrej-php5'
+  default['lamp']['php']['repo']['uri'] = 'http://ppa.launchpad.net/ondrej/php5/ubuntu'
+elsif node['lamp']['php']['version'] == '5.6'
+  default['lamp']['php']['repo']['name'] = 'ppa-ondrej-php5-5_6'
+  default['lamp']['php']['repo']['uri'] = 'http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu'
+end
+
+if node['lamp']['php']['version'] == '5.5' || node['lamp']['php']['version'] == '5.6'
+  default['lamp']['php']['repo']['key'] = 'E5267A6C'
+
+  force_default['php']['ext_conf_dir'] = '/etc/php5/mods-available'
+
+  force_default['apache']['version'] = '2.4'
+  force_default['apache']['pid_file']    = '/var/run/apache2/apache2.pid'
+  force_default['apache']['docroot_dir'] = '/var/www/html'
+  force_default['apache']['mpm'] = 'worker'
+end
 
 # MySQL settings.
 default['mysql']['server_root_password'] = 'password'

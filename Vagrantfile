@@ -54,6 +54,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     shell.inline = <<-EOH
       apt-get update
       apt-get install -y build-essential
+      # Add support for adding PPA's
+      apt-get install -y python-software-properties
     EOH
   end
 

@@ -16,14 +16,6 @@ not limited to:
 
 * [Route53](http://community.opscode.com/cookbooks/route53)
 
-**Note** This cookbook uses the `right_aws` RubyGem to interact with
-  the AWS API because at the time it was written, `fog` and `aws-sdk`
-  were not available. Further, both of those gems require `nokogiri`
-  which requires compiling native extensions, which means build tools
-  are required. We do not plan at this time to change the underlying
-  Ruby library used in order to limit the external dependencies for
-  this cookbook.
-
 Requirements
 ============
 
@@ -58,7 +50,8 @@ DataBag recommendation:
     {
       "id": "main",
       "aws_access_key_id": "YOUR_ACCESS_KEY",
-      "aws_secret_access_key": "YOUR_SECRET_ACCESS_KEY"
+      "aws_secret_access_key": "YOUR_SECRET_ACCESS_KEY",
+      "aws_session_token": "YOUR_SESSION_TOKEN"
     }
 
 This can be loaded in a recipe with:
@@ -69,6 +62,7 @@ And to access the values:
 
     aws['aws_access_key_id']
     aws['aws_secret_access_key']
+    aws['aws_session_token']
 
 We'll look at specific usage below.
 
@@ -113,7 +107,8 @@ For resource tags:
   "Statement": [
     {
       "Action": [
-        "ec2:CreateTags"
+        "ec2:CreateTags",
+        "ec2:DescribeTags"
       ],
       "Sid": "Stmt1381536708000",
       "Resource": [
@@ -131,7 +126,7 @@ Recipes
 default.rb
 ----------
 
-The default recipe installs the `right_aws` RubyGem, which this
+The default recipe installs the `aws-sdk` RubyGem, which this
 cookbook requires in order to work with the EC2 API. Make sure that
 the aws recipe is in the node or role `run_list` before any resources
 from this cookbook are used.
@@ -146,7 +141,7 @@ during the Compile Phase of the Chef run.
 ec2_hints.rb
 ------------
 
-This recipe is used to setup the ec2 hints for ohai in the case that an 
+This recipe is used to setup the ec2 hints for ohai in the case that an
 instance is not created using knife-ec2.
 
 Libraries
@@ -181,7 +176,7 @@ Actions:
 
 Attribute Parameters:
 
-* `aws_secret_access_key`, `aws_access_key` - passed to
+* `aws_secret_access_key`, `aws_access_key` and optionally `aws_session_token` - passed to
   `Opscode::AWS:Ec2` to authenticate required, unless using IAM roles for authentication.
 * `size` - size of the volume in gigabytes.
 * `snapshot_id` - snapshot to build EBS volume from.
@@ -200,6 +195,8 @@ Attribute Parameters:
 * `volume_type` - "standard", "io1", or "gp2" ("standard" is magnetic, "io1" is piops SSD, "gp2" is general purpose SSD)
 * `piops` - number of Provisioned IOPS to provision, must be >= 100
 * `existing_raid` - whether or not to assume the raid was previously assembled on existing volumes (default no)
+* `encrypted` - specify if the EBS should be encrypted
+* `kms_key_id` - the full ARN of the AWS Key Management Service (AWS KMS) master key to use when creating the encrypted volume (defaults to master key if not specified)
 
 ## ebs_raid.rb
 
@@ -207,7 +204,7 @@ Manage Elastic Block Store (EBS) raid devices with this resource.
 
 Attribute Parameters:
 
-* `aws_secret_access_key`, `aws_access_key` - passed to
+* `aws_secret_access_key`, `aws_access_key` and optionally `aws_session_token` - passed to
   `Opscode::AWS:Ec2` to authenticate, required.
 * `mount_point` - where to mount the RAID volume
 * `mount_point_owner` - the owner of the mount point (default root)
@@ -234,7 +231,7 @@ Actions:
 
 Attribute Parameters:
 
-* `aws_secret_access_key`, `aws_access_key` - passed to
+* `aws_secret_access_key`, `aws_access_key` and optionally `aws_session_token` - passed to
   `Opscode::AWS:Ec2` to authenticate, required, unless using IAM roles for authentication.
 * `ip` - the IP address.
 * `timeout` - connection timeout for EC2 API.
@@ -248,7 +245,7 @@ Actions:
 
 Attribute Parameters:
 
-* `aws_secret_access_key`, `aws_access_key` - passed to
+* `aws_secret_access_key`, `aws_access_key` and optionally `aws_session_token` - passed to
   `Opscode::AWS:Ec2` to authenticate, required, unless using IAM roles for authentication.
 * `name` - the name of the LB, required.
 
@@ -266,7 +263,7 @@ Actions:
 
 Attribute Parameters
 
-* `aws_secret_access_key`, `aws_access_key` - passed to
+* `aws_secret_access_key`, `aws_access_key` and optionally `aws_session_token` - passed to
   `Opscode::AWS:Ec2` to authenticate, required, unless using IAM roles for authentication.
 * `tags` - a hash of key value pairs to be used as resource tags,
   (e.g. `{ "Name" => "foo", "Environment" => node.chef_environment
@@ -284,7 +281,7 @@ Actions:
 
 Attribute Parameters:
 
-* `aws_secret_access_key`, `aws_access_key` - passed to
+* `aws_secret_access_key`, `aws_access_key` and optionally `aws_session_token` - passed to
   `Opscode::AWS:Ec2` to authenticate, required, unless using IAM roles for authentication.
 
 Usage
@@ -439,11 +436,11 @@ Allows detailed CloudWatch monitoring to be enabled for the current instance.
 License and Author
 ==================
 
-* Author:: Chris Walters (<cw@opscode.com>)
-* Author:: AJ Christensen (<aj@opscode.com>)
+* Author:: Chris Walters (<cw@chef.io>)
+* Author:: AJ Christensen (<aj@chef.io>)
 * Author:: Justin Huff (<jjhuff@mspin.net>)
 
-Copyright 2009-2013, Opscode, Inc.
+Copyright 2009-2015, Chef Software, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

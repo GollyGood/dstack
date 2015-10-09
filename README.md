@@ -13,15 +13,15 @@ What's in the stack?
 --------------------
 Component     | Version(s)                  | Notes
 ------------- | --------------------------- | -------------
-Apache2       | 2.2                         |
+Apache2       | 2.2, 2.4                    |
 ApacheSolr    | 3.x(default) or 4.x         |
-APC           | 3.1.7                       |
+APC           | 3.1.7, 4.0.6                |
 Box OS        | Ubuntu 12.04                |
 Chef Solo     | 10.14.2                     |
 Drush         | 6.02                        |
 Git           | 1.7.9.5                     |
-MySQL         | 5.5.40                      |
-PHP           | 5.3.10                      |
+MySQL         | 5.5                         |
+PHP           | 5.3, 5.5, 5.6               |
 ruby          | 1.9.3                       |
 varnish       | 3.x(default) or 4.x         |
 tika          |                             | @todo: Add tika.

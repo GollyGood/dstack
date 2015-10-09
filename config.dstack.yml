@@ -37,7 +37,7 @@ chef:
     - drupal::varnish
     - utils::dev-tools
 #    - utils::phpmyadmin
-    - utils::scripts
+#    - utils::scripts
     - utils::xdebug
     - utils::webgrind
 #    - utils::xhprof
@@ -47,4 +47,5 @@ chef:
 # Overriding recipe attributes.
 #  lamp:
 #    php:
+#      version: '5.6'
 #      memory_limit: '128M'

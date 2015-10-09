@@ -18,6 +18,18 @@
 #
 
 include_recipe 'apt'
+
+if node['lamp']['php'].key?('repo')
+  apt_repository node['lamp']['php']['repo']['name'] do
+    uri node['lamp']['php']['repo']['uri']
+    distribution node['lsb']['codename']
+    components ['main']
+    deb_src 'true'
+    key node['lamp']['php']['repo']['key']
+    keyserver 'keyserver.ubuntu.com'
+  end
+end
+
 include_recipe 'build-essential'
 include_recipe 'apache2'
 include_recipe 'cron'
@@ -49,6 +61,8 @@ template "#{node['php']['ext_conf_dir']}/apc.ini" do
   mode '0644'
 end
 
-package 'php5-suhosin' do
-  action :install
+if node['lamp']['php']['version'] == '5.3'
+  package 'php5-suhosin' do
+    action :install
+  end
 end
