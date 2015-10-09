@@ -58,11 +58,11 @@ class DStackConfigVagrant < DStackConfig
     vagrant = dstack.get_config('vagrant')
 
     vagrant['synced_folders'].each_with_index do |synced_folder, index|
-      if !synced_folder.has_key?('options')
+      unless synced_folder.key?('options')
         vagrant['synced_folders'][index]['options'] = {}
       end
 
-      if !synced_folder['options'].has_key?('type')
+      unless synced_folder['options'].key?('type')
         vagrant['synced_folders'][index]['options']['type'] = values['synced_folders_type_default']
       end
 
