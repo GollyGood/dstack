@@ -58,12 +58,12 @@ end
 if node['lamp']['php']['version'] == '5.5' || node['lamp']['php']['version'] == '5.6'
   default['lamp']['php']['repo']['key'] = 'E5267A6C'
 
-  override['php']['ext_conf_dir'] = '/etc/php5/mods-available'
+  force_default['php']['ext_conf_dir'] = '/etc/php5/mods-available'
 
-  override['apache']['version'] = '2.4'
-  override['apache']['pid_file']    = '/var/run/apache2/apache2.pid'
-  override['apache']['docroot_dir'] = '/var/www/html'
-  override['apache']['mpm'] = 'worker'
+  force_default['apache']['version'] = '2.4'
+  force_default['apache']['pid_file']    = '/var/run/apache2/apache2.pid'
+  force_default['apache']['docroot_dir'] = '/var/www/html'
+  force_default['apache']['mpm'] = 'worker'
 end
 
 # MySQL settings.
