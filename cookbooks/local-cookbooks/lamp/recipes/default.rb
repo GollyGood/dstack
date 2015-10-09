@@ -18,6 +18,18 @@
 #
 
 include_recipe 'apt'
+
+if node['lamp']['php'].key?('repo')
+  apt_repository node['lamp']['php']['repo']['name'] do
+    uri node['lamp']['php']['repo']['uri']
+    distribution node['lsb']['codename']
+    components ['main']
+    deb_src 'true'
+    key node['lamp']['php']['repo']['key']
+    keyserver 'keyserver.ubuntu.com'
+  end
+end
+
 include_recipe 'build-essential'
 include_recipe 'apache2'
 include_recipe 'cron'

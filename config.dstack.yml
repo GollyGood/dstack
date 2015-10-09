@@ -41,15 +41,11 @@ chef:
     - utils::xdebug
     - utils::webgrind
 #    - utils::xhprof
-  php:
-    ext_conf_dir: /etc/php5/mods-available
-  apache:
-    version: '2.4'
-    mpm: prefork
 #  drupal:
 #    solr:
 #      module_path: /home/vagrant/docroot/sites/all/modules/contrib/apachesolr
 # Overriding recipe attributes.
 #  lamp:
 #    php:
+#      version: '5.6'
 #      memory_limit: '128M'
