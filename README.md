@@ -70,6 +70,11 @@ For development you will need to install [Bundler](http://bundler.io/) and run
 Before submitting a pull request run `make test` to make sure your code passes
 tests and adheres to the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide).
 
+Sponsors
+--------
+
+Development is sponsored by [GollyGood Software](http://www.gollygoodsoftware.com/).
+
 License
 -------
 
