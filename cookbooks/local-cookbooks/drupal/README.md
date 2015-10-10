@@ -53,7 +53,7 @@ Supported Drupal modules:
 * [Apache Solr Search](https://www.drupal.org/project/apachesolr)
 * [Search API Solr Search](https://www.drupal.org/project/search_api_solr)
 
-*Note: While we specifically only suppor the two aforementioned modules this
+*Note: While we specifically only support the two aforementioned modules this
 recipe should work with any Drupal Apache Solr module that contains the
 configuration XML documents.*
 
