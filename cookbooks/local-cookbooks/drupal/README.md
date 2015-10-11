@@ -35,10 +35,10 @@ $aliases['example'] = array(
 
 * `drush::version`
 
-    Is the verion of drush to install from PHP's PEAR. Note the additional 0 at the
-    end. To see available versions see [Drush's pear channel](http://pear.drush.org/).
+    The verion of drush to install using composer. To use drush with Drupal 8
+    use `dev-master`. For other supported versions see the install [drush documentation](http://docs.drush.org/en/master/install/).
 
-    **default:** `6.2.0.0`
+    **default:** `7.0.0`
 
 
 solr recipe

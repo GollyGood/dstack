@@ -18,7 +18,7 @@ ApacheSolr    | 3.x(default) or 4.x         |
 APC           | 3.1.7, 4.0.6                |
 Box OS        | Ubuntu 12.04                |
 Chef Solo     | 10.14.2                     |
-Drush         | 6.02                        |
+Drush         | 7.0.0                       |
 Git           | 1.7.9.5                     |
 MySQL         | 5.5                         |
 PHP           | 5.3, 5.5, 5.6               |
