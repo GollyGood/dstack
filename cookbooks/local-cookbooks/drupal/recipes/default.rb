@@ -17,21 +17,11 @@
 # limitations under the License.
 #
 
+include_recipe 'composer'
 include_recipe 'php'
 
-php_pear 'Console_Table' do
-  action :install
-end
-
-# Initialize drush PEAR channel
-dc = php_pear_channel 'pear.drush.org' do
-  action :discover
-end
-
-# Install drush
-php_pear 'drush' do
-  version node['drupal']['drush']['version']
-  channel dc.channel_name
+composer_install_global "drush/drush:#{node['drupal']['drush']['version']}" do
+  install_dir '/opt/drush'
   action :install
 end
 

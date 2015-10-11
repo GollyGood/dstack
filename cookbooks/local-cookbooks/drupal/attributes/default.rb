@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-default['drupal']['drush']['version'] = '6.2.0.0'
+default['drupal']['drush']['version'] = '7.0.0'
