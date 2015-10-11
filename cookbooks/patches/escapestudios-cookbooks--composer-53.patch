@@ -1,0 +1,483 @@
+From 5718b95e2deb860ee72d093bfe51e46831043086 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 12:30:07 +0200
+Subject: [PATCH 01/10] Remove only_if
+
+Because they don't indicate composer presence correctly.
+Composer is installed in /usr/local/bin by default, which is not on the path for only_if. If an execute is added before the require or install, the path is set correctly. This is most likely a bug in chef somehow, the env is different for only_if then for the execute statement.
+---
+ providers/project.rb | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/providers/project.rb b/providers/project.rb
+index a7ca7f2..ffa606b 100644
+--- a/providers/project.rb
++++ b/providers/project.rb
+@@ -46,7 +46,6 @@ def make_execute(cmd)
+     command "#{node['composer']['bin']} #{cmd} --no-interaction --no-ansi #{quiet} #{dev} #{optimize} #{prefer_dist} #{prefer_source}"
+     environment 'COMPOSER_HOME' => Composer.home_dir(node)
+     action :run
+-    only_if 'which composer'
+     user new_resource.user
+     group new_resource.group
+     umask new_resource.umask
+@@ -63,7 +62,6 @@ def make_require
+     command "#{node['composer']['bin']} require #{vendor} #{dev} #{prefer_dist}"
+     environment 'COMPOSER_HOME' => Composer.home_dir(node)
+     action :run
+-    only_if 'which composer'
+     user new_resource.user
+     group new_resource.group
+     umask new_resource.umask
+@@ -78,7 +76,6 @@ def remove_vendor(cmd)
+     command "#{node['composer']['bin']} remove #{vendor}"
+     environment 'COMPOSER_HOME' => Composer.home_dir(node)
+     action :run
+-    only_if 'which composer'
+   end
+ end
+ 
+
+From 31a2a138f6ab2d0869c2bbd58c6c940e9c697f98 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 12:30:22 +0200
+Subject: [PATCH 02/10] Remove second name_attribute, there can be only one
+
+---
+ resources/project.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/resources/project.rb b/resources/project.rb
+index 6657926..f42cf97 100644
+--- a/resources/project.rb
++++ b/resources/project.rb
+@@ -8,7 +8,7 @@
+ actions :install, :single, :require, :update, :dump_autoload, :remove
+ default_action :install
+ 
+-attribute :project_dir, :kind_of => String, :name_attribute => true
++attribute :project_dir, :kind_of => String, :required => true
+ attribute :vendor, :kind_of => String, :name_attribute => true, :required => true
+ attribute :path, :kind_of => String, :default => nil
+ attribute :dev, :kind_of => [TrueClass, FalseClass], :default => false
+
+From 41d502ecae1274cdae0180a493af853110532b50 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 14:01:45 +0200
+Subject: [PATCH 03/10] Add a default bin_dir for install
+
+---
+ attributes/default.rb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/attributes/default.rb b/attributes/default.rb
+index c0f5a2c..2bebc48 100644
+--- a/attributes/default.rb
++++ b/attributes/default.rb
+@@ -15,6 +15,7 @@
+   default['composer']['url'] = 'http://getcomposer.org/composer.phar'
+   default['composer']['install_dir'] = '/usr/local/bin'
+   default['composer']['bin'] = "#{node['composer']['install_dir']}/composer"
++  default['composer']['bin_dir'] = '/usr/local/bin'
+   default['composer']['install_globally'] = true
+   default['composer']['mask'] = 0755
+   default['composer']['link_type'] = :symbolic
+
+From 2e89863491836e6b4e48c9ec9d9d7b81a5038d78 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 14:01:56 +0200
+Subject: [PATCH 04/10] Add a resolver for the bin_dir
+
+---
+ libraries/composer.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/libraries/composer.rb b/libraries/composer.rb
+index f9e3abc..a060710 100644
+--- a/libraries/composer.rb
++++ b/libraries/composer.rb
+@@ -7,4 +7,8 @@ def self.install_dir(node)
+   def self.home_dir(node)
+     node['composer']['home_dir'] || install_dir(node)
+   end
++
++  def self.bin_dir(node)
++    node['composer']['bin_dir'] || ''
++  end
+ end
+
+From 8269cfb26b6b3d9ebd61e0a26826f4e7bcd48ea3 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 14:02:25 +0200
+Subject: [PATCH 05/10] Add the bin_dir to the commands as env variable
+
+---
+ providers/project.rb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/providers/project.rb b/providers/project.rb
+index ffa606b..ebb536c 100644
+--- a/providers/project.rb
++++ b/providers/project.rb
+@@ -44,7 +44,7 @@ def make_execute(cmd)
+   execute "#{cmd}-composer-for-project" do
+     cwd new_resource.project_dir
+     command "#{node['composer']['bin']} #{cmd} --no-interaction --no-ansi #{quiet} #{dev} #{optimize} #{prefer_dist} #{prefer_source}"
+-    environment 'COMPOSER_HOME' => Composer.home_dir(node)
++    environment 'COMPOSER_HOME' => Composer.home_dir(node), 'COMPOSER_BIN_DIR' => Composer.bin_dir(node)
+     action :run
+     user new_resource.user
+     group new_resource.group
+@@ -60,7 +60,7 @@ def make_require
+   execute 'Install-composer-for-single-project' do
+     cwd new_resource.project_dir
+     command "#{node['composer']['bin']} require #{vendor} #{dev} #{prefer_dist}"
+-    environment 'COMPOSER_HOME' => Composer.home_dir(node)
++    environment 'COMPOSER_HOME' => Composer.home_dir(node), 'COMPOSER_BIN_DIR' => Composer.bin_dir(node)
+     action :run
+     user new_resource.user
+     group new_resource.group
+@@ -74,7 +74,7 @@ def remove_vendor(cmd)
+   execute "#{cmd}-composer-for-project" do
+     cwd new_resource.project_dir
+     command "#{node['composer']['bin']} remove #{vendor}"
+-    environment 'COMPOSER_HOME' => Composer.home_dir(node)
++    environment 'COMPOSER_HOME' => Composer.home_dir(node), 'COMPOSER_BIN_DIR' => Composer.bin_dir(node)
+     action :run
+   end
+ end
+
+From ff13ce622f8167567b43b8d7cbf8c54dfbfd45f6 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 14:02:35 +0200
+Subject: [PATCH 06/10] Remove composer projects with dependencies
+
+---
+ providers/project.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/providers/project.rb b/providers/project.rb
+index ebb536c..3adf12d 100644
+--- a/providers/project.rb
++++ b/providers/project.rb
+@@ -73,7 +73,7 @@ def remove_vendor(cmd)
+ 
+   execute "#{cmd}-composer-for-project" do
+     cwd new_resource.project_dir
+-    command "#{node['composer']['bin']} remove #{vendor}"
++    command "#{node['composer']['bin']} remove #{vendor} --update-with-dependencies"
+     environment 'COMPOSER_HOME' => Composer.home_dir(node), 'COMPOSER_BIN_DIR' => Composer.bin_dir(node)
+     action :run
+   end
+
+From b2494989ee7f2c25c32f8867c5812210f0cee088 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 14:14:41 +0200
+Subject: [PATCH 07/10] Remove unused attribute path from project resource
+
+---
+ resources/project.rb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/resources/project.rb b/resources/project.rb
+index f42cf97..80a6b6c 100644
+--- a/resources/project.rb
++++ b/resources/project.rb
+@@ -10,7 +10,6 @@
+ 
+ attribute :project_dir, :kind_of => String, :required => true
+ attribute :vendor, :kind_of => String, :name_attribute => true, :required => true
+-attribute :path, :kind_of => String, :default => nil
+ attribute :dev, :kind_of => [TrueClass, FalseClass], :default => false
+ attribute :quiet, :kind_of => [TrueClass, FalseClass], :default => true
+ attribute :optimize_autoloader, :kind_of => [TrueClass, FalseClass], :default => false
+
+From f5237d07ecef7202d7381167c02e121be99f6565 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 14:18:00 +0200
+Subject: [PATCH 08/10] Add install_global resource
+
+---
+ providers/install_global.rb | 95 +++++++++++++++++++++++++++++++++++++++++++++
+ resources/install_global.rb | 26 +++++++++++++
+ 2 files changed, 121 insertions(+)
+ create mode 100644 providers/install_global.rb
+ create mode 100644 resources/install_global.rb
+
+diff --git a/providers/install_global.rb b/providers/install_global.rb
+new file mode 100644
+index 0000000..ce7901e
+--- /dev/null
++++ b/providers/install_global.rb
+@@ -0,0 +1,95 @@
++#
++# Cookbook Name:: composer
++# Resource:: install_global
++#
++# Copyright 2012-2014, Escape Studios
++#
++
++use_inline_resources if defined?(use_inline_resources)
++
++def whyrun_supported?
++  true
++end
++
++action :install do
++  install_global_install
++  new_resource.updated_by_last_action(true)
++end
++
++action :remove do
++  install_global_remove
++  new_resource.updated_by_last_action(true)
++end
++
++action :update do
++  install_global_update
++  new_resource.updated_by_last_action(true)
++end
++
++def install_global_install
++  dev = new_resource.dev ? '--dev' : '--no-dev'
++  quiet = new_resource.quiet ? '--quiet' : ''
++  optimize_autoloader = new_resource.optimize_autoloader ? optimize_flag(cmd) : ''
++  prefer_dist = new_resource.prefer_dist ? '--prefer-dist' : ''
++  prefer_source = new_resource.prefer_source ? '--prefer-source' : ''
++
++  directory new_resource.install_dir do
++    recursive true
++    user new_resource.user
++    group new_resource.group
++  end
++
++  composer_project new_resource.vendor do
++    project_dir new_resource.install_dir
++    dev new_resource.dev
++    quiet new_resource.quiet
++    optimize_autoloader new_resource.optimize_autoloader
++    prefer_dist new_resource.prefer_dist
++    prefer_source new_resource.prefer_source
++    user new_resource.user
++    group new_resource.group
++    umask new_resource.umask
++    action :require
++  end
++
++  # Set the bin_dir for completeness
++  execute 'set-bin_dir' do
++    cwd new_resource.install_dir
++    command "#{node['composer']['bin']} config bin-dir #{node['composer']['bin_dir']} #{quiet}"
++    environment 'COMPOSER_HOME' => Composer.home_dir(node)
++    action :run
++    user new_resource.user
++    group new_resource.group
++    umask new_resource.umask
++  end
++end
++
++def install_global_remove
++  composer_project new_resource.vendor do
++    project_dir new_resource.install_dir
++    dev new_resource.dev
++    quiet new_resource.quiet
++    optimize new_resource.optimize_autoloader
++    prefer_dist new_resource.prefer_dist
++    prefer_source new_resource.prefer_source
++    user new_resource.user
++    group new_resource.group
++    umask new_resource.umask
++    action :remove
++  end
++end
++
++def install_global_update
++  composer_project new_resource.vendor do
++    project_dir new_resource.install_dir
++    dev new_resource.dev
++    quiet new_resource.quiet
++    optimize new_resource.optimize_autoloader
++    prefer_dist new_resource.prefer_dist
++    prefer_source new_resource.prefer_source
++    user new_resource.user
++    group new_resource.group
++    umask new_resource.umask
++    action :update
++  end
++end
+diff --git a/resources/install_global.rb b/resources/install_global.rb
+new file mode 100644
+index 0000000..92c70c8
+--- /dev/null
++++ b/resources/install_global.rb
+@@ -0,0 +1,26 @@
++#
++# Cookbook Name:: composer
++# Resource:: install_global
++#
++# Copyright 2012-2014, Escape Studios
++#
++
++actions :install, :update, :remove
++default_action :install
++
++attribute :vendor, :kind_of => String, :name_attribute => true, :required => true
++attribute :install_dir, :kind_of => String
++attribute :path, :kind_of => String, :default => nil
++attribute :dev, :kind_of => [TrueClass, FalseClass], :default => false
++attribute :quiet, :kind_of => [TrueClass, FalseClass], :default => true
++attribute :optimize_autoloader, :kind_of => [TrueClass, FalseClass], :default => false
++attribute :prefer_dist, :kind_of => [TrueClass, FalseClass], :default => false
++attribute :prefer_source, :kind_of => [TrueClass, FalseClass], :default => false
++attribute :user, :kind_of => String, :default => 'root'
++attribute :group, :kind_of => String, :default => 'root'
++attribute :umask, :kind_of => [String, Fixnum], :default => 0002
++
++def initialize(*args)
++  super
++  @action = :install
++end
+
+From 6ad28e4c95294df06df190d6b9f95aeb363cccb8 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 14:28:50 +0200
+Subject: [PATCH 09/10] Update readme for project resource
+
+---
+ README.md | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/README.md b/README.md
+index e4bb664..55d0181 100644
+--- a/README.md
++++ b/README.md
+@@ -57,18 +57,25 @@ This cookbook includes an LWRP for managing a Composer project
+ - :require Create composer.json file using specified vendor and downloads vendor.
+ - :update: Gets the latest versions of the dependencies and updates the composer.lock file
+ - :dump_autoload: Updates the autoloader without having to go through an install or update (eg. because of new classes in a classmap package)
+-- :remove Removes vendor from composer.json and uninstalls
++- :remove Removes vendor from composer.json and uninstalls with all dependencies
+ 
+ #### Attribute parameters
++- vendor: The name attribute, what package to install
+ - project_dir: The directory where your project's composer.json can be found
+ - dev: Install packages listed in require-dev, default false
+ - quiet: Do not output any message, default true
+ - optimize_autoloader: Optimize PSR0 packages to use classmaps, default false
++- prefer_dist: Install packages from dist when available, default false
++- prefer_source: Install packages from source when available, default false
++- user: The user as whichs to execute the commands, default root
++- group: The group as whichs to execute the commands, default root
++- umask: The umask to use during commands, default 0002
+ 
+ #### Examples
+ ```
+ #install project vendors
+-composer_project "/path/to/project" do
++composer_project "vendors" do
++    project_dir "/path/to/project"
+     dev false
+     quiet true
+     prefer_dist false
+@@ -76,30 +83,33 @@ composer_project "/path/to/project" do
+ end
+ 
+ #require project vendor
+-composer_project "/path/to/project" do
++composer_project "vendor" do
++    project_dir "/path/to/project"
+     dev false
+     quiet true
+     prefer_dist false
+-    action :require 
++    action :require
+ end
+ 
+ #update project vendors
+-composer_project "/path/to/project" do
++composer_project "vendors" do
++    project_dir "/path/to/project"
+     dev false
+     quiet true
+     action :update
+ end
+ 
+-#dump-autoload for project
+-composer_project "/path/to/project" do
++#dump-autoload for project vendor
++composer_project "vendor" do
++    project_dir "/path/to/project"
+     dev false
+     quiet true
+     action :dump_autoload
+ end
+ 
+ #remove project vendor
+-composer_project "/path/to/project" do
+-    vendor 'repo/vendor'
++composer_project "vendor" do
++    project_dir "/path/to/project"
+     action :remove
+ end
+ ```
+
+From 99c7d078a97bd8ace71aea53627c41eb428646e0 Mon Sep 17 00:00:00 2001
+From: Dieter Blomme <dieterblomme@gmail.com>
+Date: Mon, 10 Aug 2015 14:29:00 +0200
+Subject: [PATCH 10/10] Add documentation for install_global resource
+
+---
+ README.md | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/README.md b/README.md
+index 55d0181..cdbebf3 100644
+--- a/README.md
++++ b/README.md
+@@ -114,6 +114,46 @@ composer_project "vendor" do
+ end
+ ```
+ 
++### `composer_install_global`
++
++#### Actions
++- :install: Install the given vendor in the given install_dir and creates symlinks.
++- :update: Gets the latest versions of the dependencies in the given install_dir
++- :remove Removes vendor from composer.json and uninstalls it with all dependencies
++
++#### Attribute parameters
++- vendor: The name attribute, what package to install
++- install_dir: The directory where the packages will be installed
++- dev: Install packages listed in require-dev, default false
++- quiet: Do not output any message, default true
++- optimize_autoloader: Optimize PSR0 packages to use classmaps, default false
++- prefer_dist: Install packages from dist when available, default false
++- prefer_source: Install packages from source when available, default false
++- user: The user as whichs to execute the commands, default root
++- group: The group as whichs to execute the commands, default root
++- umask: The umask to use during commands, default 0002
++
++#### Examples
++```
++#install project vendor/vendor
++composer_install_global "vendor/vendor" do
++    install_dir "/path/to/project"
++    action :install
++end
++
++#update project vendor/vendor
++composer_install_global "vendor/vendor" do
++    install_dir "/path/to/project"
++    action :update
++end
++
++#remove project vendor/vendor
++composer_install_global "vendor/vendor" do
++    install_dir "/path/to/project"
++    action :remove
++end
++```
++
+ Usage
+ =====
+ 
