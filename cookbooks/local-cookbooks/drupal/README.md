@@ -3,19 +3,22 @@ drupal
 
 The drupal cookbook installs and configures components specifically for Drupal.
 It includes additional PHP module requirements for Drupal, Drush and its
-requirements, and additional specific configurations for Apache Solr.
+dependencies, additional specific configurations for Apache Solr and Varnish.
 
 
 default recipe
 --------------
 
-The default recipe installs Drush, Console_Table, and the uploadprogress php
-module.
+The default recipe installs Drush and the uploadprogress php module.
 
 ### Drush
 
 Since drupal cookbook installs drush, if you have drush installed on the host machine
 you may use drush with your development site. See below for an example alias.
+
+**note:** You will need to make sure you have added `*.local` config, as described
+in [Installation](../../../documentation//getting-started.md#installation) section
+of the Getting started guide, to your ssh config.
 
 **example:**
 ```
