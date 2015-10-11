@@ -2,7 +2,7 @@
 # Cookbook Name:: rsyslog
 # Attributes:: default
 #
-# Copyright 2009-2014, Chef Software, Inc.
+# Copyright 2009-2015, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ default['rsyslog']['repeated_msg_reduction']    = 'on'
 default['rsyslog']['logs_to_forward']           = '*.*'
 default['rsyslog']['enable_imklog']             = true
 default['rsyslog']['config_prefix']             = '/etc'
-default['rsyslog']['default_file_template']    = nil
+default['rsyslog']['default_file_template']     = nil
 default['rsyslog']['default_remote_template']   = nil
 default['rsyslog']['rate_limit_interval']       = nil
 default['rsyslog']['rate_limit_burst']          = nil
@@ -49,6 +49,7 @@ default['rsyslog']['tls_key_file']              = nil
 default['rsyslog']['tls_auth_mode']             = 'anon'
 default['rsyslog']['use_local_ipv4']            = false
 default['rsyslog']['allow_non_local']           = false
+default['rsyslog']['custom_remote']             = [{}]
 default['rsyslog']['additional_directives'] = {}
 
 # The most likely platform-specific attributes
