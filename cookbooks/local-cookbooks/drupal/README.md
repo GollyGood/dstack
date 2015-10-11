@@ -168,4 +168,4 @@ $conf['page_cache_invoke_hooks'] = FALSE;
 
   **default:** `3.0`
 
-For additional attributes see the [varnish cookbook](../berks-cookbooks/varnish)
+For additional attributes see the [varnish cookbook](../../berks-cookbooks/varnish)
