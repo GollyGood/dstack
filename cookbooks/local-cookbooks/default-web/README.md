@@ -9,4 +9,4 @@ This cookbook may either be used as is or copied to create a custom site
 cookbook for setting up sites however is required.
 
 For additional information for creating sites via configuration see the
-[configuration documentation](../../documentation/configuration.md#sites).
+[configuration documentation](../../../documentation/configuration.md#sites).
