@@ -38,12 +38,12 @@ chef:
     - default-web
     - drupal
 #    - drupal::solr
-    - drupal::varnish
+#    - drupal::varnish
     - utils::dev-tools
 #    - utils::phpmyadmin
 #    - utils::scripts
-    - utils::xdebug
-    - utils::webgrind
+#    - utils::xdebug
+#    - utils::webgrind
 #    - utils::xhprof
 #  drupal:
 #    solr:
