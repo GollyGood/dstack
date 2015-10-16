@@ -19,6 +19,6 @@
 
 include_recipe 'hipsnip-solr'
 
-if !node['solr']['version'].start_with?('4\.') && !node['solr']['version'].start_with?('3\.')
+if !node['solr']['version'].start_with?('4.') && !node['solr']['version'].start_with?('3.')
   fail 'Only ApacheSolr versions 3.x and 4.x are currently supported.'
 end
