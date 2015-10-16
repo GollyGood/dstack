@@ -2,6 +2,79 @@ Java Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the Java cookbook.
 
+v1.35 - 8/4/2015
+-------
+- Use bento boxes and remove EOL distros from testing suite.
+- Update to latest JDKs. Note Oracle JDK7 is now EOL.
+- Alternatives improvements
+- Fixes #155 to allow install of OpenJDK 1.8
+- Fixes #257 Changed switches for the jdk 8 exe installer on windows
+- Make sure tar package installed for java_ark
+- Add support for Mac OS X "mac_os_x" via homebrew.
+- Update metadata.rb to contain source and issue information for supermarket and chef-repo convenience
+
+### Known Issues
+- Kitchen CI test with 12.04 fails due to hostname unable to be set.
+
+v1.31 - 2/3/2015
+-------
+- Update to latest JDKs for 7 and 8. JDK7 will be EOL April 2015
+- Fix up Travis support.
+- Add ability to install JCE policy files for oracle JDK #228
+- Change connect timeout to 30 seconds
+
+v1.29.0 - 11/14/2014
+-------
+### Bug
+- **[#216](https://github.com/agileorbit-cookbooks/java/pull/216)** - Ensure dirs, links, and jinfo files are owned correctly
+- **[#217](https://github.com/agileorbit-cookbooks/java/pull/217)** - Update to Oracle JDK 8u25
+- **[#214](https://github.com/agileorbit-cookbooks/java/pull/214)** - Update to Oracle JDK 7u71-b14
+
+### Improvement
+- Adding a connect_timeout option for downloading java.
+
+### Misc
+- Switched to chef-zero provisioner in test suites.
+- Adding ISSUES.md for guidance on creating new issues for the Java cookbook.
+- Fix IBM unit tests.
+
+v1.28.0 - 9/6/2014
+-------
+### Improvement
+- Allow setting of group to extracted java files.
+
+### Bug
+- Add -no-same-owner parameter to tar extract to avoid issues when the chef cache dir is on an NFS mounted drive.
+- In the ark provider, it doesn't compare the MD5 sum with the right value which causes Java cookbook always download tarball from oracle server
+
+v1.27.0 - 8/22/2014
+-------
+- Update Oracle JDK8 to version 8u20
+
+v1.26.0 - 8/16/2014
+-------
+- **[#201](https://github.com/agileorbit-cookbooks/java/pull/201)** - Allow pinning of package versions for openjdk
+- **[#198](https://github.com/agileorbit-cookbooks/java/pull/198)** - Update Oracle JDK7 to version 7u67
+- **[#189](https://github.com/agileorbit-cookbooks/java/pull/184)** - Support specific version and name for Oracle RPM
+
+v1.25.0 - 8/1/2014
+-------
+### Improvement
+- **[#189](https://github.com/agileorbit-cookbooks/java/pull/189)** - Resource ark -> attribute bin_cmds default value
+- **[#168](https://github.com/agileorbit-cookbooks/java/pull/168)** - Add option to put JAVA_HOME in /etc/environment
+- **[#172](https://github.com/agileorbit-cookbooks/java/pull/172)** - Allow ark to pull from http and files ending in .gz.
+
+### Documentation
+- Recommendations for inclusion in community cookbooks
+- Production Deployment with Oracle Java
+- Update testing instructions for chefdk
+- Various Readme formatting.
+
+### Misc
+- Use Supermarket endpoint in berksfile
+- rspec cleanup
+- Adding ubuntu-14.04 to test suite
+
 v1.24.0 - 7/25/2014
 -------
 New Cookbook maintainer! **[Agile Orbit](http://agileorbit.com)**

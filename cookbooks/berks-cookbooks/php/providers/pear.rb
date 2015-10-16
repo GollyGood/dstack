@@ -191,9 +191,12 @@ end
 
 def get_extension_dir
   @extension_dir ||= begin
-                       # Consider using "pecl config-get ext_dir". It is more cross-platform.
-                       # p = shell_out("php-config --extension-dir")
-                       p = shell_out("#{node['php']['pecl']} config-get ext_dir")
+                       pecl_version_match = shell_out("#{node['php']['pecl']} version").stdout.match('PEAR Version: ([\d?\.?]+)')
+                       if !pecl_version_match[1].nil? && Gem::Version.new(pecl_version_match[1]) < Gem::Version.new('1.10.0')
+                         p = shell_out('php-config --extension-dir')
+                       else
+                         p = shell_out("#{node['php']['pecl']} config-get ext_dir")
+                       end
                        p.stdout.strip
                      end
 end

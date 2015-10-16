@@ -1,14 +1,15 @@
-name             "lamp"
-maintainer       ""
-maintainer_email ""
-license          ""
-description      "Install and configures the *AMP stack."
-long_description IO.read(File.join(File.dirname(__FILE__), "README.md"))
-version          "0.0.1"
-depends "apt"
-depends "apache2"
-depends "cron"
-depends "database"
-depends "mysql"
-depends "openssl"
-depends "php"
+name 'lamp'
+maintainer 'dStack Development Team'
+maintainer_email 'delaigle.jonathan@gmail.com'
+license 'Apache 2.0'
+description 'Install and configures the *AMP stack.'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version '1.0.0-beta'
+depends 'apt'
+depends 'build-essential'
+depends 'apache2'
+depends 'cron'
+depends 'database'
+depends 'mysql'
+depends 'openssl'
+depends 'php'

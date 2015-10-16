@@ -2,7 +2,7 @@
 # Cookbook Name:: yum
 # Resource:: repository
 #
-# Author:: Sean OMeara <someara@getchef.com>
+# Author:: Sean OMeara <someara@chef.io>
 # Copyright 2013, Chef
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,6 +44,7 @@ attribute :color_update_local, :kind_of => String, :regex => /.*/, :default => n
 attribute :color_update_remote, :kind_of => String, :regex => /.*/, :default => nil
 attribute :commands, :kind_of => String, :regex => /.*/, :default => nil
 attribute :debuglevel, :kind_of => String, :regex => /^\d+$/, :default => '2'
+attribute :deltarpm, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :diskspacecheck, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :distroverpkg, :kind_of => String, :regex => /.*/, :default => nil
 attribute :enable_group_conditionals, :kind_of => [TrueClass, FalseClass], :default => nil
@@ -56,7 +57,7 @@ attribute :groupremove_leaf_only, :kind_of => [TrueClass, FalseClass], :default 
 attribute :history_list_view, :kind_of => String, :equal_to => %w(users commands single-user-commands), :default => nil
 attribute :history_record, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :history_record_packages, :kind_of => String, :regex => /.*/, :default => nil
-attribute :http_caching, :kind_of => [TrueClass, FalseClass], :default => nil
+attribute :http_caching, :kind_of => String, :equal_to => %w(packages all none), :default => nil
 attribute :installonly_limit, :kind_of => String, :regex => [/^\d+/, /keep/], :default => '3'
 attribute :installonlypkgs, :kind_of => String, :regex => /.*/, :default => nil
 attribute :installroot, :kind_of => String, :regex => /.*/, :default => nil
@@ -70,7 +71,7 @@ attribute :mdpolicy, :kind_of => String, :equal_to => %w(instant group:primary g
 attribute :metadata_expire, :kind_of => String, :regex => [/^\d+$/, /^\d+[mhd]$/, /never/], :default => nil
 attribute :mirrorlist_expire, :kind_of => String, :regex => /^\d+$/, :default => nil
 attribute :multilib_policy, :kind_of => String, :equal_to => %w(all best), :default => nil
-attribute :obsoletes, :kind_of => [TrueClass, FalseClass], :default => true
+attribute :obsoletes, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :overwrite_groups, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :password, :kind_of => String, :regex => /.*/, :default => nil
 attribute :path, :kind_of => String, :regex => /.*/, :default => nil, :name_attribute => true
@@ -86,6 +87,7 @@ attribute :proxy_username, :kind_of => String, :regex => /.*/, :default => nil
 attribute :recent, :kind_of => String, :regex => /^\d+$/, :default => nil
 attribute :releasever, :kind_of => String, :regex => /.*/, :default => nil
 attribute :repo_gpgcheck, :kind_of => [TrueClass, FalseClass], :default => nil
+attribute :reposdir, :kind_of => String, :regex => /.*/, :default => nil
 attribute :reset_nice, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :rpmverbosity, :kind_of => String, :equal_to => %w(info critical emergency error warn debug), :default => nil
 attribute :showdupesfromrepos, :kind_of => [TrueClass, FalseClass], :default => nil
@@ -103,3 +105,5 @@ attribute :timeout, :kind_of => String, :regex => /^\d+$/, :default => nil
 attribute :tolerant, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :tsflags, :kind_of => String, :regex => /.*/, :default => nil
 attribute :username, :kind_of => String, :regex => /.*/, :default => nil
+
+attribute :options, :kind_of => Hash

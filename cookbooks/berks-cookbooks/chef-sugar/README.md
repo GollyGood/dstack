@@ -1,16 +1,10 @@
-Chef::Sugar
-================
-[![Gem Version](http://img.shields.io/gem/v/chef-sugar.svg)][gem]
-[![Build Status](http://img.shields.io/travis/sethvargo/chef-sugar.svg)][travis]
-[![Dependency Status](http://img.shields.io/gemnasium/sethvargo/chef-sugar.svg)][gemnasium]
-[![Code Climate](http://img.shields.io/codeclimate/github/sethvargo/chef-sugar.svg)][codeclimate]
-[![Gittip](http://img.shields.io/gittip/sethvargo.svg)][gittip]
+Chef Sugar
+==========
+[![Gem Version](http://img.shields.io/gem/v/chef-sugar.svg?style=flat-square)][gem]
+[![Build Status](http://img.shields.io/travis/sethvargo/chef-sugar.svg?style=flat-square)][travis]
 
 [gem]: https://rubygems.org/gems/chef-sugar
-[travis]: http://travis-ci.org/sethvargo/chef-suguar
-[gemnasium]: https://gemnasium.com/sethvargo/chef-sugar
-[codeclimate]: https://codeclimate.com/github/sethvargo/chef-sugar
-[gittip]: https://www.gittip.com/sethvargo
+[travis]: http://travis-ci.org/sethvargo/chef-sugar
 
 Chef Sugar is a Gem & Chef Recipe that includes series of helpful sugar of the Chef core and other resources to make a cleaner, more lean recipe DSL, enforce DRY principles, and make writing Chef recipes an awesome experience!
 
@@ -84,6 +78,10 @@ API
 
 - `_64_bit?`
 - `_32_bit?`
+- `intel?`
+- `sparc?`
+- `ppc64?`
+- `ppc64le?`
 
 #### Examples
 ```ruby
@@ -96,6 +94,7 @@ end
 ### Cloud
 - `azure?`
 - `cloud?`
+- `digitalocean?`
 - `ec2?`
 - `eucalyptus?`
 - `gce?`
@@ -141,7 +140,8 @@ require 'chef/sugar/core_extensions'
 
 ### Data Bag
 - `encrypted_data_bag_item` - a handy DSL method for loading encrypted data bag items the same way you load a regular data bag item; this requires `Chef::Config[:encrypted_data_bag_secret]` is set!
-- `encrypted_data_bag_item_for_environment` - find the data bag entry for the current node's Chef environment.
+- `encrypted_data_bag_item_for_environment` - find the encrypted data bag entry for the current node's Chef environment.
+- `data_bag_item_for_environment` - find the data bag entry for the current node's Chef environment.
 
 #### Examples
 ```ruby
@@ -150,6 +150,22 @@ encrypted_data_bag_item('accounts', 'hipchat')
 
 ```ruby
 encrypted_data_bag_item_for_environment('accounts', 'github')
+```
+
+```ruby
+data_bag_item_for_environment('accounts', 'github')
+```
+
+### Docker
+Chef Sugar looks for hints to see if the node being converged is a Docker container. When [Ohai supports checking other nodes](https://github.com/opscode/ohai/pull/428), Chef Sugar will automatically pick up the information.
+
+- `docker?`
+
+#### Examples
+```ruby
+template '/runme' do
+  only_if { docker?(node) }
+end
 ```
 
 ### Attributes
@@ -248,13 +264,16 @@ end
 ```
 
 ### Node
+
+Additional methods for the `node` object
+
 - `deep_fetch` - safely fetch a nested attribute.
 - `deep_fetch!` - fetch a nested attribute, raising a more semantic error if the key does not exist.
 - `in?` - determine if the node is in the given Chef environment.
 
 #### Examples
 ```ruby
-credentials = if in?('production')
+credentials = if node.in?('production')
                 Chef::EncryptedDataBag.new('...')
               else
                 data_bag('...')
@@ -273,6 +292,10 @@ node.deep_fetch('apache2', 'config', 'root') => node['apache2']['config']['root'
 - `redhat_enterprise_linux?`
 - `scientific_linux?`
 - `ubuntu?`
+- `solaris2?`
+- `aix?`
+- `smartos?`
+- `omnios?`
 
 There are also a series of dynamically defined matchers that map named operating system release versions and comparison operators in the form "#{platform}\_#{operator}\_#{name}?". For example:
 
@@ -281,6 +304,8 @@ There are also a series of dynamically defined matchers that map named operating
 - `mac_os_x_lion?`
 - `ubuntu_before_lucid?`
 - `ubuntu_before_or_at_maverick?`
+- `solaris_10?`
+- `solaris_11?`
 
 To get a full list, run the following in IRB:
 
@@ -374,14 +399,28 @@ http_request 'http://...' do
 end
 ```
 
+### Virtualization
+- `kvm?`
+- `lxc?`
+- `virtualbox?`
+- `vmware?`
+
+#### Examples
+```ruby
+service 'ntpd' do
+  action [:enable, :start]
+  not_if { lxc? }
+end
+```
+
 ### Filters
-- `compile_time` - accepts a block of resources to run at compile time
+- `at_compile_time` - accepts a block of resources to run at compile time
 - `before` - insert resource in the collection before the given resource
 - `after` - insert resource in the collection after the given resource
 
 #### Examples
 ```ruby
-compile_time do
+at_compile_time do
   package 'apache2'
 end
 
@@ -409,7 +448,7 @@ License & Authors
 - Author: Seth Vargo (sethvargo@gmail.com)
 
 ```text
-Copyright 2013-2014 Seth Vargo
+Copyright 2013-2015 Seth Vargo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

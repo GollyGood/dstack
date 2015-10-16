@@ -1,6 +1,53 @@
 xml Cookbook CHANGELOG
-=======================
+======================
 This file is used to list changes made in each version of the xml cookbook.
+
+v1.3.0 (2015-10-06)
+--------------------
+- Added zlib1g-dev on Ubuntu / Debian to fix compiles
+- Add support for OS X
+- Add source_url and issues_url to metadata.rb for Supermarket
+- Updated readme to reflect that use_system_libraries actually defaults to false
+- Use compile_time attribute with chef_gem to avoid deprecation warnings
+- Update Chefspec tests to 4.X format
+- Add additional platforms to the Kitchen CI config
+- Use the standard Rubocop config and resolve all warnings
+- Add Ruby 2.1/2.2 to Travis and remove Ruby 1.9.3
+- Update Berksfile to 3.X format
+- Update contributing and testing docs
+- Update and expand testing dependencies in the Gemfile
+- Add maintainers.md and maintainers.toml files
+- Add cookbook version badge to the readme
+- Add Chef and platform requirements to the readme
+- Add Rakfile for simplified testing
+- Remove yum and build-essential from the Berksfile since these didn't need to be there
+- Update .gitignore and add chefignore to prevent extra files from being uploaded to the Chef server
+
+v1.2.13 (2014-02-18)
+--------------------
+- Reverting compile_time work
+
+v1.2.12 (2014-02-18)
+--------------------
+- Fixing last patch to play nicely with Chef Sugar
+
+v1.2.11 (2014-02-18)
+--------------------
+- Fixing chef_gem for Chef below 12.1.0
+
+v1.2.10 (2014-02-17)
+--------------------
+- Being explicit about usage of the chef_gem's compile_time property.
+- Eliminating future deprecation warnings in Chef 12.1.0.
+
+v1.2.9 (2014-12-10)
+-------------------
+- Re-release with stove 3.2.2 to get a metadata.rb
+
+v1.2.8 (2014-12-09)
+-------------------
+- [#11] Fix warning message from build-essential
+- [#13] pin nokogiri to a working version
 
 v1.2.6 (2014-06-17)
 -------------------
@@ -22,13 +69,13 @@ v1.2.2 (2014-02-27)
 v1.2.1
 ------
 ### Improvement
-- [COOK-4304](https://tickets.opscode.com/browse/COOK-4304) - Now sets proper packages for SUSE 11
+- [COOK-4304](https://tickets.chef.io/browse/COOK-4304) - Now sets proper packages for SUSE 11
 
 
 v1.2.0
 ------
 ### Improvement
-- **[COOK-3462](https://tickets.opscode.com/browse/COOK-3462)** - Allow installing packages during compile time
+- **[COOK-3462](https://tickets.chef.io/browse/COOK-3462)** - Allow installing packages during compile time
 
 
 v1.1.2
