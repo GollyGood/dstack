@@ -48,7 +48,7 @@ class DStackConfigVLAMP < DStackConfig
 
     @values['sites'].each_pair do |_key, value|
       if value.key?('host_docroot') && value.key?('guest_docroot')
-        vagrant.values['synced_folders'][value['host_docroot']] = value['guest_docroot']
+        vagrant.values['synced_folders'] << { 'host_directory' => value['host_docroot'], 'guest_directory' => value['guest_docroot'] }
       end
     end
   end

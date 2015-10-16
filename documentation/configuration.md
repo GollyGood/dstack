@@ -75,24 +75,41 @@ machine.
 
     **default:** `dstack-ubuntu-12.04`
 
+* `synced_folders_type_default`
+
+  The default Vagrant synced folder type to use for all synced folders that does
+  not specify one. Checkout Vagrant's documentation for [Synced folders](https://docs.vagrantup.com/v2/synced-folders/index.html).
+
+  **default:** `rsync`
+
 * `synced_folders`
 
     Additional synced directories that should be synced between the host and
-    guest machine. This is supplied as an associative array where the key is
+    guest machine. This is supplied as an array of hashes where each hash contains
     the host machine's directory and the value is the directory on the guest
-    machine.
+    machine. Optionally, the type of synced folder and additional options may
+    be supplied. Type options include nfs, rsync, smb(untested), and the default
+    virtual box sync(set to `''`).
 
     By default this is blank, however, some directories, such as, `assets` and
     `docroots` are automatically set up as synced folders.
 
     **example:**
     ```
-    HOST_DIRECTORY: GUEST_DIRECTORY
-    ANOTHER_HOST_DIRECTORY: ANOTHER_GUEST_DIRECTORY
+    - host_directory: HOST_DIRECTORY
+      guest_directory: GUEST_DIRECTORY
+      options:
+        rsync__exclude: files
+    - host_directory: ANOTHER_HOST_DIRECTORY
+      guest_directory: ANOTHER_GUEST_DIRECTORY
+      options:
+        type: nfs
+        nfs_udp: false
+    - host_directory: MORE_ASSETS_HOST_DIRECTORY
+      guest_direcotry: MORE_ASSETS_GUEST_DIRECTORY
+      options:
+        type: ''
     ```
-
-    **default:** No default supplied.
-
 
 * `synced_folders_type`
 
@@ -137,6 +154,11 @@ Sites contain a keyed array of web sites that will be on the guest machine
 and based on the settings provided here each sites docroot will be created
 and setup as a synced directory between the host and guest machine. It will
 also configure Apache2 to host the site.
+
+For advanced configuration of the synced folders to add excludes and other
+available options supplied from Vagrant do *not* add the host docroot here, but
+rather add the host docroot as a host directory with a guest in the [vlamp::Advanced settings::synced_folders](#advanced-settings)
+configuration section.
 
 The key provided for a site must be a fully qualified domain.
 
