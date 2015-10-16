@@ -65,4 +65,10 @@ if node['lamp']['php']['version'] == '5.3'
   package 'php5-suhosin' do
     action :install
   end
+  template "#{node['php']['ext_conf_dir']}/suhosin.ini" do
+    source 'suhosin.ini.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+  end
 end
