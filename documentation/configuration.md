@@ -75,6 +75,18 @@ machine.
 
     **default:** `dstack-ubuntu-12.04`
 
+* `box_url`
+
+   The Vagrant ready box url to use for fetching the guest box.
+
+    **default:** `http://devhumans.com/dstack/dstack-ubuntu-12.04.json`
+
+* `box_version`
+
+    The version of the Vagrant box to use.
+
+    **default:** `>= 0` (The most recent version.)
+
 * `synced_folders_type_default`
 
   The default Vagrant synced folder type to use for all synced folders that does

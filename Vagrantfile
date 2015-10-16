@@ -20,6 +20,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if (vagrant_config.key?('box_url'))
     config.vm.box_url = vagrant_config['box_url']
   end
+  if (vagrant_config.key?('box_version'))
+    config.vm.box_version = vagrant_config['box_version']
+  end
 
   config.vm.host_name = vagrant_config['hostname']
 
@@ -33,6 +36,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
   config.ssh.forward_agent = vagrant_config['forward_agent']
+  # Fix that `stdin: is not a tty warning`.
+  config.ssh.shell = 'bash'
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -52,6 +57,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell do |shell|
     shell.inline = <<-EOH
+      export DEBIAN_FRONTEND=noninteractive
+
       apt-get update
       apt-get install -y build-essential
       # Add support for adding PPA's
@@ -63,13 +70,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ## path, and data_bags path (all relative to this Vagrantfile), and adding
   ## some recipes and/or roles.
   config.vm.provision "chef_solo" do |chef|
-    chef_config = dstack.get_config('chef')
-    chef.cookbooks_path = chef_config['cookbooks_path']
     chef.custom_config_path = "Vagrantfile.chef"
 
+    chef_config = dstack.get_config('chef')
+    chef.cookbooks_path = chef_config['cookbooks_path']
+
+    chef_json = dstack.chef_array()
+    chef.run_list = chef_json.delete('recipes') if chef_json['recipes']
     # Pass along our settings to chef.
     # Note: We don't have to do chef.add_recipe() because we are adding them
     #       via the :recipes value in the config.
-    chef.json = dstack.chef_array()
+    chef.json = chef_json
   end
 end

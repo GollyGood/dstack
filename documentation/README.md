@@ -27,7 +27,7 @@ specific documentation for each of them.
 The make file used to accomplish development and installation tasks.
 
 
-[Packer](packer.md)
+[Packer](../packer/README.md)
 -------------------------
 
 Creating new boxes with packer.

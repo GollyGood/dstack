@@ -46,6 +46,7 @@ default['lamp']['php']['error_reporting'] = 'E_ALL'
 default['lamp']['php']['memory_limit'] = '128M'
 default['lamp']['php']['version'] = '5.3'
 override['php']['version'] = node['lamp']['php']['version']
+force_default['apache']['mpm'] = 'prefork'
 
 if node['lamp']['php']['version'] == '5.5'
   default['lamp']['php']['repo']['name'] = 'ppa-ondrej-php5'
