@@ -51,7 +51,6 @@ spec/*
 spec/fixtures/*
 test/*
 features/*
-examples/*
 Guardfile
 Procfile
 
@@ -95,6 +94,3 @@ Vagrantfile
 # Travis #
 ##########
 .travis.yml
-test/
-spec/
-examples/

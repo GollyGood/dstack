@@ -10,6 +10,7 @@ dStack Development Team(Authors):
 As part of the base system this product also includes code from the following
 projects which are licensed under the Apache license:
 
+- escapestudios-cookbooks/composer
 - hipsnip-cookbooks/jetty
 - hipsnip-cookbooks/solr
 - needle-cookbooks/chef-avahi

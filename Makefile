@@ -6,6 +6,9 @@ apply-patches:
 	# Add version detection for retrieving the extensions directory for PECL
 	# since PEAR < 1.10.0 doesn't use the configured ext_dir. @see http://pear.php.net/bugs/bug.php?id=18666
 	patch -d cookbooks/berks-cookbooks/php -p1 < cookbooks/patches/opscode_php-PECL_version_detection.patch
+	# Add support for allowing global install of composer packages.
+	# @see https://github.com/escapestudios-cookbooks/composer/pull/53
+	patch -d cookbooks/berks-cookbooks/composer -p1 < cookbooks/patches/escapestudios-cookbooks--composer-53.patch
 
 apply-version:
 	find ./ -type f -not -path './.git/*' -not -path './cookbooks/berks-cookbooks/*' -not -path './Makefile' -exec sed -i 's/01110110.01110100/$(VERSION)/' {} ';'

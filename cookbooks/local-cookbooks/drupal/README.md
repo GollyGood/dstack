@@ -3,19 +3,22 @@ drupal
 
 The drupal cookbook installs and configures components specifically for Drupal.
 It includes additional PHP module requirements for Drupal, Drush and its
-requirements, and additional specific configurations for Apache Solr.
+dependencies, additional specific configurations for Apache Solr and Varnish.
 
 
 default recipe
 --------------
 
-The default recipe installs Drush, Console_Table, and the uploadprogress php
-module.
+The default recipe installs Drush and the uploadprogress php module.
 
 ### Drush
 
 Since drupal cookbook installs drush, if you have drush installed on the host machine
 you may use drush with your development site. See below for an example alias.
+
+**note:** You will need to make sure you have added `*.local` config, as described
+in [Installation](../../../documentation//getting-started.md#installation) section
+of the Getting started guide, to your ssh config.
 
 **example:**
 ```
@@ -35,10 +38,10 @@ $aliases['example'] = array(
 
 * `drush::version`
 
-    Is the verion of drush to install from PHP's PEAR. Note the additional 0 at the
-    end. To see available versions see [Drush's pear channel](http://pear.drush.org/).
+    The verion of drush to install using composer. To use drush with Drupal 8
+    use `dev-master`. For other supported versions see the install [drush documentation](http://docs.drush.org/en/master/install/).
 
-    **default:** `6.2.0.0`
+    **default:** `7.0.0`
 
 
 solr recipe
@@ -165,4 +168,4 @@ $conf['page_cache_invoke_hooks'] = FALSE;
 
   **default:** `3.0`
 
-For additional attributes see the [varnish cookbook](../berks-cookbooks/varnish)
+For additional attributes see the [varnish cookbook](../../berks-cookbooks/varnish)
