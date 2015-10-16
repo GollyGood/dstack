@@ -6,7 +6,7 @@ description 'Configures web site.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 recipe 'drupal::solr', 'Installs and configures ApacheSolr for Drupal.'
 recipe 'drupal::varnish', 'Installs and configures varnish for Drupal.'
-version '1.0.0-beta'
+version '01110110.01110100'
 depends 'composer'
 depends 'hipsnip-solr'
 depends 'php'

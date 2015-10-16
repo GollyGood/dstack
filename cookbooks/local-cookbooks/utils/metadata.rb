@@ -4,7 +4,7 @@ maintainer_email 'delaigle.jonathan@gmail.com'
 license 'Apache 2.0'
 description 'Configures utilities.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '1.0.0-beta'
+version '01110110.01110100'
 recipe 'utils::dev-tools', 'Installs and configures development tools.'
 recipe 'utils::phpmyadmin', 'Installs and confiures PHPMyAdmin.'
 recipe 'utils::scripts', 'Runs specified scripts at post-install and post-up.'
