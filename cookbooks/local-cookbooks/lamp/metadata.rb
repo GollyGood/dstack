@@ -4,7 +4,7 @@ maintainer_email 'delaigle.jonathan@gmail.com'
 license 'Apache 2.0'
 description 'Install and configures the *AMP stack.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '01110110.01110100'
+version '1.0.0-beta'
 depends 'apt'
 depends 'build-essential'
 depends 'apache2'

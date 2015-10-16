@@ -7,7 +7,7 @@ require_relative 'dstack/dstack.rb'
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  dstack = DStack.new(File.dirname(__FILE__) + '/config.dstack.yml')
+  dstack = DStack.new(File.dirname(__FILE__) + '/config.yml')
   vagrant_config = dstack.get_config('vagrant')
 
   # All Vagrant configuration is done here. The most common configuration
