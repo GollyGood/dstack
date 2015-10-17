@@ -2,7 +2,7 @@
 
 [![Stories in Ready](https://badge.waffle.io/gollygood/dstack.png?label=Ready)](https://waffle.io/gollygood/dstack)
 
-Version: 1.0.0-beta (CaneSyrup)
+Version: 0.0.1 (CaneSyrup)
 
 dStack(short for "development stack") is a Vagrant+Chef powered LAMP stack that
 allows setup of web nodes via a configuration YAML file. The primary target
