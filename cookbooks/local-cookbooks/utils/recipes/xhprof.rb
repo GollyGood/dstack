@@ -23,7 +23,7 @@ include_recipe 'lamp'
 include_recipe 'utils::xdebug'
 
 php_pear 'xhprof' do
-  preferred_state 'beta'
+  version '0.9.4'
   action :install
 end
 
