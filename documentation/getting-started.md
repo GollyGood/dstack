@@ -10,7 +10,10 @@ Requirements
 
 * Ruby >= 2.1.1
 * Vagrant >= 1.6.3
-* nfs
+
+### Optional
+
+* nfs: If it is desired to use nfs for shared directories nfs will need to be installed on your host system.
   * Ubuntu
     * Will need to be [installed](https://help.ubuntu.com/lts/serverguide/network-file-system.html) if using nfs.
     * Will also need to either configure your firewall for NFS or turn of your firewall if enabled. We are current looking to see what we can do about this on this [issue](https://github.com/gollygood/dstack/issues/10).
