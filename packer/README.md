@@ -25,7 +25,7 @@ probably switching over to Debian eventually as the main.
 2. Create a json file in the same directory named [box-name].json
 3. Generate the checksum for the file using the following command
 
-$`openssl sha1 [box-name]-[version].box`
+    $`openssl sha1 [box-name]-[version].box`
 
 4. Customize the below contents
 
