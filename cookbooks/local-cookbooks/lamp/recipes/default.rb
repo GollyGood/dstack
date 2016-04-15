@@ -28,6 +28,37 @@ if node['lamp']['php'].key?('repo')
     key node['lamp']['php']['repo']['key']
     keyserver 'keyserver.ubuntu.com'
   end
+
+  # Hack to install apache2 packages.
+  if node['lamp']['php']['version'] == '5.5' || node['lamp']['php']['version'] == '5.6'
+    execute 'apache2.4 install' do
+      command  <<-EOH
+        apt-get install libaprutil1 libaprutil1-dbd-sqlite3 libaprutil1-ldap liblua5.2-0 libssl1.0.2 liblua5.1-0 -y
+
+        dpkg -i /home/vagrant/assets/apache2/apache2-bin_2.4.16-4+deb.sury.org~precise+4_amd64.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2-utils_2.4.16-4+deb.sury.org~precise+4_amd64.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2-data_2.4.16-4+deb.sury.org~precise+4_all.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2-dbg_2.4.16-4+deb.sury.org~precise+4_amd64.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2-dev_2.4.16-4+deb.sury.org~precise+4_amd64.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2-doc_2.4.16-4+deb.sury.org~precise+4_all.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2-suexec-custom_2.4.16-4+deb.sury.org~precise+4_amd64.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2-suexec-pristine_2.4.16-4+deb.sury.org~precise+4_amd64.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2-utils_2.4.16-4+deb.sury.org~precise+4_amd64.deb
+        dpkg -i /home/vagrant/assets/apache2/apache2_2.4.16-4+deb.sury.org~precise+4_amd64.deb
+
+        # Install remaining dependencies.
+        apt-get -f install -y
+        apt-get install ssl-cert
+      EOH
+    end
+
+    template "/etc/apt/preferences.d/apache2_4-hold" do
+      source 'apache2_4-hold.erb'
+      owner 'root'
+      group 'root'
+      mode '0644'
+    end
+  end
 end
 
 include_recipe 'build-essential'
