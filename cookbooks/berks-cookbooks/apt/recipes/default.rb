@@ -25,14 +25,27 @@
 
 Chef::Log.debug 'apt is not installed. Apt-specific resources will not be executed.' unless apt_installed?
 
+file '/var/lib/apt/periodic/update-success-stamp' do
+  owner 'root'
+  group 'root'
+  only_if { apt_installed? }
+  action :nothing
+end
+
 # If compile_time_update run apt-get update at compile time
 e = execute 'apt-get-update' do
   command 'apt-get update'
   ignore_failure true
   only_if { apt_installed? }
   action :nothing
+  notifies :touch, 'file[/var/lib/apt/periodic/update-success-stamp]', :immediately
 end
 e.run_action(:run) if node['apt']['compile_time_update']
+
+# Updates 'apt-get update' timestamp after each update success
+cookbook_file '/etc/apt/apt.conf.d/15update-stamp' do
+    source '15update-stamp'
+end
 
 # Run apt-get update to create the stamp file
 execute 'apt-get-update' do
@@ -40,6 +53,7 @@ execute 'apt-get-update' do
   ignore_failure true
   only_if { apt_installed? }
   not_if { ::File.exists?('/var/lib/apt/periodic/update-success-stamp') }
+  notifies :touch, 'file[/var/lib/apt/periodic/update-success-stamp]', :immediately
 end
 
 # For other recipes to call to force an update
@@ -48,6 +62,7 @@ execute 'apt-get update' do
   ignore_failure true
   only_if { apt_installed? }
   action :nothing
+  notifies :touch, 'file[/var/lib/apt/periodic/update-success-stamp]', :immediately
 end
 
 # Automatically remove packages that are no longer needed for dependencies
@@ -64,12 +79,6 @@ execute 'apt-get autoclean' do
   action :nothing
 end
 
-# provides /var/lib/apt/periodic/update-success-stamp on apt-get update
-package 'update-notifier-common' do
-  notifies :run, 'execute[apt-get-update]', :immediately
-  only_if { apt_installed? }
-end
-
 execute 'apt-get-update-periodic' do
   command 'apt-get update'
   ignore_failure true
@@ -78,6 +87,7 @@ execute 'apt-get-update-periodic' do
     ::File.exists?('/var/lib/apt/periodic/update-success-stamp') &&
     ::File.mtime('/var/lib/apt/periodic/update-success-stamp') < Time.now - node['apt']['periodic_update_min_delay']
   end
+  notifies :touch, 'file[/var/lib/apt/periodic/update-success-stamp]', :immediately
 end
 
 %w{/var/cache/local /var/cache/local/preseeding}.each do |dirname|

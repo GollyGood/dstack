@@ -9,6 +9,10 @@ apply-patches:
 	# Add support for allowing global install of composer packages.
 	# @see https://github.com/escapestudios-cookbooks/composer/pull/53
 	patch -d cookbooks/berks-cookbooks/composer -p1 < cookbooks/patches/escapestudios-cookbooks--composer-53.patch
+	# Add support for Debian 8 "Jessie" for the apt cookbook.
+	# Patch based off of https://github.com/chef-cookbooks/apt/commit/4baf453de4a4bb9e907d43a9019dccd849e04531
+	# @see https://github.com/chef-cookbooks/apt/issues/80
+	patch -d cookbooks/berks-cookbooks/apt -p1 < cookbooks/patches/chef-cookbooks--apt-80-should-support-jessie.patch
 
 apply-version:
 	find ./ -type f -not -path './.git/*' -not -path './cookbooks/berks-cookbooks/*' -not -path './Makefile' -exec sed -i 's/01110110.01110100/$(VERSION)/' {} ';'
