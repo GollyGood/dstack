@@ -28,7 +28,7 @@ tika          |                             | @todo: Add tika.
 vim           | 7.3                         |
 Webgrind      | master                      | Commit: 077f79f13ddc8efa4cb10c2c041eb4b50037e0e3
 Xdebug        | 2.2.7                       |
-XHprof        | beta                        | @todo: Lock to version
+XHprof        | 0.9.4                       |
 
 Requirements
 ------------

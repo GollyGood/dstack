@@ -20,3 +20,4 @@
 default['utils']['xhprof']['docroot'] = '/var/www/xhprof'
 default['utils']['xhprof']['domain'] = ''
 default['utils']['xhprof']['html'] = '/usr/share/php/xhprof_html'
+default['utiils']['xhprof']['version'] = '0.9.4'

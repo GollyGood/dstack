@@ -23,7 +23,7 @@ include_recipe 'lamp'
 include_recipe 'utils::xdebug'
 
 php_pear 'xhprof' do
-  version '0.9.4'
+  version node['utils']['xhprof']['version']
   action :install
 end
 
