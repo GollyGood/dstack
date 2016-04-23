@@ -23,9 +23,23 @@ require 'chef/mixin/shell_out'
 
 include Chef::Mixin::ShellOut
 include Opscode::IIS::Helper
+include Opscode::IIS::Processors
 
+# :config deprecated, use :set instead
 action :config do
-  cmd = "#{appcmd(node)} set config #{new_resource.cfg_cmd}"
+  new_resource.updated_by_last_action(true) if config
+end
+
+action :set do
+  new_resource.updated_by_last_action(true) if config
+end
+
+action :clear do
+  new_resource.updated_by_last_action(true) if config(:clear)
+end
+
+def config(action = :set)
+  cmd = "#{appcmd(node)} #{action} config #{new_resource.cfg_cmd}"
   Chef::Log.debug(cmd)
   shell_out!(cmd, returns: new_resource.returns)
   Chef::Log.info('IIS Config command run')

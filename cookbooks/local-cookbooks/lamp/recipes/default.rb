@@ -20,14 +20,14 @@
 include_recipe 'apt'
 
 if node['lamp']['php'].key?('repo')
-  apt_repository node['lamp']['php']['repo']['name'] do
-    uri node['lamp']['php']['repo']['uri']
-    distribution node['lsb']['codename']
-    components ['main']
-    deb_src 'true'
-    key node['lamp']['php']['repo']['key']
-    keyserver 'keyserver.ubuntu.com'
-  end
+#  apt_repository node['lamp']['php']['repo']['name'] do
+#    uri node['lamp']['php']['repo']['uri']
+#    distribution node['lsb']['codename']
+#    components ['main']
+#    deb_src 'true'
+#    key node['lamp']['php']['repo']['key']
+#    keyserver 'keyserver.ubuntu.com'
+#  end
 end
 
 include_recipe 'build-essential'
@@ -62,13 +62,13 @@ template "#{node['php']['ext_conf_dir']}/apc.ini" do
 end
 
 if node['lamp']['php']['version'] == '5.3'
-  package 'php5-suhosin' do
-    action :install
-  end
-  template "#{node['php']['ext_conf_dir']}/suhosin.ini" do
-    source 'suhosin.ini.erb'
-    owner 'root'
-    group 'root'
-    mode '0644'
-  end
+#  package 'php5-suhosin' do
+#    action :install
+#  end
+#  template "#{node['php']['ext_conf_dir']}/suhosin.ini" do
+#    source 'suhosin.ini.erb'
+#    owner 'root'
+#    group 'root'
+#    mode '0644'
+#  end
 end

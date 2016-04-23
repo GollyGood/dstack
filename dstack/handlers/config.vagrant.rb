@@ -28,15 +28,14 @@ class DStackConfigVagrant < DStackConfig
     @defaults = {
       'hostname' => 'default',
       'tld' => 'local',
-      'box' => 'dstack-ubuntu-12.04',
-      'box_url' => 'http://devhumans.com/dstack/dstack-ubuntu-12.04.json',
+      'box' => 'bento/debian-8.3',
+      'box_url' => 'https://atlas.hashicorp.com/bento/boxes/debian-8.3.json',
       'box_version' => '>= 0',
       'networks' => [{ 'private_network' => { :type => 'dhcp' } }],
       'memory' => 2048,
       'synced_folders' => [],
       'synced_folders_type_default' => 'rsync',
       'assets_folder' => { 'host_directory' => 'assets', 'guest_directory' => '/home/vagrant/assets' },
-      'tld' => 'local',
       'forward_agent' => true
     }
   end

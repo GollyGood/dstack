@@ -28,10 +28,9 @@ when 'freebsd', 'arch'
   default['xml']['packages'] = %w(libxml2 libxslt)
 when 'mac_os_x'
   default['xml']['packages'] = %w(libxml2)
+else
+  default['xml']['packages'] = []
 end
 
 default['xml']['nokogiri']['use_system_libraries'] = false
-
-# Newest versions will not compile with system libraries
-# https://github.com/sparklemotion/nokogiri/issues/1099
-default['xml']['nokogiri']['version'] = '1.6.2.1'
+default['xml']['nokogiri']['version'] = nil

@@ -35,7 +35,7 @@ when 'arch'
 when 'rhel'
   package 'which'
   package 'php package' do
-    if node['platform_version'].to_f < 6.0
+    if node['platform_version'].to_f < 6.0 && node['platform'] != 'amazon'
       package_name 'php53'
     else
       package_name 'php'
@@ -56,8 +56,13 @@ when 'suse'
     not_if 'which php'
   end
 when 'freebsd'
-  %w(php5 mod_php5 libxml2).each do |pkg|
+  %w(php56 libxml2).each do |pkg|
     package pkg
+  end
+  %w(mod_php56).each do |pkg|
+    package pkg do
+      options '-I'
+    end
   end
 end unless node['apache']['mod_php5']['install_method'] == 'source'
 

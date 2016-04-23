@@ -8,15 +8,23 @@ For more information about runit:
 
 - http://smarden.org/runit/
 
+#### A note regarding versions 1.7.0 and 1.7.2
+
+With the benefit of hindsight we can say that the changes contained version 1.7.0 merited a major version number change, and that version 1.7.2 contains some still unresolved regressions compared to 1.6.0. Please be sure to test this new version for compatibility with your systems before upgrading to version 1.7.
+
+See [issue #144](https://github.com/hw-cookbooks/runit/issues/144) for some notes on how these versions behaved unexpectedly in one user's environment.
 
 Requirements
 ------------
-### Platforms
+#### Platforms
 - Debian/Ubuntu
 - Gentoo
 - RHEL
 
-### Cookbooks
+#### Chef
+- Chef 11+
+
+#### Cookbooks
 - packagecloud (for RHEL)
 
 Attributes
@@ -109,13 +117,18 @@ Many of these parameters are only used in the `:enable` action.
    compatibility with legacy runit service definition. Default is an
    empty hash.
 - **env** - A hash of environment variables with their values as content
-   used in the service's `env` directory. Default is an empty hash.
+  used in the service's `env` directory. Default is an empty hash. When
+  this hash is non-empty, the contents of the runit service's `env`
+  directory will be managed by Chef in order to conform to the declared
+  state.
 - **log** - Whether to start the service's logger with svlogd, requires
    a template `sv-service_name-log-run.erb` to configure the log's run
    script. Default is true.
 - **default_logger** - Whether a default `log/run` script should be set
    up. If true, the default content of the run script will use
    `svlogd` to write logs to `/var/log/service_name`. Default is false.
+- **log_dir** - The directory where the `svlogd` log service will run.
+  Used when `default_logger` is `true`.  Default is `/var/log/service_name`
 - **log_size** - The maximum size a log file can grow to before it is
   automatically rotated.  See svlogd(8) for the default value.
 - **log_num** - The maximum number of log files that will be retained
@@ -169,7 +182,8 @@ Many of these parameters are only used in the `:enable` action.
     the run script is updated. Defaults to `true`. Set to `false` if
     the service shouldn't be restarted when the run script is updated.
 - **start_down** - Set the default state of the runit service to 'down' by creating
-    `<sv_dir>/down` file
+    `<sv_dir>/down` file. Defaults to `false`. Services using `start_down`
+    will not be notified to restart when their run script is updated.
 - **delete_downfile** - Delete previously created `<sv_dir>/down` file
 
 Unlike previous versions of the cookbook using the `runit_service` definition, the `runit_service` resource can be notified. See __Usage__ examples below.
@@ -353,8 +367,8 @@ runit_service "memcached" do
   options({
     :memory => node[:memcached][:memory],
     :port => node[:memcached][:port],
-    :user => node[:memcached][:user]}.merge(params)
-  })
+    :user => node[:memcached][:user]
+  }.merge(params))
 end
 ```
 

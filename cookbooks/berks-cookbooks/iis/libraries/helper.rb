@@ -3,6 +3,7 @@
 # Library:: helper
 #
 # Author:: Julian C. Dunn <jdunn@chef.io>
+# Author:: Justin Schuhmann <jmschu02@gmail.com>
 #
 # Copyright 2013, Chef Software, Inc.
 #
@@ -23,11 +24,17 @@ module Opscode
   module IIS
     # Contains functions that are used throughout this cookbook
     module Helper
+      @iis_version = nil
+
       if RUBY_PLATFORM =~ /mswin|mingw32|windows/
         require 'chef/win32/version'
+        require 'win32/registry'
       end
 
       require 'rexml/document'
+      require 'chef/mixin/shell_out'
+
+      include Chef::Mixin::ShellOut
       include REXML
       include Windows::Helper
 
@@ -60,11 +67,11 @@ module Opscode
       end
 
       def windows_cleanpath(path)
-        if !defined?(Chef::Util::PathHelper.cleanpath).nil?
-          path = Chef::Util::PathHelper.cleanpath(path)
-        else
-          path = win_friendly_path(path)
-        end
+        path = if defined?(Chef::Util::PathHelper.cleanpath).nil?
+                 win_friendly_path(path)
+               else
+                 Chef::Util::PathHelper.cleanpath(path)
+               end
         # Remove any trailing slashes to prevent them from accidentally escaping any quotes.
         path.chomp('/').chomp('\\')
       end
@@ -81,6 +88,15 @@ module Opscode
         @appcmd ||= begin
           "#{node['iis']['home']}\\appcmd.exe"
         end
+      end
+
+      def iis_version
+        if @iis_version.nil?
+          version_string = Win32::Registry::HKEY_LOCAL_MACHINE.open('SOFTWARE\Microsoft\InetStp').read('VersionString')[1]
+          version_string.slice! 'Version '
+          @iis_version = version_string
+        end
+        @iis_version
       end
     end
   end

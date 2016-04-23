@@ -16,15 +16,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-unless node['apache']['listen_ports'].include?(node['apache']['mod_ssl']['port'])
-  node.default['apache']['listen_ports'] = node['apache']['listen_ports'] + [node['apache']['mod_ssl']['port']]
+if node['apache']['listen'] == ['*:80']
+  node.default['apache']['listen'] = ['*:80', "*:#{node['apache']['mod_ssl']['port']}"]
 end
 
 include_recipe 'apache2::default'
 
 if platform_family?('rhel', 'fedora', 'suse')
-  package node['apache']['mod_ssl']['pkg_name'] do
-    notifies :run, 'execute[generate-module-list]', :immediately
+  if 'suse' != node['platform']
+    package node['apache']['mod_ssl']['pkg_name'] do
+      notifies :run, 'execute[generate-module-list]', :immediately
+    end
   end
 
   file "#{node['apache']['dir']}/conf.d/ssl.conf" do

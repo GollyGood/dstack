@@ -9,6 +9,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   dstack = DStack.new(File.dirname(__FILE__) + '/config.yml')
   vagrant_config = dstack.get_config('vagrant')
+  config.omnibus.chef_version = "12.9.38"
 
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
@@ -69,11 +70,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ## Enable provisioning with chef solo, specifying a cookbooks path, roles
   ## path, and data_bags path (all relative to this Vagrantfile), and adding
   ## some recipes and/or roles.
-  config.vm.provision "chef_solo" do |chef|
+  config.vm.provision "chef_zero" do |chef|
     chef.custom_config_path = "Vagrantfile.chef"
 
     chef_config = dstack.get_config('chef')
     chef.cookbooks_path = chef_config['cookbooks_path']
+    chef.nodes_path = 'nodes'
 
     chef_json = dstack.chef_array()
     chef.run_list = chef_json.delete('recipes') if chef_json['recipes']
