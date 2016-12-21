@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: runit
+# Cookbook:: runit
 # Provider:: service
 #
 # Author:: Joshua Timberman <jtimberman@chef.io>
-# Author:: Sean OMeara <sean@chef.io>
-# Copyright 2011-2015, Chef Software, Inc.
+# Author:: Sean OMeara <sean@sean.io>
+# Copyright:: 2011-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ class Chef
         )
       end
 
-      use_inline_resources if defined?(use_inline_resources)
+      use_inline_resources
 
       def whyrun_supported?
         true
@@ -72,16 +72,16 @@ class Chef
         if new_resource.sv_templates
 
           directory sv_dir_name do
-            owner new_resource.owner
-            group new_resource.group
+            owner new_resource.owner unless new_resource.owner.nil?
+            group new_resource.group unless new_resource.group.nil?
             mode '0755'
             recursive true
             action :create
           end
 
           template "#{sv_dir_name}/run" do
-            owner new_resource.owner
-            group new_resource.group
+            owner new_resource.owner unless new_resource.owner.nil?
+            group new_resource.group unless new_resource.group.nil?
             source "sv-#{new_resource.run_template_name}-run.erb"
             cookbook template_cookbook
             mode '0755'
@@ -93,32 +93,32 @@ class Chef
           # log stuff
           if new_resource.log
             directory "#{sv_dir_name}/log" do
-              owner new_resource.owner
-              group new_resource.group
+              owner new_resource.owner unless new_resource.owner.nil?
+              group new_resource.group unless new_resource.group.nil?
               recursive true
               action :create
             end
 
             directory "#{sv_dir_name}/log/main" do
-              owner new_resource.owner
-              group new_resource.group
+              owner new_resource.owner unless new_resource.owner.nil?
+              group new_resource.group unless new_resource.group.nil?
               mode '0755'
               recursive true
               action :create
             end
 
             directory new_resource.log_dir do
-              owner new_resource.owner
-              group new_resource.group
-              mode '00755'
+              owner new_resource.owner unless new_resource.owner.nil?
+              group new_resource.group unless new_resource.group.nil?
+              mode '0755'
               recursive true
               action :create
             end
 
             template "#{sv_dir_name}/log/config" do
-              owner new_resource.owner
-              group new_resource.group
-              mode '00644'
+              owner new_resource.owner unless new_resource.owner.nil?
+              group new_resource.group unless new_resource.group.nil?
+              mode '0644'
               cookbook 'runit'
               source 'log-config.erb'
               variables(config: new_resource)
@@ -133,17 +133,17 @@ class Chef
             if new_resource.default_logger
               file "#{sv_dir_name}/log/run" do
                 content default_logger_content
-                owner new_resource.owner
-                group new_resource.group
-                mode '00755'
+                owner new_resource.owner unless new_resource.owner.nil?
+                group new_resource.group unless new_resource.group.nil?
+                mode '0755'
                 action :create
                 notifies :run, 'ruby_block[restart_log_service]', :delayed
               end
             else
               template "#{sv_dir_name}/log/run" do
-                owner new_resource.owner
-                group new_resource.group
-                mode '00755'
+                owner new_resource.owner unless new_resource.owner.nil?
+                group new_resource.group unless new_resource.group.nil?
+                mode '0755'
                 source "sv-#{new_resource.log_template_name}-log-run.erb"
                 cookbook template_cookbook
                 variables(options: new_resource.options)
@@ -156,64 +156,65 @@ class Chef
 
           # environment stuff
           directory "#{sv_dir_name}/env" do
-            owner new_resource.owner
-            group new_resource.group
-            mode '00755'
+            owner new_resource.owner unless new_resource.owner.nil?
+            group new_resource.group unless new_resource.group.nil?
+            mode '0755'
             action :create
           end
 
           new_resource.env.map do |var, value|
             file "#{sv_dir_name}/env/#{var}" do
-              owner new_resource.owner
-              group new_resource.group
+              owner new_resource.owner unless new_resource.owner.nil?
+              group new_resource.group unless new_resource.group.nil?
               content value
-              mode 00640
+              sensitive true if Chef::Resource.instance_methods(false).include?(:sensitive)
+              mode '0640'
               action :create
+              notifies :run, 'ruby_block[restart_service]', :delayed
             end
           end
 
-          ruby_block "zap extra env files for #{new_resource.name} service" do
-            block { zap_extra_env_files }
+          ruby_block "Delete unmanaged env files for #{new_resource.name} service" do
+            block { delete_extra_env_files }
             only_if { extra_env_files? }
             not_if { new_resource.env.empty? }
             action :run
+            notifies :run, 'ruby_block[restart_service]', :delayed
           end
 
-          if new_resource.check
-            template "#{sv_dir_name}/check" do
-              owner new_resource.owner
-              group new_resource.group
-              mode '00755'
-              cookbook template_cookbook
-              source "sv-#{new_resource.check_script_template_name}-check.erb"
-              variables(options: new_resource.options)
-              action :create
-            end
+          template "#{sv_dir_name}/check" do
+            owner new_resource.owner unless new_resource.owner.nil?
+            group new_resource.group unless new_resource.group.nil?
+            mode '0755'
+            cookbook template_cookbook
+            source "sv-#{new_resource.check_script_template_name}-check.erb"
+            variables(options: new_resource.options)
+            action :create
+            only_if { new_resource.check }
           end
 
-          if new_resource.finish
-            template "#{sv_dir_name}/finish" do
-              owner new_resource.owner
-              group new_resource.group
-              mode '00755'
-              source "sv-#{new_resource.finish_script_template_name}-finish.erb"
-              cookbook template_cookbook
-              variables(options: new_resource.options) if new_resource.options.respond_to?(:has_key?)
-              action :create
-            end
+          template "#{sv_dir_name}/finish" do
+            owner new_resource.owner unless new_resource.owner.nil?
+            group new_resource.group unless new_resource.group.nil?
+            mode '0755'
+            source "sv-#{new_resource.finish_script_template_name}-finish.erb"
+            cookbook template_cookbook
+            variables(options: new_resource.options) if new_resource.options.respond_to?(:has_key?)
+            action :create
+            only_if { new_resource.finish }
           end
 
           directory "#{sv_dir_name}/control" do
-            owner new_resource.owner
-            group new_resource.group
-            mode '00755'
+            owner new_resource.owner unless new_resource.owner.nil?
+            group new_resource.group unless new_resource.group.nil?
+            mode '0755'
             action :create
           end
 
           new_resource.control.map do |signal|
             template "#{sv_dir_name}/control/#{signal}" do
-              owner new_resource.owner
-              group new_resource.group
+              owner new_resource.owner unless new_resource.owner.nil?
+              group new_resource.group unless new_resource.group.nil?
               mode '0755'
               source "sv-#{new_resource.control_template_names[signal]}-#{signal}.erb"
               cookbook template_cookbook
@@ -232,12 +233,13 @@ class Chef
             template "#{parsed_lsb_init_dir}/#{new_resource.service_name}" do
               owner 'root'
               group 'root'
-              mode '00755'
+              mode '0755'
               cookbook 'runit'
               source 'init.d.erb'
               variables(
                 name: new_resource.service_name,
                 sv_bin: new_resource.sv_bin,
+                sv_args: sv_args,
                 init_dir: ::File.join(parsed_lsb_init_dir, '')
               )
               action :create
@@ -260,7 +262,7 @@ class Chef
           end
 
           file down_file do
-            mode 00644
+            mode '0644'
             backup false
             content '# File created and managed by chef!'
             action df_action
@@ -281,7 +283,7 @@ class Chef
 
         directory new_resource.service_dir
 
-        link "#{service_dir_name}" do
+        link service_dir_name.to_s do
           to sv_dir_name
           action :create
         end
@@ -291,6 +293,21 @@ class Chef
             wait_for_service
           end
           action :run
+        end
+
+        # Support supervisor owner and groups http://smarden.org/runit/faq.html#user
+        if new_resource.supervisor_owner || new_resource.supervisor_group
+          directory "#{service_dir_name}/supervise" do
+            mode '0755'
+            action :create
+          end
+          %w(ok status control).each do |target|
+            file "#{service_dir_name}/supervise/#{target}" do
+              owner new_resource.supervisor_owner || 'root'
+              group new_resource.supervisor_group || 'root'
+              action :touch
+            end
+          end
         end
       end
 

@@ -17,6 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'uri'
 require 'chef/mixin/shell_out'
 include Chef::Mixin::ShellOut
 
@@ -25,7 +26,8 @@ def whyrun_supported?
 end
 
 def parse_app_dir_name(url)
-  file_name = url.split('/')[-1]
+  uri = URI.parse(url)
+  file_name = uri.path.split('/').last
   # funky logic to parse oracle's non-standard naming convention
   # for jdk1.6
   if file_name =~ /^(jre|jdk|server-jre).*$/
@@ -35,11 +37,11 @@ def parse_app_dir_name(url)
     # pad a single digit number with a zero
     update_num = '0' + update_num if update_num.length < 2
     package_name = (file_name =~ /^server-jre.*$/) ? 'jdk' : file_name.scan(/[a-z]+/)[0]
-    if update_num == '00'
-      app_dir_name = "#{package_name}1.#{major_num}.0"
-    else
-      app_dir_name = "#{package_name}1.#{major_num}.0_#{update_num}"
-    end
+    app_dir_name = if update_num == '00'
+                     "#{package_name}1.#{major_num}.0"
+                   else
+                     "#{package_name}1.#{major_num}.0_#{update_num}"
+                   end
   else
     app_dir_name = file_name.split(/(.tgz|.tar.gz|.zip)/)[0]
     app_dir_name = app_dir_name.split('-bin')[0]
@@ -65,6 +67,7 @@ end
 def download_direct_from_oracle(tarball_name, new_resource)
   download_path = "#{Chef::Config[:file_cache_path]}/#{tarball_name}"
   cookie = 'oraclelicense=accept-securebackup-cookie'
+  proxy = "-x #{new_resource.proxy}" unless new_resource.proxy.nil?
   if node['java']['oracle']['accept_oracle_download_terms']
     # install the curl package
     p = package 'curl' do
@@ -76,7 +79,7 @@ def download_direct_from_oracle(tarball_name, new_resource)
     converge_by(description) do
       Chef::Log.debug 'downloading oracle tarball straight from the source'
       cmd = shell_out!(
-        %( curl --create-dirs -L --retry #{new_resource.retries} --retry-delay #{new_resource.retry_delay} --cookie "#{cookie}" #{new_resource.url} -o #{download_path} --connect-timeout #{new_resource.connect_timeout} ),
+        %( curl --create-dirs -L --retry #{new_resource.retries} --retry-delay #{new_resource.retry_delay} --cookie "#{cookie}" #{new_resource.url} -o #{download_path} --connect-timeout #{new_resource.connect_timeout} #{proxy} ),
                                  timeout: new_resource.download_timeout
       )
     end
@@ -89,11 +92,11 @@ action :install do
   app_dir_name, tarball_name = parse_app_dir_name(new_resource.url)
   app_root = new_resource.app_home.split('/')[0..-2].join('/')
   app_dir = app_root + '/' + app_dir_name
-  if new_resource.group
-    app_group = new_resource.group
-  else
-    app_group = new_resource.owner
-  end
+  app_group = if new_resource.group
+                new_resource.group
+              else
+                new_resource.owner
+              end
 
   if !new_resource.default && new_resource.use_alt_suffix
     Chef::Log.debug('processing alternate jdk')
@@ -169,10 +172,10 @@ action :install do
       )
       unless cmd.exitstatus == 0
         Chef::Application.fatal!(%( Command \' mv "#{Chef::Config[:file_cache_path]}/#{app_dir_name}" "#{app_dir}" \' failed ))
-        end
+      end
 
       # change ownership of extracted files
-      FileUtils.chown_R new_resource.owner, app_group, app_root
+      FileUtils.chown_R new_resource.owner, app_group, app_dir
     end
     new_resource.updated_by_last_action(true)
   end

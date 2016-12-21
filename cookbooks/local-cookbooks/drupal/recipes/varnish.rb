@@ -21,7 +21,10 @@ fail 'Varnish 3.x is the only version supported at this time.' if node['varnish'
 
 include_recipe 'varnish::repo' if node['varnish']['use_default_repo']
 
-package 'varnish'
+package 'varnish' do
+  version node['drupal']['varnish']['package_version']
+  action :install
+end
 
 if node['varnish']['secret-non_secure']
   file "#{node['varnish']['secret_file']}" do
@@ -38,7 +41,7 @@ template "#{node['varnish']['dir']}/#{node['varnish']['vcl_conf']}" do
   owner 'root'
   group 'root'
   mode 0644
-  notifies :reload, 'service[varnish]'
+  notifies :reload, 'service[varnish]', :delayed
   only_if { node['varnish']['vcl_generated'] == true }
 end
 
@@ -48,15 +51,15 @@ template node['varnish']['default'] do
   owner 'root'
   group 'root'
   mode 0644
-  notifies 'restart', 'service[varnish]'
+  notifies :restart, 'service[varnish]', :delayed
 end
 
 service 'varnish' do
-  supports :restart => true, :reload => true
-  action %w(enable start)
+  supports restart: true, reload: true
+  action %w(enable)
 end
 
 service 'varnishlog' do
-  supports :restart => true, :reload => true
+  supports restart: true, reload: true
   action node['varnish']['log_daemon'] ? %w(enable start) : %w(disable stop)
 end

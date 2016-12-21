@@ -19,7 +19,7 @@
 
 # default jdk attributes
 default['java']['jdk_version'] = '6'
-default['java']['arch'] = kernel['machine'] =~ /x86_64/ ? 'x86_64' : 'i586'
+default['java']['arch'] = node['kernel']['machine'] =~ /x86_64/ ? 'x86_64' : 'i586'
 default['java']['openjdk_packages'] = []
 default['java']['openjdk_version'] = nil
 default['java']['accept_license_agreement'] = false
@@ -42,6 +42,8 @@ when 'windows'
   default['java']['windows']['checksum'] = nil
   default['java']['windows']['package_name'] = 'Java(TM) SE Development Kit 7 (64-bit)'
   default['java']['windows']['public_jre_home'] = nil
+  default['java']['windows']['owner'] = 'administrator'
+  default['java']['windows']['remove_obsolete'] = false
 when 'mac_os_x'
   default['java']['install_flavor'] = 'homebrew'
 else
@@ -130,12 +132,12 @@ default['java']['jdk']['8']['bin_cmds'] = %w(appletviewer apt ControlPanel extch
 # Official checksums for the latest release can be found at https://www.oracle.com/webfolder/s/digest/8u60checksum.html
 
 # x86_64
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = '196880a42c45ec9ab2f00868d69619c0'
+default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.tar.gz'
+default['java']['jdk']['8']['x86_64']['checksum'] = '467f323ba38df2b87311a7818bcbf60fe0feb2139c455dfa0e08ba7ed8581328'
 
 # i586
-default['java']['jdk']['8']['i586']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-linux-i586.tar.gz'
-default['java']['jdk']['8']['i586']['checksum'] = '7b715e1fe2316c94aaa968b23ce49c9a'
+default['java']['jdk']['8']['i586']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-i586.tar.gz'
+default['java']['jdk']['8']['i586']['checksum'] = 'b11212ef06235296cad2f9b80a22f2d853a2d2f66ce55b993eb686e5a2da365d'
 
 default['java']['oracle']['jce']['enabled'] = false
 default['java']['oracle']['jce']['8']['url'] = 'http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip'

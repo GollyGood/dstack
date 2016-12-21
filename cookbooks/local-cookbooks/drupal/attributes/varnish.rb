@@ -19,6 +19,8 @@
 
 include_attribute 'varnish'
 
+default['drupal']['varnish']['package_version'] = '3.0.7-1~jessie'
+
 force_default['varnish']['backend_host'] = '127.0.0.1'
 force_default['varnish']['backend_port'] = 80
 force_default['varnish']['secret-non_secure'] = '49d7f218-231f-4e32-9582-f1aa8168b95e'

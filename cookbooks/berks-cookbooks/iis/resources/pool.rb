@@ -54,9 +54,11 @@ attribute :ping_response_time, kind_of: String, default: '00:01:30'
 attribute :disallow_rotation_on_config_change, kind_of: [TrueClass, FalseClass], default: false
 attribute :disallow_overlapping_rotation, kind_of: [TrueClass, FalseClass], default: false
 attribute :recycle_schedule_clear, kind_of: [TrueClass, FalseClass], default: false
+attribute :log_event_on_recycle, kind_of: String, default: node['iis']['recycle']['log_events']
 attribute :recycle_after_time, kind_of: String
 attribute :recycle_at_time, kind_of: String
 attribute :private_mem, kind_of: Integer
+attribute :virtual_mem, kind_of: Integer
 
 # failure items
 attribute :load_balancer_capabilities, kind_of: Symbol, equal_to: [:HttpLevel, :TcpLevel], default: :HttpLevel
@@ -74,7 +76,7 @@ attribute :cpu_action, kind_of: Symbol, equal_to: [:NoAction, :KillW3wp, :Thrott
 attribute :cpu_limit, kind_of: Integer, default: 0
 attribute :cpu_reset_interval, kind_of: String, default: '00:05:00'
 attribute :cpu_smp_affinitized, kind_of: [TrueClass, FalseClass], default: false
-attribute :smp_processor_affinity_mask, kind_of: Bignum, default: 4_294_967_295.0
-attribute :smp_processor_affinity_mask_2, kind_of: Bignum, default: 4_294_967_295.0
+attribute :smp_processor_affinity_mask, kind_of: Float, default: 4_294_967_295.0
+attribute :smp_processor_affinity_mask_2, kind_of: Float, default: 4_294_967_295.0
 
 attr_accessor :exists, :running

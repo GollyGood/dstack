@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: xml
+# Cookbook:: xml
 # Attributes:: default
 #
-# Copyright 2009-2015, Chef Software, Inc.
+# Copyright:: 2009-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@ default['xml']['compiletime'] = false
 
 case node['platform_family']
 when 'rhel', 'fedora', 'suse'
-  default['xml']['packages'] = %w(libxml2-devel libxslt-devel)
+  default['xml']['packages'] = %w(libxml2-devel libxslt-devel zlib-devel)
 when 'debian'
   default['xml']['packages'] = %w(libxml2-dev libxslt-dev zlib1g-dev)
-when 'freebsd', 'arch'
+when 'freebsd'
   default['xml']['packages'] = %w(libxml2 libxslt)
 when 'mac_os_x'
   default['xml']['packages'] = %w(libxml2)
