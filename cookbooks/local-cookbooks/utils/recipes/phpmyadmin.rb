@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'avahi'
 include_recipe 'lamp'
 include_recipe 'phpmyadmin'
 
@@ -33,10 +32,6 @@ phpmyadmin_db 'phpmyadmin' do
 end
 
 if node['utils']['phpmyadmin']['domain'] != ''
-  avahi_alias node['utils']['phpmyadmin']['domain'] do
-    action :add
-  end
-
   web_app node['utils']['phpmyadmin']['domain'] do
     cookbook 'apache2'
     allow_override 'All'

@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe 'avahi'
 include_recipe 'git'
 include_recipe 'lamp'
 include_recipe 'utils::xdebug'
@@ -35,10 +34,6 @@ git node['utils']['webgrind']['docroot'] do
   repository 'git://github.com/jokkedk/webgrind.git'
   reference '077f79f13ddc8efa4cb10c2c041eb4b50037e0e3'
   action :sync
-end
-
-avahi_alias node['utils']['webgrind']['domain'] do
-  action :add
 end
 
 web_app node['utils']['webgrind']['domain'] do

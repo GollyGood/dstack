@@ -18,10 +18,6 @@
 #
 include_recipe 'lamp'
 
-if node.key?('avahi')
-  include_recipe 'avahi'
-end
-
 def get_aliases(site)
   aliases = []
 
@@ -52,12 +48,6 @@ node['default-web']['sites'].each_pair do |key, value|
   append_hosts(server_name)
   aliases.each do |site_alias|
     append_hosts(site_alias)
-
-    if node.key?('avahi')
-      avahi_alias site_alias do
-        action :add
-      end
-    end
   end
 
   web_app server_name do
