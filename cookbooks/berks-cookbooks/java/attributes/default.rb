@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Seth Chisamore (<schisamo@chef.io>)
 # Cookbook Name:: java
 # Attributes:: default
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010-2015, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 # default jdk attributes
 default['java']['jdk_version'] = '6'
-default['java']['arch'] = kernel['machine'] =~ /x86_64/ ? "x86_64" : "i586"
+default['java']['arch'] = node['kernel']['machine'] =~ /x86_64/ ? 'x86_64' : 'i586'
 default['java']['openjdk_packages'] = []
 default['java']['openjdk_version'] = nil
 default['java']['accept_license_agreement'] = false
@@ -33,17 +33,21 @@ default['java']['reset_alternatives'] = true
 default['java']['ark_retries'] = 0
 default['java']['ark_retry_delay'] = 2
 default['java']['ark_timeout'] = 600
+default['java']['ark_download_timeout'] = 600
 
 case node['platform_family']
-when "windows"
-  default['java']['install_flavor'] = "windows"
+when 'windows'
+  default['java']['install_flavor'] = 'windows'
   default['java']['windows']['url'] = nil
   default['java']['windows']['checksum'] = nil
-  default['java']['windows']['package_name'] = "Java(TM) SE Development Kit 7 (64-bit)"
-when "mac_os_x"
-  default['java']['install_flavor'] = "homebrew"
+  default['java']['windows']['package_name'] = 'Java(TM) SE Development Kit 7 (64-bit)'
+  default['java']['windows']['public_jre_home'] = nil
+  default['java']['windows']['owner'] = 'administrator'
+  default['java']['windows']['remove_obsolete'] = false
+when 'mac_os_x'
+  default['java']['install_flavor'] = 'homebrew'
 else
-  default['java']['install_flavor'] = "openjdk"
+  default['java']['install_flavor'] = 'openjdk'
 end
 
 case node['java']['install_flavor']
@@ -51,14 +55,14 @@ when 'ibm', 'ibm_tar'
   default['java']['ibm']['url'] = nil
   default['java']['ibm']['checksum'] = nil
   default['java']['ibm']['accept_ibm_download_terms'] = false
-  default['java']['java_home'] = "/opt/ibm/java"
+  default['java']['java_home'] = '/opt/ibm/java'
 
-  default['java']['ibm']['6']['bin_cmds'] = [ "appletviewer", "apt", "ControlPanel", "extcheck", "HtmlConverter", "idlj", "jar", "jarsigner",
-                                              "java", "javac", "javadoc", "javah", "javap", "javaws", "jconsole", "jcontrol", "jdb", "jdmpview",
-                                              "jrunscript", "keytool", "native2ascii", "policytool", "rmic", "rmid", "rmiregistry",
-                                              "schemagen", "serialver", "tnameserv", "wsgen", "wsimport", "xjc" ]
+  default['java']['ibm']['6']['bin_cmds'] = %w(appletviewer apt ControlPanel extcheck HtmlConverter idlj jar jarsigner
+                                               java javac javadoc javah javap javaws jconsole jcontrol jdb jdmpview
+                                               jrunscript keytool native2ascii policytool rmic rmid rmiregistry
+                                               schemagen serialver tnameserv wsgen wsimport xjc)
 
-  default['java']['ibm']['7']['bin_cmds'] = node['java']['ibm']['6']['bin_cmds'] + [ "pack200", "unpack200" ]
+  default['java']['ibm']['7']['bin_cmds'] = node['java']['ibm']['6']['bin_cmds'] + %w(pack200 unpack200)
 when 'oracle_rpm'
   # type of java RPM : jdk or jre
   default['java']['oracle_rpm']['type'] = 'jdk'
@@ -73,7 +77,7 @@ when 'oracle_rpm'
 
   # set the JAVA_HOME path, it may be overriden
   # when a package version is provided.
-  default['java']['java_home'] = "/usr/java/latest"
+  default['java']['java_home'] = '/usr/java/latest'
 end
 
 # if you change this to true, you can download directly from Oracle
@@ -82,11 +86,11 @@ default['java']['oracle']['accept_oracle_download_terms'] = false
 # direct download paths for oracle, you have been warned!
 
 # jdk6 attributes
-default['java']['jdk']['6']['bin_cmds'] = [ "appletviewer", "apt", "ControlPanel", "extcheck", "HtmlConverter", "idlj", "jar", "jarsigner",
-                                            "java", "javac", "javadoc", "javah", "javap", "javaws", "jconsole", "jcontrol", "jdb", "jhat",
-                                            "jinfo", "jmap", "jps", "jrunscript", "jsadebugd", "jstack", "jstat", "jstatd", "jvisualvm",
-                                            "keytool", "native2ascii", "orbd", "pack200", "policytool", "rmic", "rmid", "rmiregistry",
-                                            "schemagen", "serialver", "servertool", "tnameserv", "unpack200", "wsgen", "wsimport", "xjc"]
+default['java']['jdk']['6']['bin_cmds'] = %w(appletviewer apt ControlPanel extcheck HtmlConverter idlj jar jarsigner
+                                             java javac javadoc javah javap javaws jconsole jcontrol jdb jhat
+                                             jinfo jmap jps jrunscript jsadebugd jstack jstat jstatd jvisualvm
+                                             keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry
+                                             schemagen serialver servertool tnameserv unpack200 wsgen wsimport xjc)
 
 # x86_64
 default['java']['jdk']['6']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin'
@@ -98,11 +102,11 @@ default['java']['jdk']['6']['i586']['checksum'] = 'd53b5a2518d80e1d95565f0adda54
 
 # jdk7 attributes
 
-default['java']['jdk']['7']['bin_cmds'] = [ "appletviewer", "apt", "ControlPanel", "extcheck", "idlj", "jar", "jarsigner", "java", "javac",
-                                            "javadoc", "javafxpackager", "javah", "javap", "javaws", "jcmd", "jconsole", "jcontrol", "jdb",
-                                            "jhat", "jinfo", "jmap", "jps", "jrunscript", "jsadebugd", "jstack", "jstat", "jstatd", "jvisualvm",
-                                            "keytool", "native2ascii", "orbd", "pack200", "policytool", "rmic", "rmid", "rmiregistry",
-                                            "schemagen", "serialver", "servertool", "tnameserv", "unpack200", "wsgen", "wsimport", "xjc"]
+default['java']['jdk']['7']['bin_cmds'] = %w(appletviewer apt ControlPanel extcheck idlj jar jarsigner java javac
+                                             javadoc javafxpackager javah javap javaws jcmd jconsole jcontrol jdb
+                                             jhat jinfo jmap jps jrunscript jsadebugd jstack jstat jstatd jvisualvm
+                                             keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry
+                                             schemagen serialver servertool tnameserv unpack200 wsgen wsimport xjc)
 
 # Oracle doesn't seem to publish SHA256 checksums for Java releases, so we use MD5 instead.
 # Official checksums for the latest release can be found at https://www.oracle.com/webfolder/s/digest/7u75checksum.html
@@ -117,24 +121,23 @@ default['java']['jdk']['7']['i586']['checksum'] = 'e4371a4fddc049eca3bfef293d812
 
 # jdk8 attributes
 
-default['java']['jdk']['8']['bin_cmds'] = [ "appletviewer", "apt", "ControlPanel", "extcheck", "idlj", "jar", "jarsigner", "java", "javac",
-                                            "javadoc", "javafxpackager", "javah", "javap", "javaws", "jcmd", "jconsole", "jcontrol", "jdb",
-                                            "jdeps", "jhat", "jinfo", "jjs", "jmap", "jmc", "jps", "jrunscript", "jsadebugd", "jstack",
-                                            "jstat", "jstatd", "jvisualvm", "keytool", "native2ascii", "orbd", "pack200", "policytool",
-                                            "rmic", "rmid", "rmiregistry", "schemagen", "serialver", "servertool", "tnameserv",
-                                            "unpack200", "wsgen", "wsimport", "xjc"]
+default['java']['jdk']['8']['bin_cmds'] = %w(appletviewer apt ControlPanel extcheck idlj jar jarsigner java javac
+                                             javadoc javafxpackager javah javap javaws jcmd jconsole jcontrol jdb
+                                             jdeps jhat jinfo jjs jmap jmc jps jrunscript jsadebugd jstack
+                                             jstat jstatd jvisualvm keytool native2ascii orbd pack200 policytool
+                                             rmic rmid rmiregistry schemagen serialver servertool tnameserv
+                                             unpack200 wsgen wsimport xjc)
 
 # Oracle just started publishing SHA256 checksums for Java releases with 8u51, so we use MD5 instead.
-# Official checksums for the latest release can be found at https://www.oracle.com/webfolder/s/digest/8u51checksum.html
+# Official checksums for the latest release can be found at https://www.oracle.com/webfolder/s/digest/8u60checksum.html
 
 # x86_64
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = 'b34ff02c5d98b6f372288c17e96c51cf'
+default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.tar.gz'
+default['java']['jdk']['8']['x86_64']['checksum'] = '467f323ba38df2b87311a7818bcbf60fe0feb2139c455dfa0e08ba7ed8581328'
 
 # i586
-default['java']['jdk']['8']['i586']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-i586.tar.gz'
-default['java']['jdk']['8']['i586']['checksum'] = '742b9151d9190a9ae7d8ed05c7d39850'
-
+default['java']['jdk']['8']['i586']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-i586.tar.gz'
+default['java']['jdk']['8']['i586']['checksum'] = 'b11212ef06235296cad2f9b80a22f2d853a2d2f66ce55b993eb686e5a2da365d'
 
 default['java']['oracle']['jce']['enabled'] = false
 default['java']['oracle']['jce']['8']['url'] = 'http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip'

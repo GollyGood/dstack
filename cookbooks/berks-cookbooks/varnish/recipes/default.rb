@@ -1,9 +1,9 @@
 # Cookbook Name:: varnish
 # Recipe:: default
-# Author:: Joe Williams <joe@joetify.com>
-# Contributor:: Patrick Connolly <patrick@myplanetdigital.com>
 #
-# Copyright 2008-2009, Joe Williams
+# Copyright 2008-2009, Joe Williams <joe@joetify.com>
+# Copyright 2014. Patrick Connolly <patrick@myplanetdigital.com>
+# Copyright 2015. Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,28 +22,28 @@ include_recipe 'varnish::repo' if node['varnish']['use_default_repo']
 
 package 'varnish'
 
-template "#{node['varnish']['dir']}/#{node['varnish']['vcl_conf']}" do
-  source node['varnish']['vcl_source']
-  cookbook node['varnish']['vcl_cookbook']
-  owner 'root'
-  group 'root'
-  mode 0644
-  notifies :reload, 'service[varnish]'
-  only_if { node['varnish']['vcl_generated'] == true }
-end
-
 template node['varnish']['default'] do
   source node['varnish']['conf_source']
   cookbook node['varnish']['conf_cookbook']
   owner 'root'
   group 'root'
   mode 0644
-  notifies 'restart', 'service[varnish]'
+  notifies 'restart', 'service[varnish]', :delayed
+end
+
+template "#{node['varnish']['dir']}/#{node['varnish']['vcl_conf']}" do
+  source node['varnish']['vcl_source']
+  cookbook node['varnish']['vcl_cookbook']
+  owner 'root'
+  group 'root'
+  mode 0644
+  notifies :reload, 'service[varnish]', :delayed
+  only_if { node['varnish']['vcl_generated'] == true }
 end
 
 service 'varnish' do
   supports restart: true, reload: true
-  action %w(enable start)
+  action %w(enable)
 end
 
 service 'varnishlog' do

@@ -65,9 +65,8 @@ default['apache']['version'] =
     node['platform_version'].to_f >= 18 ? '2.4' : '2.2'
   when 'suse'
     case node['platform']
-    when 'opensuse'
-      node['platform_version'].to_f >= 13.1 ? '2.4' : '2.2'
-      # FIXME: when "suse" for SLES
+    when 'suse'
+      node['platform_version'].to_f >= 12.1 ? '2.4' : '2.2'
     else
       '2.4'
     end
@@ -83,9 +82,19 @@ default['apache']['default_site_name'] = 'default'
 # Where the various parts of apache are
 case node['platform']
 when 'redhat', 'centos', 'scientific', 'fedora', 'amazon', 'oracle'
-  default['apache']['package']     = 'httpd'
+  if node['platform'] == 'amazon'
+    if node['apache']['version'] == '2.4'
+      default['apache']['package'] = 'httpd24'
+      default['apache']['devel_package'] = 'httpd24-devel'
+    else
+      default['apache']['package'] = 'httpd22'
+      default['apache']['devel_package'] = 'httpd22-devel'
+    end
+  else
+    default['apache']['package'] = 'httpd'
+    default['apache']['devel_package'] = 'httpd-devel'
+  end
   default['apache']['service_name'] = 'httpd'
-  default['apache']['devel_package'] = 'httpd-devel'
   default['apache']['perl_pkg']    = 'perl'
   default['apache']['apachectl']   = '/usr/sbin/apachectl'
   default['apache']['dir']         = '/etc/httpd'
@@ -98,25 +107,23 @@ when 'redhat', 'centos', 'scientific', 'fedora', 'amazon', 'oracle'
   default['apache']['conf_dir']    = '/etc/httpd/conf'
   default['apache']['docroot_dir'] = '/var/www/html'
   default['apache']['cgibin_dir']  = '/var/www/cgi-bin'
-  if node['apache']['version'] == '2.4'
-    default['apache']['icondir'] = '/usr/share/httpd/icons'
-  else
-    default['apache']['icondir'] = '/var/www/icons'
-  end
+  default['apache']['icondir'] =
+    if node['apache']['version'] == '2.4'
+      '/usr/share/httpd/icons'
+    else
+      '/var/www/icons'
+    end
   default['apache']['cache_dir']   = '/var/cache/httpd'
   default['apache']['run_dir']     = '/var/run/httpd'
   default['apache']['lock_dir']    = '/var/run/httpd'
-  if node['platform'] == 'amazon' && node['apache']['version'] == '2.4'
-    default['apache']['package']     = 'httpd24'
-    default['apache']['devel_package'] = 'httpd24-devel'
-  end
-  if node['platform_version'].to_f >= 6
-    default['apache']['pid_file'] = '/var/run/httpd/httpd.pid'
-  else
-    default['apache']['pid_file'] = '/var/run/httpd.pid'
-  end
-  default['apache']['lib_dir']     = node['kernel']['machine'] =~ /^i[36]86$/ ? '/usr/lib/httpd' : '/usr/lib64/httpd'
-  default['apache']['libexec_dir']  = "#{node['apache']['lib_dir']}/modules"
+  default['apache']['pid_file'] =
+    if node['platform_version'].to_f >= 6
+      '/var/run/httpd/httpd.pid'
+    else
+      '/var/run/httpd.pid'
+    end
+  default['apache']['lib_dir'] = node['kernel']['machine'] =~ /^i[36]86$/ ? '/usr/lib/httpd' : '/usr/lib64/httpd'
+  default['apache']['libexec_dir'] = "#{node['apache']['lib_dir']}/modules"
 when 'suse', 'opensuse'
   default['apache']['package']     = 'apache2'
   default['apache']['perl_pkg']    = 'perl'
@@ -136,21 +143,23 @@ when 'suse', 'opensuse'
   default['apache']['cache_dir']   = '/var/cache/apache2'
   default['apache']['run_dir']     = '/var/run/httpd'
   default['apache']['lock_dir']    = '/var/run/httpd'
-  if node['platform_version'].to_f >= 6
-    default['apache']['pid_file']    = '/var/run/httpd/httpd.pid'
-  else
-    default['apache']['pid_file']    = '/var/run/httpd.pid'
-  end
+  default['apache']['pid_file']    =
+    if node['platform_version'].to_f > 11.4
+      '/var/run/httpd.pid'
+    else
+      '/var/run/httpd2.pid'
+    end
   default['apache']['lib_dir']     = node['kernel']['machine'] =~ /^i[36]86$/ ? '/usr/lib/apache2' : '/usr/lib64/apache2'
   default['apache']['libexec_dir'] = node['apache']['lib_dir']
 when 'debian', 'ubuntu'
   default['apache']['package']     = 'apache2'
   default['apache']['perl_pkg']    = 'perl'
-  if node['apache']['mpm'] == 'prefork'
-    default['apache']['devel_package'] = 'apache2-prefork-dev'
-  else
-    default['apache']['devel_package'] = 'apache2-dev'
-  end
+  default['apache']['devel_package'] =
+    if node['apache']['mpm'] == 'prefork'
+      'apache2-prefork-dev'
+    else
+      'apache2-dev'
+    end
   default['apache']['apachectl']   = '/usr/sbin/apache2ctl'
   default['apache']['dir']         = '/etc/apache2'
   default['apache']['log_dir']     = '/var/log/apache2'
@@ -178,7 +187,8 @@ when 'debian', 'ubuntu'
   default['apache']['libexec_dir']   = "#{node['apache']['lib_dir']}/modules"
   default['apache']['default_site_name'] = '000-default'
 when 'arch'
-  default['apache']['package']     = 'apache'
+  default['apache']['package'] = 'apache'
+  default['apache']['service_name'] = 'httpd'
   default['apache']['perl_pkg']    = 'perl'
   # default['apache']['apachectl']   = '/usr/sbin/apachectl'
   default['apache']['dir']         = '/etc/httpd'
@@ -197,7 +207,7 @@ when 'arch'
   default['apache']['lock_dir']    = '/var/run/httpd'
   default['apache']['pid_file']    = '/var/run/httpd/httpd.pid'
   default['apache']['lib_dir']     = '/usr/lib/httpd'
-  default['apache']['libexec_dir']  = "#{node['apache']['lib_dir']}/modules"
+  default['apache']['libexec_dir'] = "#{node['apache']['lib_dir']}/modules"
 when 'freebsd'
   if node['apache']['version'] == '2.4'
     default['apache']['package']     = 'apache24'
@@ -233,9 +243,9 @@ when 'freebsd'
   default['apache']['user']        = 'www'
   default['apache']['group']       = 'www'
   default['apache']['binary']      = '/usr/local/sbin/httpd'
-  default['apache']['libexec_dir']  = node['apache']['lib_dir']
+  default['apache']['libexec_dir'] = node['apache']['lib_dir']
 else
-  default['apache']['package']     = 'apache2'
+  default['apache']['package'] = 'apache2'
   default['apache']['devel_package'] = 'apache2-dev'
   default['apache']['perl_pkg']    = 'perl'
   default['apache']['dir']         = '/etc/apache2'
@@ -266,8 +276,7 @@ end
 if node['apache']['service_name'].nil?
   default['apache']['service_name'] = node['apache']['package']
 end
-default['apache']['listen_addresses']  = %w(*)
-default['apache']['listen_ports']      = %w(80)
+default['apache']['listen']            = ['*:80']
 default['apache']['contact']           = 'ops@example.com'
 default['apache']['timeout']           = 300
 default['apache']['keepalive']         = 'On'
@@ -278,14 +287,12 @@ default['apache']['sysconfig_additional_params'] = {}
 default['apache']['default_site_enabled'] = false
 default['apache']['default_site_port']    = '80'
 default['apache']['access_file_name'] = '.htaccess'
+default['apache']['default_release'] = nil
 
 # Security
 default['apache']['servertokens']    = 'Prod'
 default['apache']['serversignature'] = 'On'
 default['apache']['traceenable']     = 'Off'
-
-# mod_auth_openids
-default['apache']['allowed_openids'] = []
 
 # mod_status Allow list, space seprated list of allowed entries.
 default['apache']['status_allow_list'] = '127.0.0.1 ::1'
@@ -336,7 +343,7 @@ default['apache']['proxy']['allow_from'] = 'none'
 # Default modules to enable via include_recipe
 default['apache']['default_modules'] = %w(
   status alias auth_basic authn_core authn_file authz_core authz_groupfile
-  authz_host authz_user autoindex dir env mime negotiation setenvif
+  authz_host authz_user autoindex deflate dir env mime negotiation setenvif
 )
 
 %w(log_config logio).each do |log_mod|

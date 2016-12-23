@@ -3,6 +3,7 @@ apache2 Cookbook
 [![Cookbook Version](https://img.shields.io/cookbook/v/apache2.svg?style=flat)](https://supermarket.chef.io/cookbooks/apache2)
 [![Build Status](https://travis-ci.org/svanzoest-cookbooks/apache2.svg?branch=master)](https://travis-ci.org/svanzoest-cookbooks/apache2)
 [![Dependency Status](http://img.shields.io/gemnasium/svanzoest-cookbooks/apache2.svg?style=flat)](https://gemnasium.com/svanzoest-cookbooks/apache2)
+[![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/svanzoest-cookbooks/apache2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 This cookbook provides a complete Debian/Ubuntu style Apache HTTPD
@@ -25,20 +26,6 @@ This cookbook ships with templates of these scripts for non
 Debian/Ubuntu platforms. The scripts are used in the __Definitions__
 below.
 
-Requirements
-============
-
-## Ohai and Chef:
-
-* Ohai: 0.6.12+
-* Chef: 0.10.10+
-
-As of v1.2.0, this cookbook makes use of `node['platform_family']` to
-simplify platform selection logic. This attribute was introduced in
-Ohai v0.6.12. The recipe methods were introduced in Chef v0.10.10. If
-you must run an older version of Chef or Ohai, use [version 1.1.16 of
-this cookbook](https://supermarket.chef.io/cookbooks/apache2/versions/1.1.16).
-
 ## Cookbooks:
 
 This cookbook has no direct external dependencies.
@@ -50,35 +37,32 @@ settings may affect the behavior of this cookbook:
 
 * apt cache outdated
 * SELinux enabled
-* IPtables
+* firewalls (such as iptables, ufw, etc.)
 * Compile tools
 * 3rd party repositories
 
-On Ubuntu/Debian, use Opscode's `apt` cookbook to ensure the package
+On Ubuntu/Debian, use [apt](https://supermarket.chef.io/cookbooks/apt) cookbook to ensure the package
 cache is updated so Chef can install packages, or consider putting
 apt-get in your bootstrap process or
 [knife bootstrap template](http://docs.chef.io/knife_bootstrap.html)
 
-On RHEL, SELinux is enabled by default. The `selinux` cookbook
+On RHEL, SELinux is enabled by default. The [selinux](https://supermarket.chef.io/cookbooks/selinux) cookbook
 contains a `permissive` recipe that can be used to set SELinux to
 "Permissive" state. Otherwise, additional recipes need to be created
 by the user to address SELinux permissions.
 
-The easiest but **certainly not ideal way** to deal with IPtables is
-to flush all rules. Chef Software does provide an `iptables` cookbook but is
-migrating from the approach used there to a more robust solution
-utilizing a general "firewall" LWRP that would have an "iptables"
-provider. Alternately, you can use ufw, with Opscode's `ufw` and
-`firewall` cookbooks to set up rules. See those cookbooks' READMEs for
-documentation.
+
+To deal with firewalls  Chef Software does provide an [iptables](https://supermarket.chef.io/cookbooks/iptables) and [ufw](https://supermarket.chef.io/cookbooks/ufw) cookbook but is migrating from the approach used there to a more robust solution
+utilizing the general [firewall](https://supermarket.chef.io/cookbooks/firewall) cookbook to setup rules.
+See those cookbooks' READMEs for documentation.
 
 Build/compile tools may not be installed on the system by default.
 Some recipes (e.g., `apache2::mod_auth_openid`) build the module from
-source. Use Opscode's `build-essential` cookbook to get essential
+source. Use the [build-essential](https://supermarket.chef.io/cookbooks/build-essential) cookbook to get essential
 build packages installed.
 
 On ArchLinux, if you are using the `apache2::mod_auth_openid` recipe,
-you also need the `pacman` cookbook for the `pacman_aur` LWRP. Put
+you also need the [pacman](https://supermarket.chef.io/cookbooks/pacman) cookbook for the `pacman_aur` LWRP. Put
 `recipe[pacman]` on the node's expanded run list (on the node or in a
 role). This is not an explicit dependency because it is only required
 for this single recipe and platform; the pacman default recipe
@@ -98,11 +82,11 @@ assumed to work based on the successful testing on Ubuntu and CentOS.
 
 * Red Hat (rhel)
 * Fedora
-* Amazon Linux
 
 The following platforms are also supported in the code, have been
-tested manually but are not tested under test-kitchen.
+tested manually but are not regularly tested under test-kitchen.
 
+* Amazon Linux
 * SUSE/OpenSUSE
 * ArchLinux
 * FreeBSD
@@ -112,25 +96,37 @@ tested manually but are not tested under test-kitchen.
 On Red Hat Enterprise Linux and derivatives, the EPEL repository may
 be necessary to install packages used in certain recipes. The
 `apache2::default` recipe, however, does not require any additional
-repositories. Opscode's `yum-epel` cookbook can be used to add the
+repositories. The [yum-epel](https://supermarket.chef.io/cookbooks/yum-epel) cookbook can be used to add the
 EPEL repository. See __Examples__ for more information.
 
-### Notes for FreeBSD:
-
-Version 2.0 has been had some basic testing against FreeBSD 10.0 using
-Chef 11.14.2 which has support for pkgng (CHEF-4637).
-
-Tests
+Usage
 =====
 
-This cookbook in the
-[source repository](https://github.com/svanzoest-cookbooks/apache2/)
-contains chefspec, serverspec and cucumber tests. This is an initial proof of
-concept that will be fleshed out with more supporting infrastructure
-at a future time.
+Using this cookbook is relatively straightforward. It is recommended to create
+a project or organization specific [wrapper cookbook](https://www.chef.io/blog/2013/12/03/doing-wrapper-cookbooks-right/) 
+and add the desired recipes to the run list of a node, or create a role. Depending on your
+environment, you may have multiple roles that use different recipes
+from this cookbook. Adjust any attributes as desired. For example, to
+create a basic role for web servers that provide both HTTP and HTTPS:
 
-Please see the CONTRIBUTING file for information on how to add tests
-for your contributions.
+``````
+    % cat roles/webserver.rb
+    name "webserver"
+    description "Systems that serve HTTP and HTTPS"
+    run_list(
+      "recipe[apache2]",
+      "recipe[apache2::mod_ssl]"
+    )
+    default_attributes(
+      "apache" => {
+        "listen" => ["*:80", "*:443"]
+      }
+    )
+``````
+
+For examples of using the definitions in your own recipes, see their
+respective sections below.
+
 
 Attributes
 ==========
@@ -164,7 +160,7 @@ the top of the file.
 * `node['apache']['lib_dir']` - Location for shared libraries
 * `node['apache']['default_site_enabled']` - Default site enabled. Default is false.
 * `node['apache']['ext_status']` - if true, enables ExtendedStatus for `mod_status`
-* `node['apache']['locale'] - Locale to set in sysconfig or envvars and used for subprocesses and modules (like mod_dav and mod_wsgi). On debian systems Uses system-local if set to 'system', defaults to 'C'.
+* `node['apache']['locale']` - Locale to set in sysconfig or envvars and used for subprocesses and modules (like mod_dav and mod_wsgi). On debian systems Uses system-local if set to 'system', defaults to 'C'.
 
 General settings
 ----------------
@@ -173,8 +169,7 @@ These are general settings used in recipes and templates. Default
 values are noted.
 
 * `node['apache']['version']` - Specifing 2.4 triggers apache 2.4 support. If the platform is known during our test to install 2.4 by default, it will be set to 2.4 for you. Otherwise it falls back to 2.2. This value should be specified as a string.
-* `node['apache']['listen_addresses']` - Addresses that httpd should listen on. Default is any ("*").
-* `node['apache']['listen_ports']` - Ports that httpd should listen on. Default is port 80.
+* `node['apache']['listen']` - Array of address:port combinations that httpd should listen on. Default is any address and port 80 (`["*:80"]`).
 * `node['apache']['contact']` - Value for ServerAdmin directive. Default "ops@example.com".
 * `node['apache']['timeout']` - Value for the Timeout directive. Default is 300.
 * `node['apache']['keepalive']` - Value for the KeepAlive directive. Default is On.
@@ -182,7 +177,7 @@ values are noted.
 * `node['apache']['keepalivetimeout']` - Value for the KeepAliveTimeout directive. Default is 5.
 * `node['apache']['sysconfig_additional_params']` - Additionals variables set in sysconfig file. Default is empty.
 * `node['apache']['default_modules']` - Array of module names. Can take "mod_FOO" or "FOO" as names, where FOO is the apache module, e.g. "`mod_status`" or "`status`".
-* `node['apache']['mpm']` - With apache.version 2.4, specifies what Multi-Processing Module to enable. Default is "prefork".
+* `node['apache']['mpm']` - With apache.version 2.4, specifies what Multi-Processing Module to enable. Defaults to platform default, otherwise it is "prefork"
 
 The modules listed in `default_modules` will be included as recipes in `recipe[apache::default]`.
 
@@ -234,52 +229,12 @@ To use the cookbook with an unsupported mpm (other than prefork, event or worker
 * set `node['apache']['mpm']` to the name of the module (e.g. `itk`)
 * in your cookbook, after `include_recipe 'apache2'` use the `apache_module` definition to enable/disable the required module(s)
 
+Module specific attributes
+--------------------------
 
-mod\_auth\_openid attributes
-----------------------------
+Some module recipes have their own attributes that can be used to alter and modify the behavior of this cookbook. Please see the sections for the indivual modules below for more information on those attributes.
 
-The following attributes are in the `attributes/mod_auth_openid.rb`
-file. Like all Chef attributes files, they are loaded as well, but
-they're logistically unrelated to the others, being specific to the
-`mod_auth_openid` recipe.
 
-* `node['apache']['mod_auth_openid']['checksum']` - sha256sum of the tarball containing the source.
-* `node['apache']['mod_auth_openid']['ref']` - Any sha, tag, or branch found from https://github.com/bmuller/mod_auth_openid
-* `node['apache']['mod_auth_openid']['version']` - directory name version within the tarball
-* `node['apache']['mod_auth_openid']['cache_dir']` - the cache directory is where the sqlite3 database is stored. It is separate so it can be managed as a directory resource.
-* `node['apache']['mod_auth_openid']['dblocation']` - filename of the sqlite3 database used for directive `AuthOpenIDDBLocation`, stored in the `cache_dir` by default.
-* `node['apache']['mod_auth_openid']['configure_flags']` - optional array of configure flags passed to the `./configure` step in the compilation of the module.
-
-mod\_ssl attributes
--------------------
-
-For general information on this attributes see http://httpd.apache.org/docs/current/mod/mod_ssl.html
-
-* `node['apache']['mod_ssl']['cipher_suite']` - sets the SSLCiphersuite value to the specified string. The default is
-  considered "sane" but you may need to change it for your local security policy, e.g. if you have PCI-DSS requirements. Additional
-  commentary on the
-  [original pull request](https://github.com/svanzoest-cookbooks/apache2/pull/15#commitcomment-1605406).
-* `node['apache']['mod_ssl']['honor_cipher_order']` - Option to prefer the server's cipher preference order. Default 'On'.
-* `node['apache']['mod_ssl']['insecure_renegotiation']` - Option to enable support for insecure renegotiation. Default 'Off'.
-* `node['apache']['mod_ssl']['strict_sni_vhost_check']` - Whether to allow non-SNI clients to access a name-based virtual host. Default 'Off'.
-* `node['apache']['mod_ssl']['session_cache']` - Configures the OCSP stapling cache. Default `shmcb:/var/run/apache2/ssl_scache`
-* `node['apache']['mod_ssl']['session_cache_timeout']` - Number of seconds before an SSL session expires in the Session Cache. Default 300.
-* `node['apache']['mod_ssl']['compression']` - 	Enable compression on the SSL level. Default 'Off'.
-* `node['apache']['mod_ssl']['use_stapling']` - Enable stapling of OCSP responses in the TLS handshake. Default 'Off'.
-* `node['apache']['mod_ssl']['stapling_responder_timeout']` - 	Timeout for OCSP stapling queries. Default 5
-* `node['apache']['mod_ssl']['stapling_return_responder_errors']` - Pass stapling related OCSP errors on to client. Default 'Off'
-* `node['apache']['mod_ssl']['stapling_cache']` - Configures the OCSP stapling cache. Default `shmcb:/var/run/ocsp(128000)`
-* `node['apache']['mod_ssl']['pass_phrase_dialog']` - Configures SSLPassPhraseDialog. Default `builtin`
-* `node['apache']['mod_ssl']['mutex']` - Configures SSLMutex. Default `file:/var/run/apache2/ssl_mutex`
-* `node['apache']['mod_ssl']['directives']` - Hash for add any custom directive.
-
-For more information on these directives and how to best secure your site see
-- https://bettercrypto.org/
-- https://wiki.mozilla.org/Security/Server_Side_TLS
-- https://www.insecure.ws/linux/apache_ssl.html
-- https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
-- https://istlsfastyet.com/
-- https://www.ssllabs.com/projects/best-practices/
 
 Recipes
 =======
@@ -288,7 +243,7 @@ Most of the recipes in the cookbook are for enabling Apache modules.
 Where additional configuration or behavior is used, it is documented
 below in more detail.
 
-The following recipes merely enable the specified module: `mod_alias`,
+The following recipes merely enable the specified module: `mod_actions`, `mod_alias`,
 `mod_auth_basic`, `mod_auth_digest`, `mod_authn_file`, `mod_authnz_ldap`,
 `mod_authz_default`, `mod_authz_groupfile`, `mod_authz_host`,
 `mod_authz_user`, `mod_autoindex`, `mod_cgi`, `mod_dav_fs`,
@@ -335,8 +290,6 @@ https://bugzilla.redhat.com/show_bug.cgi?format=multiple&id=708550
 mod\_auth\_openid
 -----------------
 
-**Changed via COOK-915**
-
 This recipe compiles the module from source. In addition to
 `build-essential`, some other packages are included for installation
 like the GNU C++ compiler and development headers.
@@ -354,34 +307,29 @@ a different location than previous versions, see below. It should be a
 sane default for most platforms, though, see
 `attributes/mod_auth_openid.rb`.
 
-### Changes from COOK-915:
+The following attributes are in the `attributes/mod_auth_openid.rb` file.
 
-* `AuthType OpenID` instead of `AuthOpenIDEnabled On`.
-* `require user` instead of `AuthOpenIDUserProgram`.
-* A bug(?) in `mod_auth_openid` causes it to segfault when attempting
-  to update the database file if the containing directory is not
-  writable by the HTTPD process owner (e.g., www-data), even if the
-  file is writable. In order to not interfere with other settings from
-  the default recipe in this cookbook, the db file is moved.
+* `node['apache']['mod_auth_openid']['checksum']` - sha256sum of the tarball containing the source.
+* `node['apache']['mod_auth_openid']['ref']` - Any sha, tag, or branch found from https://github.com/bmuller/mod_auth_openid
+* `node['apache']['mod_auth_openid']['version']` - directory name version within the tarball
+* `node['apache']['mod_auth_openid']['cache_dir']` - the cache directory is where the sqlite3 database is stored. It is separate so it can be managed as a directory resource.
+* `node['apache']['mod_auth_openid']['dblocation']` - filename of the sqlite3 database used for directive `AuthOpenIDDBLocation`, stored in the `cache_dir` by default.
+* `node['apache']['mod_auth_openid']['configure_flags']` - optional array of configure flags passed to the `./configure` step in the compilation of the module.
+
 
 mod\_fastcgi
 ------------
 
 Install the fastcgi package and enable the module.
 
-Only work on Debian/Ubuntu
+Note: In Ubuntu 14.04, the `libapache2-mod-fastcgi` module is not available by default due to the [Multiverse](https://help.ubuntu.com/community/Repositories/Ubuntu) repositories.
+You need to enable the multiverse repositories either from `/etc/apt/sources.list` or use the [apt](https://supermarket.chef.io/cookbooks/apt) cookbook.
 
 mod\_fcgid
 ----------
 
 Installs the fcgi package and enables the module. Requires EPEL on
 RHEL family.
-
-On RHEL family, this recipe will delete the fcgid.conf and on version
-6+, create the /var/run/httpd/mod_fcgid` directory, which prevents the
-emergency error:
-
-    [emerg] (2)No such file or directory: mod_fcgid: Can't create shared memory for size XX bytes
 
 mod\_php5
 --------
@@ -399,28 +347,99 @@ mod\_ssl
 --------
 
 Besides installing and enabling `mod_ssl`, this recipe will append
-port 443 to the `node['apache']['listen_ports']` attribute array and
+port 443 to the `node['apache']['listen']` attributes for all addresses and
 update the ports.conf.
+
+
+* `node['apache']['mod_ssl']['cipher_suite']` - sets the SSLCiphersuite value to the specified string. The default is
+  considered "sane" but you may need to change it for your local security policy, e.g. if you have PCI-DSS requirements. Additional
+  commentary on the
+  [original pull request](https://github.com/svanzoest-cookbooks/apache2/pull/15#commitcomment-1605406).
+* `node['apache']['mod_ssl']['honor_cipher_order']` - Option to prefer the server's cipher preference order. Default 'On'.
+* `node['apache']['mod_ssl']['insecure_renegotiation']` - Option to enable support for insecure renegotiation. Default 'Off'.
+* `node['apache']['mod_ssl']['strict_sni_vhost_check']` - Whether to allow non-SNI clients to access a name-based virtual host. Default 'Off'.
+* `node['apache']['mod_ssl']['session_cache']` - Configures the OCSP stapling cache. Default `shmcb:/var/run/apache2/ssl_scache`
+* `node['apache']['mod_ssl']['session_cache_timeout']` - Number of seconds before an SSL session expires in the Session Cache. Default 300.
+* `node['apache']['mod_ssl']['compression']` - 	Enable compression on the SSL level. Default 'Off'.
+* `node['apache']['mod_ssl']['use_stapling']` - Enable stapling of OCSP responses in the TLS handshake. Default 'Off'.
+* `node['apache']['mod_ssl']['stapling_responder_timeout']` - 	Timeout for OCSP stapling queries. Default 5
+* `node['apache']['mod_ssl']['stapling_return_responder_errors']` - Pass stapling related OCSP errors on to client. Default 'Off'
+* `node['apache']['mod_ssl']['stapling_cache']` - Configures the OCSP stapling cache. Default `shmcb:/var/run/ocsp(128000)`
+* `node['apache']['mod_ssl']['pass_phrase_dialog']` - Configures SSLPassPhraseDialog. Default `builtin`
+* `node['apache']['mod_ssl']['mutex']` - Configures SSLMutex. Default `file:/var/run/apache2/ssl_mutex`
+* `node['apache']['mod_ssl']['directives']` - Hash for add any custom directive.
+
+For general information on these attributes see http://httpd.apache.org/docs/current/mod/mod_ssl.html
+
+For more information on these directives and how to best secure your site see
+- https://bettercrypto.org/
+- https://wiki.mozilla.org/Security/Server_Side_TLS
+- https://www.insecure.ws/linux/apache_ssl.html
+- https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
+- https://istlsfastyet.com/
+- https://www.ssllabs.com/projects/best-practices/
 
 Definitions
 ===========
 
 The cookbook provides a few definitions. At some point in the future
-these definitions may be refactored into lightweight resources and
-providers as suggested by
-[foodcritic rule FC015](http://acrmp.github.com/foodcritic/#FC015).
+these definitions will be refactored into custom resources see 
+[issue 414](https://github.com/svanzoest-cookbooks/apache2/issues/414).
 
-apache\_config
+apache\_conf
 ------------
 
+Writes conf files to the `conf-available` folder, and passes enabled values to `apache_config`.
+
+This definition should generally be called over `apache_config`.
+
+### Parameters:
+
+* `name` - Name of the config placed and enabled or disabled with the `a2enconf` or `a2disconf` scripts.
+* `enable` - Default true, which uses `a2enconf` to enable the config. If false, the config will be disabled with `a2disconf`.
+* `conf_path` - path to put the config in if you need to override the default `conf-available`.
+* `source` - The source configuration template name. The default value is `params[:name].conf.erb`
+* `cookbook` - The cookbook in which the configuration template is located. The default value is the current cookbook.
+
+### Examples:
+
+Place and enable the example conf:
+
+``````
+    apache_conf 'example' do
+      enable true
+    end
+``````
+
+Place and disable (or never enable to begin with) the example conf:
+
+``````
+    apache_conf 'example' do
+      enable false
+    end
+``````
+
+Place the example conf, which has a different path than the default (conf-*):
+
+``````
+    apache_conf 'example' do
+      conf_path '/random/example/path'
+      enable false
+    end
+``````
+
+
+apache\_config (internal)
+--------------------------
+
 Sets up configuration file for Apache from a template. The
-template should be in the same cookbook where the definition is used. This is used by the `apache_conf` definition and is not often used directly.
+template should be in the same cookbook where the definition is used. This is used by the `apache_conf` definition and should not be used directly.
 
 It will use `a2enconf` and `a2disconf` to control the symlinking of configuration files between `conf-available` and `conf-enabled`.
 
 Enable or disable an Apache config file in
-`#{node['apache']['dir']}/conf-available` by calling `a2enmod` or
-`a2dismod` to manage the symbolic link in
+`#{node['apache']['dir']}/conf-available` by calling `a2enconf` or
+`a2disconf` to manage the symbolic link in
 `#{node['apache']['dir']}/conf-enabled`. These config files should be created in your cookbook, and placed on the system using `apache_conf`
 
 ### Parameters:
@@ -450,71 +469,6 @@ Disable a module:
 
 See the recipes directory for many more examples of `apache_config`.
 
-apache\_conf
-------------
-
-Writes conf files to the `conf-available` folder, and passes enabled values to `apache_config`.
-
-This definition should generally be called over `apache_config`.
-
-### Parameters:
-
-* `name` - Name of the config placed and enabled or disabled with the `a2enconf` or `a2disconf` scripts.
-* `enable` - Default true, which uses `a2enconf` to enable the config. If false, the config will be disabled with `a2disconf`.
-* `conf_path` - path to put the config in if you need to override the default `conf-available`.
-
-### Examples:
-
-Place and enable the example conf:
-
-``````
-    apache_conf 'example' do
-      enable true
-    end
-``````
-
-Place and disable (or never enable to begin with) the example conf:
-
-``````
-    apache_conf 'example' do
-      enable false
-    end
-``````
-
-Place the example conf, which has a different path than the default (conf-*):
-
-``````
-    apache_conf 'example' do
-      conf_path '/random/example/path'
-      enable false
-    end
-``````
-
-apache\_mod
-------------
-
-Sets up configuration file for an Apache module from a template. The
-template should be in the same cookbook where the definition is used.
-This is used by the `apache_module` definition and is not often used
-directly.
-
-This will use a template resource to write the module's configuration
-file in the `mods-available` under the Apache configuration directory
-(`node['apache']['dir']`). This is a platform-dependent location. See
-__apache\_module__.
-
-### Parameters:
-
-* `name` - Name of the template. When used from the `apache_module`,
-  it will use the same name as the module.
-
-### Examples:
-
-Create `#{node['apache']['dir']}/mods-available/alias.conf`.
-
-``````
-    apache_mod "alias"
-``````
 
 apache\_module
 --------------
@@ -561,6 +515,32 @@ Disable a module:
 ``````
 
 See the recipes directory for many more examples of `apache_module`.
+
+apache\_mod (internal)
+----------------------
+
+Sets up configuration file for an Apache module from a template. The
+template should be in the same cookbook where the definition is used.
+This is used by the `apache_module` definition and is not often used
+directly.
+
+This will use a template resource to write the module's configuration
+file in the `mods-available` under the Apache configuration directory
+(`node['apache']['dir']`). This is a platform-dependent location. See
+__apache\_module__.
+
+### Parameters:
+
+* `name` - Name of the template. When used from the `apache_module`,
+  it will use the same name as the module.
+
+### Examples:
+
+Create `#{node['apache']['dir']}/mods-available/alias.conf`.
+
+``````
+    apache_mod "alias"
+``````
 
 apache\_site
 ------------
@@ -660,32 +640,15 @@ In the template. When you write your own, the `@` is significant.
 For more information about Definitions and parameters, see the
 [Chef Wiki](http://docs.chef.io/definitions.html)
 
-Usage
+Tests
 =====
 
-Using this cookbook is relatively straightforward. Add the desired
-recipes to the run list of a node, or create a role. Depending on your
-environment, you may have multiple roles that use different recipes
-from this cookbook. Adjust any attributes as desired. For example, to
-create a basic role for web servers that provide both HTTP and HTTPS:
+This cookbook in the [source repository](https://github.com/svanzoest-cookbooks/apache2/)
+contains chefspec, serverspec tests.
 
-``````
-    % cat roles/webserver.rb
-    name "webserver"
-    description "Systems that serve HTTP and HTTPS"
-    run_list(
-      "recipe[apache2]",
-      "recipe[apache2::mod_ssl]"
-    )
-    default_attributes(
-      "apache" => {
-        "listen_ports" => ["80", "443"]
-      }
-    )
-``````
+Please see the CONTRIBUTING file for information on how to add tests
+for your contributions.
 
-For examples of using the definitions in your own recipes, see their
-respective sections above.
 
 License and Authors
 ===================
@@ -706,13 +669,15 @@ License and Authors
 * Author:: Gilles Devaux <gilles@peerpong.com>
 * Author:: Sander van Zoest <sander+cookbooks@vanzoest.com>
 * Author:: Taylor Price <tayworm@gmail.com>
+* Author:: Ben Dean <ben.dean@ontariosystems.com>
 
 * Copyright:: 2009-2012, Chef Software, Inc
 * Copyright:: 2011, Atriso
 * Copyright:: 2011, CustomInk, LLC.
 * Copyright:: 2013-2014, OneHealth Solutions, Inc.
 * Copyright:: 2014, Viverae, Inc.
-* Copyright:: 2015, Alexander van Zoest
+* Copyright:: 2015-2016, Alexander van Zoest
+* Copyright:: 2015, Ontario Systems, LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

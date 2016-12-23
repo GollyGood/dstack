@@ -2,6 +2,48 @@ Chef Sugar Changelog
 =========================
 This file is used to list changes made in each version of the chef-sugar cookbook and gem.
 
+v3.4.0 (2016-07-18)
+-------------------
+### Improvements
+- Add `virtual?` and `physical?` methods
+- Add Scaleway C1 server (arm arch) support
+- Add IMB s390x support
+- Add missing Ubuntu release names
+
+### Bug Fixes
+- Drop Ruby 2.0.0 support from Travis test matrix
+- Pin to Rack 1.6 (dev dep)
+
+v3.3.0 (2016-01-11)
+-------------------
+### Improvements
+- Break up `Chef::Sugar::Constraints` into a class and a dsl file
+- Add `platform_version` method with full constraints comparison support
+
+v3.2.0 (2015-12-10)
+-------------------
+### Improvements
+- Add platform matchers for `debian` and `fedora`
+- Add `openvz` support under virtualization
+- Add init system detection support
+- Add support for `nexus`, `ios_xr` platforms and `wrlinux` platform_family
+- Add additional `aix` helpers
+
+### Bug Fixes
+- Properly expose `Architecture#i386?` in the DSL
+
+v3.1.1 (2015-06-23)
+-------------------
+### Improvements
+- Update Intel CPU types based on existing Fauxhai data
+- Update SPARC logic and 32/64-bit logic for x86 and i386
+
+### Bug Fixes
+- Fix 32-bit logic
+- Fix default behavior to include chef-sugar at compile time
+- Fix Chef 12.1.0 warnings for chef_gem compile time install
+- Fix `redhat_enterprise_linux?` matcher
+
 v3.0.2 (2015-03-26)
 -------------------
 ### Improvements

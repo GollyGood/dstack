@@ -17,22 +17,18 @@
 # limitations under the License.
 #
 
-include_recipe 'avahi'
 include_recipe 'git'
 include_recipe 'lamp'
 include_recipe 'utils::xdebug'
 
 php_pear 'xhprof' do
   version node['utils']['xhprof']['version']
+  preferred_state 'beta'
   action :install
 end
 
 package 'graphviz' do
   action :install
-end
-
-avahi_alias node['utils']['xhprof']['domain'] do
-  action :add
 end
 
 link node['utils']['xhprof']['docroot'] do

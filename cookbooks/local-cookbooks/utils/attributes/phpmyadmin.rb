@@ -20,4 +20,5 @@
 include_attribute 'phpmyadmin'
 
 force_default['phpmyadmin']['fpm'] = false
+force_default['phpmyadmin']['mirror'] = 'https://files.phpmyadmin.net/phpMyAdmin'
 default['utils']['phpmyadmin']['domain'] = ''

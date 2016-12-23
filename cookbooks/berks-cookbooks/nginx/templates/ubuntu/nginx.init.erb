@@ -11,10 +11,10 @@
 ### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=<%= node['nginx']['binary'] %>
+DAEMON=<%= @src_binary %>
 NAME=nginx
 DESC=nginx
-PID=<%= node['nginx']['pid'] %>
+PID=<%= @pid %>
 
 # Include nginx defaults if available
 if [ -f /etc/default/nginx ]; then

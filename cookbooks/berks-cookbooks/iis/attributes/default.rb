@@ -25,3 +25,7 @@ default['iis']['docroot']    = "#{ENV['SYSTEMDRIVE']}\\inetpub\\wwwroot"
 default['iis']['log_dir']    = "#{ENV['SYSTEMDRIVE']}\\inetpub\\logs\\LogFiles"
 default['iis']['cache_dir']  = "#{ENV['SYSTEMDRIVE']}\\inetpub\\temp"
 default['iis']['components'] = []
+
+default['iis']['source'] = nil
+
+default['iis']['recycle']['log_events'] = 'Time, Requests, Schedule, Memory, IsapiUnhealthy, OnDemand, ConfigChange, PrivateMemory'

@@ -18,8 +18,9 @@
 # limitations under the License.
 #
 
-package 'apache2' do
+package 'apache2' do # ~FC009 only available in apt_package. See #388
   package_name node['apache']['package']
+  default_release node['apache']['default_release'] unless node['apache']['default_release'].nil?
 end
 
 %w(sites-available sites-enabled mods-available mods-enabled conf-available conf-enabled).each do |dir|
@@ -50,6 +51,7 @@ end
 
 directory node['apache']['log_dir'] do
   mode '0755'
+  recursive true
 end
 
 # perl is needed for the a2* scripts
@@ -82,9 +84,6 @@ unless platform_family?('debian')
     command "/usr/local/bin/apache2_module_conf_generate.pl #{node['apache']['lib_dir']} #{node['apache']['dir']}/mods-available"
     action :nothing
   end
-
-  # enable mod_deflate for consistency across distributions
-  include_recipe 'apache2::mod_deflate'
 end
 
 if platform_family?('freebsd')
@@ -182,8 +181,7 @@ apache_conf 'ports' do
   conf_path node['apache']['dir']
 end
 
-if node['apache']['version'] == '2.4' && !platform_family?('freebsd')
-  # on freebsd the prefork mpm is staticly compiled in
+if node['apache']['version'] == '2.4'
   if node['apache']['mpm_support'].include?(node['apache']['mpm'])
     include_recipe "apache2::mpm_#{node['apache']['mpm']}"
   else
@@ -203,16 +201,20 @@ if node['apache']['default_site_enabled']
   end
 end
 
+apache_service_name = node['apache']['service_name']
+
 service 'apache2' do
-  service_name node['apache']['service_name']
+  service_name apache_service_name
   case node['platform_family']
   when 'rhel'
-    restart_command '/sbin/service httpd restart && sleep 1' if node['apache']['version'] == '2.2'
-    reload_command '/sbin/service httpd graceful'
+    if node['platform_version'].to_f < 7.0
+      restart_command "/sbin/service #{apache_service_name} restart && sleep 1"
+      reload_command "/sbin/service #{apache_service_name} graceful && sleep 1"
+    end
   when 'debian'
     provider Chef::Provider::Service::Debian
   when 'arch'
-    service_name 'httpd'
+    service_name apache_service_name
   end
   supports [:start, :restart, :reload, :status]
   action [:enable, :start]

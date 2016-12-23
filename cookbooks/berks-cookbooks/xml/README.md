@@ -1,56 +1,54 @@
-XML Cookbook
-============
-[![Build Status](https://travis-ci.org/chef-cookbooks/xml.svg?branch=master)](http://travis-ci.org/chef-cookbooks/xml)
-[![Cookbook Version](http://img.shields.io/cookbook/v/xml.svg)](https://supermarket.chef.io/cookbooks/xml)
+# XML Cookbook
+
+[![Build Status](https://travis-ci.org/chef-cookbooks/xml.svg?branch=master)](http://travis-ci.org/chef-cookbooks/xml) [![Cookbook Version](http://img.shields.io/cookbook/v/xml.svg)](https://supermarket.chef.io/cookbooks/xml)
 
 Installs development package for libxml.
 
+## Requirements
 
-Requirements
-------------
-#### Platforms
+### Platforms
+
 - Debian/Ubuntu
 - RHEL/CentOS/Scientific/Amazon/Oracle
-- Arch Linux
 - Suse
 - FreeBSD
 
-#### Chef
-- Chef 11+
+### Chef
 
-#### Cookbooks
+- Chef 12.1+
+
+### Cookbooks
+
 - build-essential
-- chef-sugar
 
+## Attributes
 
-Attributes
-----------
 - `node['xml']['packages']` - Array of package names that should be installed
 - `node['xml']['nokogiri']['use_system_libraries']` - Whether to use system libraries for nokogiri (defaults to `false`)
 
+## Recipes
 
-Recipes
--------
 ### default
+
 Installs the development packages for libxml2 and libxslt.
 
 For installing the packages during compile time:
 
 ```ruby
-node.set['xml']['compiletime'] = true
+node.normal['xml']['compiletime'] = true
 include_recipe 'xml::default'
 ```
 
 ### ruby
-Installs the nokogiri gem into Chef's Ruby environment so it can be used in recipes.
 
+Installs the nokogiri gem into Chef's Ruby environment so it can be used in recipes. If nokogiri is being installed using the system's libxml package your distro must include version 2.6.21 or later. Due to this Debian 7 or earlier / Ubuntu 12.04 or earlier will not work with the system library attribute enabled.
 
-License & Authors
------------------
+## License & Authors
 
-**Author:** Cookbook Engineering Team (<cookbooks@chef.io>)
+**Author:** Cookbook Engineering Team ([cookbooks@chef.io](mailto:cookbooks@chef.io))
 
-**Copyright:** 2009-2015, Chef Software, Inc.
+**Copyright:** 2009-2016, Chef Software, Inc.
+
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

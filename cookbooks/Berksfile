@@ -1,7 +1,6 @@
 source "https://api.berkshelf.com"
 
-cookbook 'apache2', '3.1.0'
-cookbook 'avahi', github: 'needle-cookbooks/chef-avahi', tag: 'v0.1.0'
+cookbook 'apache2', '3.2.2'
 cookbook 'build-essential', '1.4.4'
 cookbook 'apt', '2.4.0'
 cookbook 'composer', '2.2.0'
@@ -15,7 +14,7 @@ cookbook 'openssl', '1.0.2'
 cookbook 'php', '1.4.6'
 cookbook 'phpmyadmin', '1.0.6'
 cookbook 'rsync', '0.8.4'
-cookbook 'varnish', '1.0.2'
+cookbook 'varnish', '2.3.0'
 cookbook 'vim', '1.1.2'
 
 ###############################################

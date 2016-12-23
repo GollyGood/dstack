@@ -24,6 +24,7 @@ require 'rexml/document'
 include Chef::Mixin::ShellOut
 include REXML
 include Opscode::IIS::Helper
+include Opscode::IIS::Processors
 
 action :add do
   if !@current_resource.exists
@@ -34,9 +35,10 @@ action :add do
     cmd << " /password:\"#{new_resource.password}\"" if new_resource.password
     cmd << " /logonMethod:#{new_resource.logon_method}" if new_resource.logon_method
     cmd << " /allowSubDirConfig:#{new_resource.allow_sub_dir_config}" if new_resource.allow_sub_dir_config
+    cmd << ' /commit:\"MACHINE/WEBROOT/APPHOST\"'
 
     Chef::Log.info(cmd)
-    shell_out!(cmd,  returns: [0, 42, 183])
+    shell_out!(cmd, returns: [0, 42, 183])
     new_resource.updated_by_last_action(true)
     Chef::Log.info("#{new_resource} added new virtual directory to application: '#{new_resource.application_name}'")
   else
@@ -45,7 +47,7 @@ action :add do
 end
 
 action :config do
-  was_updated = false
+  @was_updated = false
   cmd_current_values = "#{appcmd(node)} list vdir \"#{application_identifier}\" /config:* /xml"
   Chef::Log.debug(cmd_current_values)
   cmd_current_values = shell_out!(cmd_current_values)
@@ -59,41 +61,41 @@ action :config do
     is_new_allow_sub_dir_config = new_or_empty_value?(doc.root, 'VDIR/virtualDirectory/@allowSubDirConfig', new_resource.allow_sub_dir_config.to_s)
 
     if new_resource.physical_path && is_new_physical_path
-      was_updated = true
+      @was_updated = true
       cmd = "#{appcmd(node)} set vdir \"#{application_identifier}\" /physicalPath:\"#{new_resource.physical_path}\""
       Chef::Log.debug(cmd)
       shell_out!(cmd)
     end
 
     if new_resource.username && is_new_user_name
-      was_updated = true
+      @was_updated = true
       cmd = "#{appcmd(node)} set vdir \"#{application_identifier}\" /userName:\"#{new_resource.username}\""
       Chef::Log.debug(cmd)
       shell_out!(cmd)
     end
 
     if new_resource.password && is_new_password
-      was_updated = true
+      @was_updated = true
       cmd = "#{appcmd(node)} set vdir \"#{application_identifier}\" /password:\"#{new_resource.password}\""
       Chef::Log.debug(cmd)
       shell_out!(cmd)
     end
 
     if new_resource.logon_method && is_new_logon_method
-      was_updated = true
+      @was_updated = true
       cmd = "#{appcmd(node)} set vdir \"#{application_identifier}\" /logonMethod:#{new_resource.logon_method}"
       Chef::Log.debug(cmd)
       shell_out!(cmd)
     end
 
     if new_resource.allow_sub_dir_config && is_new_allow_sub_dir_config
-      was_updated = true
+      @was_updated = true
       cmd = "#{appcmd(node)} set vdir \"#{application_identifier}\" /allowSubDirConfig:#{new_resource.allow_sub_dir_config}"
       Chef::Log.debug(cmd)
       shell_out!(cmd)
     end
 
-    if was_updated
+    if @was_updated
       new_resource.updated_by_last_action(true)
       Chef::Log.info("#{new_resource} configured virtual directory to application: '#{new_resource.application_name}'")
     else
@@ -108,7 +110,7 @@ end
 
 action :delete do
   if @current_resource.exists
-    shell_out!("#{appcmd(node)} delete vdir \"#{application_identifier}\"",  returns: [0, 42])
+    shell_out!("#{appcmd(node)} delete vdir \"#{application_identifier}\"", returns: [0, 42])
     new_resource.updated_by_last_action(true)
     Chef::Log.info("#{new_resource} deleted")
   else
@@ -121,18 +123,14 @@ def load_current_resource
   @current_resource.application_name(application_name_check)
   @current_resource.path(new_resource.path)
   @current_resource.physical_path(new_resource.physical_path)
-  cmd = shell_out("#{ appcmd(node) } list vdir \"#{application_identifier}\"")
-  Chef::Log.debug("#{ new_resource } list vdir command output: #{ cmd.stdout }")
+  cmd = shell_out("#{appcmd(node)} list vdir \"#{application_identifier}\"")
+  Chef::Log.debug("#{new_resource} list vdir command output: #{cmd.stdout}")
 
   if cmd.stderr.empty?
     # VDIR "Testfu Site/Content/Test"
     result = cmd.stdout.match(/^VDIR\s\"#{Regexp.escape(application_identifier)}\"/)
-    Chef::Log.debug("#{ new_resource } current_resource match output: #{ result }")
-    if result
-      @current_resource.exists = true
-    else
-      @current_resource.exists = false
-    end
+    Chef::Log.debug("#{new_resource} current_resource match output: #{result}")
+    @current_resource.exists = result
   else
     log "Failed to run iis_vdir action :load_current_resource, #{cmd_current_values.stderr}" do
       level :warn
@@ -151,5 +149,7 @@ def application_name_check
     new_resource.application_name("#{new_resource.application_name}/")
   elsif new_resource.application_name.chomp('/').include?('/') && new_resource.application_name.end_with?('/')
     new_resource.application_name(new_resource.application_name.chomp('/'))
+  else
+    new_resource.application_name
   end
 end

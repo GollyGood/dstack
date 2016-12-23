@@ -16,9 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 include_recipe 'lamp'
-include_recipe 'avahi'
 
 def get_aliases(site)
   aliases = []
@@ -50,9 +48,6 @@ node['default-web']['sites'].each_pair do |key, value|
   append_hosts(server_name)
   aliases.each do |site_alias|
     append_hosts(site_alias)
-    avahi_alias site_alias do
-      action :add
-    end
   end
 
   web_app server_name do

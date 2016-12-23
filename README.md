@@ -34,7 +34,12 @@ Requirements
 ------------
 
 * Ruby >= 2.1.1
-* Vagrant >= 1.6.3
+* Vagrant >= 1.8.1
+
+#### Vagrant plugins
+
+* vagrant-omnibus >= 1.4.1
+* vagrant-vbguest >= 0.11.0
 
 **Windows is not supported.**
 

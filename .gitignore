@@ -1,3 +1,4 @@
 .vagrant
+nodes
 packer/packer_cache
 packer/builds

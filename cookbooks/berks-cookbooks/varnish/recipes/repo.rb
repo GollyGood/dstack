@@ -1,6 +1,8 @@
 # Cookbook Name:: varnish
 # Recipe:: repo
-# Author:: Patrick Connolly <patrick@myplanetdigital.com>
+#
+# Copyright 2014. Patrick Connolly <patrick@myplanetdigital.com>
+# Copyright 2015. Rackspace, US Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,6 +34,6 @@ when 'rhel', 'fedora'
     url "http://repo.varnish-cache.org/redhat/varnish-#{node['varnish']['version']}/el#{node['platform_version'].to_i}/"
     gpgcheck false
     gpgkey 'http://repo.varnish-cache.org/debian/GPG-key.txt'
-    action 'create'
+    action :create
   end
 end

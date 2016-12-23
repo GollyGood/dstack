@@ -3,7 +3,7 @@
 # Cookbook Name:: iis
 # Recipe:: mod_aspnet
 #
-# Copyright 2011, Chef Software, Inc.
+# Copyright 2011-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,14 +21,16 @@
 include_recipe 'iis'
 include_recipe 'iis::mod_isapi'
 
-if Opscode::IIS::Helper.older_than_windows2008r2?
-  features = %w(NET-Framework)
-else
-  features = %w(IIS-NetFxExtensibility IIS-ASPNET)
-end
+features = if Opscode::IIS::Helper.older_than_windows2008r2?
+             %w(NET-Framework)
+           else
+             %w(IIS-NetFxExtensibility IIS-ASPNET)
+           end
 
 features.each do |feature|
   windows_feature feature do
     action :install
+    all !Opscode::IIS::Helper.older_than_windows2012?
+    source node['iis']['source'] unless node['iis']['source'].nil?
   end
 end
